@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express'); 
 const app = express(); 
 
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT; 
 
 app.use(express.static(path.join(__dirname, 'client', 'pages'))); 
 app.use(express.json()); 
