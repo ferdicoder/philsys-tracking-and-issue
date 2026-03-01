@@ -1,2 +1,2 @@
-# PhilTMS
-A simulated and unofficial tracking system for Philippine National ID of Philippies Statistics Authority (PSA). This system is just a middleware between governement departments and Filipino Citizens. 
+# philsys-appointment-and-tracking-system
+An unofficial appointment management and tracking system for PH National ID made by students from Technological University of the Philippines - Manila(TUP - Manila).
