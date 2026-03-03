@@ -3,15 +3,17 @@ const path = require('path');
 const express = require('express'); 
 const app = express(); 
 
-const { db } = require('./config/connectDB')
+const { db } = require('./server/config/connectDB'); 
 
 const PORT = process.env.PORT; 
 
 app.use(express.static(path.join(__dirname, 'client', 'public'))); 
-app.use(express.json()); 
+app.use(express.json());
+
+
 
 // confirmation of connection to DATABASE and Server
-db.query('SELECT NOW()', (err, res)=>{
+db.query('SELECT NOW()', (err)=>{
   if(err) return console.log(`Database Connection Failed ${err}`); 
 
   app.listen(PORT, ()=>{
