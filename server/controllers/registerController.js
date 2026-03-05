@@ -4,6 +4,13 @@ const crypto = require('node:crypto');
 const jwt = require('jsonwebtoken'); 
 const joi = require('joi'); 
 
+/*
+ * TODO:
+ * Add roles
+ * Change Refresh token to 1 day
+ * increase user data validation 
+*/
+
 // generate refresh and access token
 function generateTokens(user_id, email){
   const refreshToken = jwt.sign(
