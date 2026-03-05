@@ -109,7 +109,9 @@ async function createRecord(userData){
   return { refreshToken, user_id, accessToken };
 }
 
-// controller for registration of new user
+
+
+// registration of new user
 async function handleRegister(req, res){
   if(!req?.body) return res.sendStatus(400); 
 
@@ -130,12 +132,14 @@ async function handleRegister(req, res){
       accessToken
     }); 
   }catch(error){
+    // Log the actual error for debugging
+    console.error('Registration error:', error);
     
     // return response status and message by its error type
     if(error.type === 'VALIDATION_ERROR') return res.status(400).json({ error: "Invalid Input"}); 
     if(error.type === 'USER_EXIST') return res.status(409).json({ error: "User already exist."}); 
 
-    return res.sendStatus(500); 
+    return res.status(500).json({ error: "Internal server error", details: error.message });
   }
 }
 
