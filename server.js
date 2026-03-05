@@ -3,12 +3,15 @@ const path = require('path');
 const express = require('express'); 
 const app = express(); 
 
-const { db } = require('./config/connectDB')
+const { db } = require('./server/config/connectDB'); 
 
 const PORT = process.env.PORT; 
 
 app.use(express.static(path.join(__dirname, 'client', 'public'))); 
 app.use(express.json()); 
+
+// register route
+app.use('/register', require('./server/routes/user')); 
 
 // confirmation of connection to DATABASE and Server
 db.query('SELECT NOW()', (err, res)=>{
