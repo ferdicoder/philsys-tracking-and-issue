@@ -12,21 +12,15 @@ const joi = require('joi');
 */
 
 // generate refresh and access token
-function generateTokens(user_id, email){
+function generateTokens(email){
   const refreshToken = jwt.sign(
-    {
-      user_id: user_id, 
-      email: email
-    }, 
+    { email: email }, 
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '5m' }
   ); 
 
   const accessToken = jwt.sign(
-    {
-      user_id: user_id, 
-      email: email
-    }, 
+    { email: email }, 
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '5m' }
   )
@@ -34,7 +28,7 @@ function generateTokens(user_id, email){
   return { accessToken, refreshToken };
 }
 
-// validate the email and pass using joi
+// validate the email and password using joi
 function validateInput (email, password){
   const schema = joi.object({
     email: joi.string().email().required(), // user email format 
@@ -117,7 +111,6 @@ async function createRecord(userData){
 }
 
 
-
 // registration of new user
 async function handleRegister(req, res){
   if(!req?.body) return res.sendStatus(400); 
@@ -150,4 +143,4 @@ async function handleRegister(req, res){
   }
 }
 
-module.exports = { handleRegister }
+module.exports = { handleRegister, generateTokens }
