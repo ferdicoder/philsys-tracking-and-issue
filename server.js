@@ -12,18 +12,22 @@ app.use(express.static(path.join(__dirname, 'client', 'public')));
 app.use(express.json());
 
 
-try{
-  // register route
-  app.use('/register', require('./server/routes/user')); 
-  app.use('/login', require('./server/routes/login')); 
-  app.use(require('./server/middlewares/verify'));
+async function startServer(){
+  try{
+    // register route
+    app.use('/register', require('./server/routes/user')); 
+    app.use('/login', require('./server/routes/login')); 
+    app.use(require('./server/middlewares/verify'));
 
-  await connectDatabase(); 
+    await connectDatabase(); 
 
-  app.listen(PORT, ()=>{
-    console.log(`Server running to PORT: ${PORT}`)
-  }); 
-  
-}catch(error){
-  
+    app.listen(PORT, ()=>{
+      console.log(`Server running to PORT: ${PORT}`)
+    }); 
+    
+  }catch(error){
+    console.error(error); 
+  }
 }
+
+startServer(); 

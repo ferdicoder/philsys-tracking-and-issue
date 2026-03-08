@@ -8,7 +8,7 @@ const { generateTokens } = require('./registerController');
 
 async function getUserData(email){
   const result = await db.query(`
-    SELECT id, password 
+    SELECT password 
     FROM users
     WHERE email = $1
   `, [email]); 
