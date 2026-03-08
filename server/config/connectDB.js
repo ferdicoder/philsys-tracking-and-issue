@@ -9,5 +9,11 @@ const db = new Pool({
   port: process.env.DB_PORT
 });
   
+async function connectDatabase(){
+  await db.query('SELECT NOW()', () =>{
+    console.log(`Database Connected, running on PORT:${process.env.DB_PORT}`); 
+  }); 
+}
 
-module.exports = { db }; 
+
+module.exports = { db, connectDatabase }; 
