@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Track Transaction</title>
+  <link rel="stylesheet" href="../Css/style.css"/>
+  <style>
+    .track-body { padding: 28px 24px; max-width: 860px; margin: 0 auto; width: 100%; }
+
+    .track-section {
+      background: var(--white);
+      border: 1.5px dashed var(--gray-300);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .track-section-title { font-size: 15px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+    .track-section-sub   { font-size: 12px; color: var(--gray-500); margin-bottom: 16px; }
+
+    .trn-input-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .trn-input-row .form-group { flex: 1; margin-bottom: 0; }
+
+    .app-status-section {
+      background: var(--white);
+      border: 1.5px dashed var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .app-status-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+    .app-status-trn {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-bottom: 16px;
+    }
+
+    .applicant-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+    .applicant-card-header {
+      background: var(--gray-50);
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-700);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .philid-section {
+      background: var(--white);
+      border: 1.5px dashed var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+    }
+
+    .philid-title { font-size: 15px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+    .philid-sub   { font-size: 12px; color: var(--gray-500); margin-bottom: 16px; }
+
+    .delivery-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--amber-light);
+      border: 1px solid #fcd34d;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--amber);
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-logo-placeholder">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 9h6M9 12h6M9 15h4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="navbar-name">PhilTMS</div>
+        <div class="navbar-sub">PhilSys Identification Tracking and Appointment System</div>
+      </div>
+    </div>
+    <div class="navbar-nav">
+      <a href="Dashboard.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        Home
+      </a>
+      <a href="Track.html" class="nav-link active">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Track
+      </a>
+      <a href="Report.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Report
+      </a>
+      <a href="Settings.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        Settings
+      </a>
+      <div class="nav-divider"></div>
+      <a href="LogIn.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Logout
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper" style="align-items:flex-start;padding-top:28px;">
+    <div class="track-body">
+
+      <!-- Track Input -->
+      <div class="track-section">
+        <div class="track-section-title">Track Your Application</div>
+        <div class="track-section-sub">Enter your transaction reference number to view the status of your PhilSys application.</div>
+        <div class="trn-input-row">
+          <div class="form-group">
+            <input type="text" class="form-control" id="trnInput" placeholder="TRN-2024-001234" value="TRN-2024-001234" />
+          </div>
+          <button class="btn btn-primary" onclick="checkStatus()" style="padding:9px 20px;white-space:nowrap;">Check Status</button>
+        </div>
+      </div>
+
+      <!-- Application Status -->
+      <div class="app-status-section" id="statusSection">
+        <div class="app-status-title">Application Status</div>
+        <div class="app-status-trn">Transaction Reference: TRN-2024-001234</div>
+
+        <div class="applicant-card">
+          <div class="applicant-card-header">Applicant Information</div>
+          <div class="info-grid">
+            <div class="info-cell">
+              <div class="info-cell-label">Full Name</div>
+              <div class="info-cell-value">Lorem ipsum dolor</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Application Type</div>
+              <div class="info-cell-value">PhilSys ID Registration</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">PhilSys Number</div>
+              <div class="info-cell-value">1234-5678-9012-3456</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Date Submitted</div>
+              <div class="info-cell-value">January 15, 2024</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Registration Center</div>
+              <div class="info-cell-value">Quezon City Registration Center</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Appointment Date</div>
+              <div class="info-cell-value">January 28, 2024 at 10:00 AM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PhilID Production Status -->
+      <div class="philid-section">
+        <div class="philid-title">PhilID Production Status</div>
+        <div class="philid-sub">Track your National ID card progress</div>
+
+        <div class="pipeline">
+          <div class="pipeline-step done">
+            <div class="pipeline-icon">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="pipeline-label">Validated</div>
+            <div class="pipeline-sub">Nov 15, 2024</div>
+          </div>
+          <div class="pipeline-step done">
+            <div class="pipeline-icon">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="pipeline-label">Printed</div>
+            <div class="pipeline-sub">Nov 20, 2024</div>
+          </div>
+          <div class="pipeline-step transit">
+            <div class="pipeline-icon">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="pipeline-label">In Transit</div>
+            <div class="pipeline-sub">Current</div>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-icon">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+            <div class="pipeline-label">Delivered</div>
+            <div class="pipeline-sub">Expected Dec 15</div>
+          </div>
+        </div>
+
+        <div class="delivery-note">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+          <span><strong>Your ID is on the way!</strong> Expected delivery by December 15, 2024</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function checkStatus() {
+      const val = document.getElementById('trnInput').value.trim();
+      if (!val) { alert('Please enter a Transaction Reference Number.'); return; }
+      document.getElementById('statusSection').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

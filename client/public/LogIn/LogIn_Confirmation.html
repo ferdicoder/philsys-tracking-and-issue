@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Login Confirmation</title>
+  <link rel="stylesheet" href="../Css/style.css"/>
+  <style>
+    body { background: #d6d8de; }
+    .confirm-body {
+      min-height: calc(100vh - 52px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    .confirm-card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 40px 40px 36px;
+      width: 100%;
+      max-width: 460px;
+    }
+    .confirm-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--gray-900);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .confirm-subtitle {
+      font-size: 13px;
+      color: var(--gray-500);
+      text-align: center;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .qa-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .qa-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .qa-item:last-of-type { border-bottom: none; margin-bottom: 20px; }
+    .qa-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+    }
+    .qa-text h4 { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+    .qa-text p  { font-size: 12px; color: var(--gray-500); margin-top: 3px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-logo-placeholder">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 9h6M9 12h6M9 15h4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="navbar-name">PhilTMS</div>
+        <div class="navbar-sub">PhilSys Identification Tracking and Appointment System</div>
+      </div>
+    </div>
+    <div class="navbar-nav">
+      <a href="Dashboard.html" class="nav-link active">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        Home
+      </a>
+      <a href="Track.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Track
+      </a>
+      <a href="Report.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Report
+      </a>
+      <a href="Settings.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        Settings
+      </a>
+      <div class="nav-divider"></div>
+      <a href="LogIn.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Logout
+      </a>
+    </div>
+  </nav>
+
+  <div class="confirm-body">
+    <div class="confirm-card">
+      <h1 class="confirm-title">Welcome, Virginia Valdez!</h1>
+      <p class="confirm-subtitle">You've successfully signed in to your PhilTMS account.</p>
+
+      <div class="qa-heading">
+        Quick Actions
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-icon">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        </div>
+        <div class="qa-text">
+          <h4>View Your Status</h4>
+          <p>View your account overview, recent activities, and manage your PhilSys registration status.</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-icon">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </div>
+        <div class="qa-text">
+          <h4>Manage Your Profile</h4>
+          <p>Update your personal information, contact details, and security settings anytime.</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-icon">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="qa-text">
+          <h4>Track Your Application</h4>
+          <p>Check the status of your PhilSys registration, appointments, and submitted documents.</p>
+        </div>
+      </div>
+
+      <a href="Dashboard.html" class="btn btn-primary btn-full btn-lg">Go to Homepage</a>
+    </div>
+  </div>
+</body>
+</html>

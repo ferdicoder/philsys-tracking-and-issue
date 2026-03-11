@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Sign In</title>
+  <link rel="stylesheet" href="../Css/style.css"/>
+  <style>
+    body { background: #d6d8de; }
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .login-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    .login-card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 40px 40px 36px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .login-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--gray-900);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .login-subtitle {
+      font-size: 13px;
+      color: var(--gray-500);
+      text-align: center;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .password-wrap { position: relative; }
+    .password-wrap .form-control { padding-right: 40px; }
+    .toggle-pw {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-400);
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+    .toggle-pw:hover { color: var(--gray-600); }
+    .remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .remember-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--gray-600);
+      cursor: pointer;
+    }
+    .remember-left input[type="checkbox"] {
+      accent-color: var(--navy);
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+    }
+    .forgot-link {
+      font-size: 12.5px;
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+    .divider-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 16px 0;
+    }
+    .divider-icon svg { color: var(--gray-300); }
+    .btn-philsys {
+      width: 100%;
+      padding: 10px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-700);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+      margin-bottom: 20px;
+    }
+    .btn-philsys:hover { background: var(--gray-50); border-color: var(--gray-400); }
+    .login-footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    .login-footer a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .login-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-logo-placeholder">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 9h6M9 12h6M9 15h4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="navbar-name">PhilTMS</div>
+        <div class="navbar-sub">PhilSys Identification Tracking and Appointment System</div>
+      </div>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link active">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        Home Page
+      </a>
+      <div class="nav-divider"></div>
+      <a href="#" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Reports
+      </a>
+      <div class="nav-divider"></div>
+      <a href="#" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        Settings
+      </a>
+    </div>
+  </nav>
+
+  <div class="login-body">
+    <div class="login-card">
+      <h1 class="login-title">Welcome!</h1>
+      <p class="login-subtitle">Sign in to access your PhilSys account and National ID related services</p>
+
+      <div class="form-group">
+        <label class="form-label-normal" for="philsysEmail">PhilSys Number or Email <span style="color:var(--red)">*</span></label>
+        <input type="text" class="form-control" id="philsysEmail" value="Valdezvirginia@gmail.com" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label-normal" for="password">Password</label>
+        <div class="password-wrap">
+          <input type="password" class="form-control" id="password" value="••••••••" />
+          <button class="toggle-pw" type="button" onclick="togglePassword()" id="pwToggle">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="remember-row">
+        <label class="remember-left">
+          <input type="checkbox" checked /> Keep me signed in on this device
+        </label>
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+
+      <a href="login-confirmation.html" class="btn btn-primary btn-full btn-lg" style="margin-bottom:0;">Sign In</a>
+
+      <div class="divider-icon">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0 0v-8m0 0l-3 3m3-3l3 3"/>
+        </svg>
+      </div>
+
+      <button class="btn-philsys">Sign in with PSA PhilSys Number</button>
+
+      <div class="login-footer">
+        Don't have an account? <a href="register/register-step1.html">Create new Account</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pw = document.getElementById('password');
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+</body>
+</html>

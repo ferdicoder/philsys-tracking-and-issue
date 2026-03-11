@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Register (Step 3)</title>
+  <link rel="stylesheet" href="../css/register.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="../index.html" class="navbar-brand">
+      <div class="navbar-logo">PS</div>
+      <div class="navbar-title">
+        <span>PhilTMS</span>
+        <span>PhilSys Identification Tracking and Appointment System</span>
+      </div>
+    </a>
+    <div class="navbar-actions">
+  
+      <a href="Register-step1.html" class="btn-register-nav">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        Register
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE -->
+  <div class="page-wrapper">
+    <div class="registration-card">
+
+      <!-- STEPPER -->
+      <div class="stepper">
+        <div class="step-item">
+          <div class="step-circle completed"></div>
+        </div>
+        <div class="step-line completed"></div>
+        <div class="step-item">
+          <div class="step-circle completed"></div>
+        </div>
+        <div class="step-line completed"></div>
+        <div class="step-item">
+          <div class="step-circle active">3</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle inactive">4</div>
+        </div>
+      </div>
+
+      <!-- ALERT -->
+      <div class="alert-banner">
+        <span class="alert-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <p>Please ensure all information matches your PSA birth certificate or valid government ID.</p>
+      </div>
+
+      <!-- STEP TITLE -->
+      <h2 class="step-title">Step 3 – Account Setup</h2>
+      <p class="step-subtitle">Set up your PhilTMS account credentials.</p>
+
+      <!-- FORM -->
+      <form id="step3Form" novalidate>
+
+        <div class="form-group">
+          <label class="form-label">EMAIL ADDRESS <span class="required">*</span></label>
+          <input type="email" class="form-control" id="email" placeholder="" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" class="form-control" id="mobile" placeholder="Mobile Required" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="color:#9ca3af;font-size:11px;">CREATE PASSWORD</label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">New PASSWORD <span class="required">*</span></label>
+          <input type="password" class="form-control" id="password" placeholder="New" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="font-size:11px;color:#9ca3af;">Hint</label>
+          <label class="form-label" style="margin-top:6px;">Confirm Password <span class="required">*</span></label>
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Hint" required />
+        </div>
+
+        <!-- CHECKBOX: Terms -->
+        <div class="checkbox-group" style="margin-top: 12px;">
+          <input type="checkbox" id="agreeTerms" required />
+          <label for="agreeTerms">
+            I agree to PhilSys <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and consent to the collection of my personal data under the Data Privacy Act of 2012.
+          </label>
+        </div>
+
+        <!-- CHECKBOX: Updates -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="receiveUpdates" />
+          <label for="receiveUpdates">
+            I would like to receive appointment reminders and updates via email and SMS.
+          </label>
+        </div>
+
+        <a href="Register-verification.html" class="btn-continue" id="btnContinue">Continue to Verification</a>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script src="../js/register.js"></script>
+</body>
+</html>
