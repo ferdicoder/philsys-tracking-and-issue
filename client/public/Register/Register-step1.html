@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Register (Step 1)</title>
+  <link rel="stylesheet" href="../Css/Register.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="../index.html" class="navbar-brand">
+      <div class="navbar-logo">PS</div>
+      <div class="navbar-title">
+        <span>PhilTMS</span>
+        <span>PhilSys Identification Tracking and Appointment System</span>
+      </div>
+    </a>
+    <div class="navbar-actions">
+     
+      <a href="Register-step1.html" class="btn-register-nav">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        Register
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE -->
+  <div class="page-wrapper">
+    <div class="registration-card">
+
+      <!-- STEPPER -->
+      <div class="stepper">
+        <div class="step-item">
+          <div class="step-circle active">1</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle inactive">2</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle inactive">3</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle inactive">4</div>
+        </div>
+      </div>
+
+      <!-- ALERT -->
+      <div class="alert-banner">
+        <span class="alert-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <p>Please ensure all information matches your PSA birth certificate or valid government ID.</p>
+      </div>
+
+      <!-- STEP TITLE -->
+      <h2 class="step-title">Step 1 – Personal Information</h2>
+
+      <!-- FORM -->
+      <form id="step1Form" novalidate>
+
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="required">*</span></label>
+          <input type="text" class="form-control" id="fullName" placeholder="Full Name" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Date of Birth or Age <span class="required">*</span></label>
+          <div class="form-row-3">
+            <input type="text" class="form-control" id="dobDate" placeholder="Date" />
+            <input type="text" class="form-control" id="dobMonth" placeholder="Month" />
+            <input type="text" class="form-control" id="dobYear" placeholder="Year" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-row">
+            <div>
+              <label class="form-label">Age / Remarks</label>
+              <input type="text" class="form-control" id="age" placeholder="Age" />
+            </div>
+            <div>
+              <label class="form-label">Sex / Registry</label>
+              <input type="text" class="form-control" id="sex" placeholder="Sex" />
+            </div>
+          </div>
+        </div>
+
+        <a href="Register-step2.html" class="btn-next" id="btnNext">Next</a>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script src="../js/register.js"></script>
+</body>
+</html>

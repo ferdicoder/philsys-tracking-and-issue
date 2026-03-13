@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Home</title>
+  <link rel="stylesheet" href="../Css/style.css"/>
+  <style>
+    .dash-body { padding: 28px 24px; max-width: 900px; margin: 0 auto; width: 100%; }
+    .dash-title { font-size: 28px; font-weight: 800; color: var(--gray-900); text-align: center; }
+    .dash-sub   { font-size: 13px; color: var(--gray-500); text-align: center; margin-top: 5px; margin-bottom: 24px; }
+
+    .status-banner {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .status-banner p {
+      font-size: 12.5px;
+      color: var(--gray-600);
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Pipeline inside status banner */
+    .pipeline-wrap {
+      padding: 8px 0 4px;
+    }
+
+    /* Quick actions grid */
+    .qa-section { margin-top: 28px; }
+    .qa-section-title { font-size: 16px; font-weight: 700; color: var(--gray-900); }
+    .qa-section-sub   { font-size: 12px; color: var(--gray-500); margin-top: 2px; margin-bottom: 16px; }
+    .qa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    .qa-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .qa-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-color: var(--gray-300); }
+    .qa-card-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--gray-100);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      color: var(--gray-600);
+    }
+    .qa-card h4 { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+    .qa-card p  { font-size: 11.5px; color: var(--gray-500); margin-top: 3px; }
+    .qa-card .active-label {
+      margin-top: 8px;
+      font-size: 11.5px;
+      color: var(--gray-700);
+      font-weight: 500;
+    }
+    .qa-card .active-label::before {
+      content: '• ';
+      color: var(--green);
+    }
+
+    .qa-section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .qa-check {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--gray-400);
+      border-radius: 3px;
+    }
+
+    @media (max-width: 640px) {
+      .qa-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-logo-placeholder">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 9h6M9 12h6M9 15h4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="navbar-name">PhilTMS</div>
+        <div class="navbar-sub">PhilSys Identification Tracking and Appointment System</div>
+      </div>
+    </div>
+    <div class="navbar-nav">
+      <a href="Dashboard.html" class="nav-link active">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        Home
+      </a>
+      <a href="Track.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Track
+      </a>
+      <a href="Report.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Report
+      </a>
+      <a href="Settings.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        Settings
+      </a>
+      <div class="nav-divider"></div>
+      <a href="LogIn.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Logout
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper" style="align-items:flex-start;padding-top:28px;">
+    <div class="dash-body">
+      <h1 class="dash-title">Welcome, Virginia Valdez</h1>
+      <p class="dash-sub">Manage your PhilSys application, track your transaction, and access your ID services</p>
+
+      <!-- Status Banner -->
+      <div class="status-banner">
+        <p><em>You have successfully submitted your application. You will receive an email when the status of your application changes. You may also check back here to see the status of your application.</em></p>
+
+        <!-- Pipeline -->
+        <div class="pipeline-wrap">
+          <div class="pipeline">
+            <div class="pipeline-step done">
+              <div class="pipeline-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="pipeline-label">Registration Completed</div>
+              <div class="pipeline-sub">Your PhilSys application has been submitted</div>
+            </div>
+            <div class="pipeline-step active">
+              <div class="pipeline-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="pipeline-label">Document Verification</div>
+              <div class="pipeline-sub">PSA is currently reviewing your documents</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <div class="pipeline-label">Biometric Appointment</div>
+              <div class="pipeline-sub">Schedule your biometric capture</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              </div>
+              <div class="pipeline-label">ID Card Processing</div>
+              <div class="pipeline-sub">Your National ID is being printed</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+              </div>
+              <div class="pipeline-label">Ready for Pickup</div>
+              <div class="pipeline-sub">Your ID is available at PSA center</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="qa-section">
+        <div class="qa-section-header">
+          <div class="qa-check"></div>
+          <span style="font-size:12px;font-weight:600;color:var(--gray-700)">Quick Actions</span>
+        </div>
+        <div class="section-title" style="font-size:16px;margin-top:4px;">User Home</div>
+        <div class="section-subtitle" style="margin-bottom:16px;">Lorem ipsum dolor sit amet</div>
+
+        <div class="qa-grid">
+          <a href="Track.html" class="qa-card">
+            <div class="qa-card-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h4>Track Transaction</h4>
+            <p>Lorem ipsum dolor</p>
+            <div class="active-label">Active</div>
+          </a>
+
+          <a href="Report.html" class="qa-card">
+            <div class="qa-card-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <h4>Submit Report</h4>
+            <p>Lorem ipsum dolor</p>
+            <div class="active-label">Active</div>
+          </a>
+
+          <a href="Settings.html" class="qa-card">
+            <div class="qa-card-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <h4>Account Settings</h4>
+            <p>Lorem ipsum dolor</p>
+            <div class="active-label">Active</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Report</title>
+  <link rel="stylesheet" href="../Css/style.css"/> 
+  <style>
+    .report-body { padding: 28px 24px; max-width: 680px; margin: 0 auto; width: 100%; }
+
+    /* Tab pill override to match screenshot (full-width header tabs) */
+    .report-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+    }
+    .report-tab {
+      flex: 1;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+    .report-tab.active { background: var(--navy); color: var(--white); }
+    .report-tab:not(.active) { background: var(--gray-100); color: var(--gray-600); }
+    .report-tab:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .report-tab:last-child  { border-radius: 0 var(--radius) var(--radius) 0; }
+
+    /* Who is this for */
+    .for-toggle { display: flex; gap: 0; margin-top: 8px; }
+    .for-btn {
+      flex: 1;
+      padding: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid var(--gray-300);
+      background: var(--white);
+      color: var(--gray-600);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+    .for-btn:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .for-btn:last-child  { border-radius: 0 var(--radius) var(--radius) 0; border-left: none; }
+    .for-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+    /* Relationship grid */
+    .rel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .rel-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--gray-700);
+      transition: border 0.15s;
+    }
+    .rel-option input[type="radio"] { accent-color: var(--navy); cursor: pointer; }
+    .rel-option:hover { border-color: var(--gray-400); }
+
+    /* Follow-up type options */
+    .followup-options { margin-top: 10px; }
+
+    /* Report concern type */
+    .concern-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: border 0.15s, background 0.15s;
+    }
+    .concern-option:hover { border-color: var(--gray-400); background: var(--gray-50); }
+    .concern-option.selected { border-color: var(--navy); background: #f8f9fb; }
+    .concern-option input[type="radio"] { accent-color: var(--navy); margin-top: 2px; flex-shrink: 0; }
+    .concern-text h4 { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+    .concern-text p  { font-size: 11.5px; color: var(--gray-500); margin-top: 2px; }
+
+    .form-section { margin-bottom: 20px; }
+    .form-section-title { font-size: 13px; font-weight: 700; color: var(--gray-800); margin-bottom: 10px; }
+
+    .action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-200);
+      margin-top: 20px;
+    }
+
+    /* Hello bar */
+    .hello-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .hello-text h2 { font-size: 20px; font-weight: 800; color: var(--gray-900); }
+    .hello-text p  { font-size: 12.5px; color: var(--gray-500); margin-top: 3px; }
+    .hello-trn { flex-shrink: 0; min-width: 220px; }
+    .hello-trn label { font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 5px; display: block; }
+
+    /* Overlay success modal */
+    .modal-inner { padding: 36px 32px; text-align: center; }
+    .modal-check {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #e8f5e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--green);
+    }
+    .modal-title { font-size: 20px; font-weight: 800; color: var(--gray-900); margin-bottom: 6px; }
+    .modal-sub   { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
+    .modal-next-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .modal-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+      text-align: left;
+    }
+    .modal-item:last-of-type { border-bottom: none; margin-bottom: 16px; }
+    .modal-item-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: white;
+    }
+    .modal-item-text h4 { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+    .modal-item-text p  { font-size: 12px; color: var(--gray-500); margin-top: 2px; line-height: 1.5; }
+    .modal-note {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1e40af;
+      text-align: left;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-logo-placeholder">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 9h6M9 12h6M9 15h4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="navbar-name">PhilTMS</div>
+        <div class="navbar-sub">PhilSys Identification Tracking and Appointment System</div>
+      </div>
+    </div>
+    <div class="navbar-nav">
+      <a href="Dashboard.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        Home
+      </a>
+      <a href="Track.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Track
+      </a>
+      <a href="Report.html" class="nav-link active">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Report
+      </a>
+      <a href="Settings.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        Settings
+      </a>
+      <div class="nav-divider"></div>
+      <a href="Login.html" class="nav-link">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Logout
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper" style="align-items:flex-start;padding-top:28px;">
+    <div class="report-body">
+
+      <!-- Tabs -->
+      <div class="report-tabs">
+        <button class="report-tab active" id="tabFollowup" onclick="switchTab('followup')">Follow-Up Application</button>
+        <button class="report-tab" id="tabConcern" onclick="switchTab('concern')">Report Concern</button>
+      </div>
+
+      <!-- ===== FOLLOW-UP TAB ===== -->
+      <div id="panelFollowup">
+        <div class="alert alert-blue">
+          <svg class="alert-icon" width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+          <span>Use this form to follow up on the status of your pending PhilSys application or ID delivery. Please have your transaction reference number ready.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label-normal">Transaction Reference Number <span style="color:var(--red)">*</span></label>
+          <input type="text" class="form-control" id="fuTRN" placeholder="TRN-2024-001234" />
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Who are you checking this for?</div>
+          <div class="for-toggle">
+            <button class="for-btn active" id="forMyself" onclick="setFor('myself')">Myself</button>
+            <button class="for-btn" id="forSomeone" onclick="setFor('someone')">Someone Else</button>
+          </div>
+        </div>
+
+        <div id="relationshipSection" style="display:none;" class="form-section">
+          <div class="form-section-title">What is your relationship to this person?</div>
+          <div class="rel-grid">
+            <label class="rel-option"><input type="radio" name="rel" value="parent" /> Parent</label>
+            <label class="rel-option"><input type="radio" name="rel" value="child" /> Child</label>
+            <label class="rel-option"><input type="radio" name="rel" value="spouse" /> Spouse</label>
+            <label class="rel-option"><input type="radio" name="rel" value="siblings" /> Siblings</label>
+            <label class="rel-option"><input type="radio" name="rel" value="guardian" /> Legal Guardian</label>
+            <label class="rel-option"><input type="radio" name="rel" value="relatives" /> Other Relatives</label>
+          </div>
+          <div class="alert alert-green" style="margin-top:10px;margin-bottom:0;">
+            <svg class="alert-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>You may be required to verify your relationship during processing</span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Type of Follow-Up</div>
+          <div class="followup-options">
+            <div class="concern-option" onclick="toggleConcern(this)">
+              <input type="radio" name="fuType" />
+              <div class="concern-text">
+                <h4>Application Status Inquiry</h4>
+                <p>Check the status of my PhilSys Application</p>
+              </div>
+            </div>
+            <div class="concern-option" onclick="toggleConcern(this)">
+              <input type="radio" name="fuType" />
+              <div class="concern-text">
+                <h4>Appointment Rescheduling</h4>
+                <p>Request to reschedule my biometric capture appointment</p>
+              </div>
+            </div>
+            <div class="concern-option" onclick="toggleConcern(this)">
+              <input type="radio" name="fuType" />
+              <div class="concern-text">
+                <h4>ID Card Delivery Status</h4>
+                <p>Track the delivery of my PhilSys ID card</p>
+              </div>
+            </div>
+            <div class="concern-option" onclick="toggleConcern(this)">
+              <input type="radio" name="fuType" />
+              <div class="concern-text">
+                <h4>Document Verification in Progress</h4>
+                <p>Follow-up document verification that's taking longer than expected</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label-normal">Additional Details</label>
+          <textarea class="form-control" id="fuDetails" rows="4" placeholder=""></textarea>
+        </div>
+
+        <div class="action-bar">
+          <a href="Dashboard.html" class="btn btn-secondary">Cancel</a>
+          <button class="btn btn-primary" onclick="showFollowupOverlay()">Submit Follow-up Request</button>
+        </div>
+      </div>
+
+      <!-- ===== REPORT CONCERN TAB ===== -->
+      <div id="panelConcern" style="display:none;">
+        <div class="alert alert-red">
+          <svg class="alert-icon" width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+          <span>Use this form to report issues, technical problems, incorrect information, or other concerns related to your PhilSys registration or account.</span>
+        </div>
+
+        <div class="hello-bar">
+          <div class="hello-text">
+            <h2>Hello, Virginia Valdez!</h2>
+            <p>For your concerns please enter your TRN before submitting a report.</p>
+          </div>
+          <div class="hello-trn">
+            <label>Transaction Reference Number (TRN) <span style="color:var(--red)">*</span></label>
+            <input type="text" class="form-control" id="reportTRN" placeholder="" />
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Type of Concerns <span style="color:var(--red)">*</span></div>
+          <div class="concern-option" onclick="toggleConcern(this)">
+            <input type="radio" name="concern" />
+            <div class="concern-text">
+              <h4>Incorrect Personal Information</h4>
+              <p>My name, birthdate, or other personal details are incorrect (NC/KPC)</p>
+            </div>
+          </div>
+          <div class="concern-option" onclick="toggleConcern(this)">
+            <input type="radio" name="concern" />
+            <div class="concern-text">
+              <h4>Lost or Damaged ID Card</h4>
+              <p>Need to report a lost, stolen, or damaged PhilSys ID</p>
+            </div>
+          </div>
+          <div class="concern-option" onclick="toggleConcern(this)">
+            <input type="radio" name="concern" />
+            <div class="concern-text">
+              <h4>Other Concern: Website/System Technical Issue</h4>
+              <p>General inquiry or issue not listed above. Error messages, login problems, or system not working properly</p>
+            </div>
+          </div>
+          <div class="concern-option" onclick="toggleConcern(this)">
+            <input type="radio" name="concern" />
+            <div class="concern-text">
+              <h4>Other Concerns</h4>
+              <p>General inquiry or issue not listed above</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label-normal">Detailed Description <span style="color:var(--red)">*</span></label>
+          <textarea class="form-control" id="reportDesc" rows="5" placeholder=""></textarea>
+        </div>
+
+        <div class="action-bar">
+          <a href="dashboard.html" class="btn btn-secondary">Cancel</a>
+          <button class="btn btn-primary" onclick="showReportOverlay()">Submit</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== FOLLOW-UP SUCCESS OVERLAY ===== -->
+  <div class="overlay" id="overlayFollowup">
+    <div class="modal" style="max-width:460px;">
+      <div class="modal-inner">
+        <div class="modal-check">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="modal-title">Follow-Up Request Submitted!</div>
+        <div class="modal-sub">Your follow-up request has been received. We'll process your inquiry and provide an update soon.</div>
+
+        <div class="modal-next-title">
+          What Happens Next
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="modal-item">
+          <div class="modal-item-icon" style="background:var(--accent);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="modal-item-text">
+            <h4>Processing Your Request</h4>
+            <p>We'll review your follow-up within <strong>1-2 business days</strong> and update your application status accordingly.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-icon" style="background:var(--purple);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+          </div>
+          <div class="modal-item-text">
+            <h4>Status Update Notification</h4>
+            <p>You'll receive an SMS and email notification once we've reviewed your request with the latest status update.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-icon" style="background:var(--teal);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="modal-item-text">
+            <h4>Confirmation Email Sent</h4>
+            <p>Check your inbox for a detailed confirmation email with your follow-up request details and tracking information.</p>
+          </div>
+        </div>
+
+        <div class="modal-note">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" style="flex-shrink:0;margin-top:1px;"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+          <span><strong>Track Your Follow-Up:</strong> Use your TRN (Transaction Reference Number) in the Track section to monitor the status of your application anytime.</span>
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" onclick="closeOverlay('overlayFollowup');window.location.href='dashboard.html'">Return to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== REPORT SUCCESS OVERLAY ===== -->
+  <div class="overlay" id="overlayReport">
+    <div class="modal" style="max-width:460px;">
+      <div class="modal-inner">
+        <div class="modal-check">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="modal-title">Report Successfully Submitted!</div>
+        <div class="modal-sub">Your report has been received. Our team will review your concern and respond accordingly.</div>
+
+        <div class="modal-next-title">
+          What Happens Next
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="modal-item">
+          <div class="modal-item-icon" style="background:var(--accent);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="modal-item-text">
+            <h4>Review & Processing</h4>
+            <p>We'll review your concern within <strong>2-3 business days</strong>. Complex cases may take additional time for thorough investigation.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-icon" style="background:var(--purple);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="modal-item-text">
+            <h4>Confirmation Email Sent</h4>
+            <p>Check your inbox for a detailed confirmation email with your submission details and next steps.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-icon" style="background:var(--amber);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="modal-item-text">
+            <h4>Track Your Report</h4>
+            <p>Use your TRN (Transaction Reference Number) to track your report status anytime in the Track section.</p>
+          </div>
+        </div>
+
+        <div class="modal-note">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20" style="flex-shrink:0;margin-top:1px;"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+          <span><strong>Need Help?</strong> If you have questions about your submission, visit our Help Center or contact our support team.</span>
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" onclick="closeOverlay('overlayReport');window.location.href='dashboard.html'">Return to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      document.getElementById('tabFollowup').classList.toggle('active', tab === 'followup');
+      document.getElementById('tabConcern').classList.toggle('active', tab === 'concern');
+      document.getElementById('panelFollowup').style.display = tab === 'followup' ? 'block' : 'none';
+      document.getElementById('panelConcern').style.display  = tab === 'concern'  ? 'block' : 'none';
+    }
+
+    function setFor(who) {
+      document.getElementById('forMyself').classList.toggle('active', who === 'myself');
+      document.getElementById('forSomeone').classList.toggle('active', who === 'someone');
+      document.getElementById('relationshipSection').style.display = who === 'someone' ? 'block' : 'none';
+    }
+
+    function toggleConcern(el) {
+      el.closest('.followup-options, #panelFollowup, #panelConcern')
+        .querySelectorAll('.concern-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input[type="radio"]').checked = true;
+    }
+
+    function showFollowupOverlay() {
+      document.getElementById('overlayFollowup').classList.add('show');
+    }
+
+    function showReportOverlay() {
+      document.getElementById('overlayReport').classList.add('show');
+    }
+
+    function closeOverlay(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    // Close overlays on backdrop click
+    document.querySelectorAll('.overlay').forEach(o => {
+      o.addEventListener('click', (e) => { if (e.target === o) o.classList.remove('show'); });
+    });
+  </script>
+</body>
+</html>

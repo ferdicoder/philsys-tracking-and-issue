@@ -1,0 +1,720 @@
+/* ============================================
+   PhilTMS - Registration Styles
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  width: 34px;
+  height: 34px;
+  background: #0066cc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.5px;
+}
+
+.navbar-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-title span:first-child {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.1;
+}
+
+.navbar-title span:last-child {
+  font-size: 10px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+.btn-register-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid #0066cc;
+  border-radius: 6px;
+  background: white;
+  color: #0066cc;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-register-nav:hover {
+  background: #eff6ff;
+}
+
+/* ============================================
+   PAGE WRAPPER
+   ============================================ */
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* ============================================
+   REGISTRATION CARD
+   ============================================ */
+.registration-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ============================================
+   STEPPER
+   ============================================ */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  gap: 0;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.step-circle.inactive {
+  background: #e5e7eb;
+  color: #9ca3af;
+  border: 2px solid #e5e7eb;
+}
+
+.step-circle.active {
+  background: #1a1a2e;
+  color: #ffffff;
+  border: 2px solid #1a1a2e;
+}
+
+.step-circle.completed {
+  background: #1a1a2e;
+  color: #ffffff;
+  border: 2px solid #1a1a2e;
+}
+
+.step-circle.completed::after {
+  content: '✓';
+  font-size: 12px;
+}
+
+.step-line {
+  width: 60px;
+  height: 2px;
+  background: #e5e7eb;
+  transition: background 0.2s ease;
+}
+
+.step-line.completed {
+  background: #1a1a2e;
+}
+
+/* ============================================
+   ALERT / WARNING BANNER
+   ============================================ */
+.alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+}
+
+.alert-banner .alert-icon {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.alert-banner p {
+  font-size: 12px;
+  color: #dc2626;
+  line-height: 1.5;
+}
+
+/* ============================================
+   STEP TITLE
+   ============================================ */
+.step-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.step-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 5px;
+}
+
+.form-label .required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1a1a2e;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+  background: #fff;
+}
+
+.form-control:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.form-control::placeholder {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
+/* ============================================
+   DROPDOWN WITH OPTIONS VISIBLE
+   ============================================ */
+.dropdown-open-wrapper {
+  position: relative;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 50;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.1s;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-option:hover {
+  background: #f9fafb;
+}
+
+.dropdown-option .option-radio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   FILE UPLOAD
+   ============================================ */
+.file-upload-area {
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+
+.file-upload-area:hover {
+  border-color: #0066cc;
+  background: #eff6ff;
+}
+
+.file-upload-icon {
+  font-size: 32px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.file-upload-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.file-upload-or {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+.btn-select-file {
+  background: #00c9a7;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 28px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s ease;
+}
+
+.btn-select-file:hover {
+  background: #00b894;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-next {
+  width: 100%;
+  padding: 11px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s ease;
+  margin-top: 6px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.btn-next:hover {
+  background: #0f0f1a;
+}
+
+.btn-continue {
+  width: 100%;
+  padding: 11px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s ease;
+  margin-top: 6px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.btn-continue:hover {
+  background: #0f0f1a;
+}
+
+/* ============================================
+   CHECKBOX / TERMS
+   ============================================ */
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-top: 2px;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: #0066cc;
+}
+
+.checkbox-group label {
+  font-size: 11.5px;
+  color: #6b7280;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.checkbox-group label a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.checkbox-group label a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   OTP / VERIFICATION
+   ============================================ */
+.otp-container {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.otp-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.otp-description {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.otp-input {
+  width: 48px;
+  height: 52px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.otp-input:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+}
+
+.btn-confirm {
+  width: 100%;
+  padding: 11px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s ease;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.btn-confirm:hover {
+  background: #0f0f1a;
+}
+
+.otp-resend {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.otp-resend a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ============================================
+   CONFIRMATION PAGE
+   ============================================ */
+.confirmation-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 40px 44px;
+  width: 100%;
+  max-width: 540px;
+  text-align: center;
+}
+
+.confirmation-header {
+  background: linear-gradient(135deg, #e8f5e9, #f0fdf4);
+  border-radius: 10px;
+  padding: 28px 24px 24px;
+  margin-bottom: 28px;
+}
+
+.confirmation-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.confirmation-header p {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.confirmation-items {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.confirmation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.confirmation-item:last-child {
+  border-bottom: none;
+}
+
+.confirmation-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.icon-green {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.icon-teal {
+  background: #ccfbf1;
+  color: #0d9488;
+}
+
+.icon-blue {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.icon-purple {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.confirmation-item-text h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 3px;
+}
+
+.confirmation-item-text p {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.btn-login {
+  display: inline-block;
+  padding: 12px 40px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s ease;
+  text-decoration: none;
+  margin-bottom: 14px;
+}
+
+.btn-login:hover {
+  background: #0f0f1a;
+}
+
+.confirmation-footer {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ============================================
+   DIVIDER TEXT
+   ============================================ */
+.divider-or {
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 6px 0;
+  position: relative;
+}
+
+.divider-or::before,
+.divider-or::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 38%;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.divider-or::before { left: 0; }
+.divider-or::after { right: 0; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 540px) {
+  .registration-card,
+  .confirmation-card {
+    padding: 24px 20px;
+  }
+  .form-row,
+  .form-row-3 {
+    grid-template-columns: 1fr;
+  }
+}
