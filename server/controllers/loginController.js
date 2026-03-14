@@ -1,37 +1,9 @@
 require('dotenv').config(); 
 const bcrypt = require('bcrypt'); 
 
-const { db } = require('../config/connectDB');
-const { isUserFound } = require('../utils/isUserFound'); 
 const { generateTokens } = require('./registerController'); 
-
-
-async function getUserData(email){
-  const result = await db.query(`
-    SELECT password 
-    FROM users
-    WHERE email = $1
-  `, [email]); 
-  
-  if(result.rows.length === 0) {
-    const error = new Error('User is not found');
-    error.type = 'USER_NOT_EXIST'; 
-    throw error;
-  }
-  
-  return result.rows[0];
-}
-
-
-
-async function insertRefreshToken (refreshToken, email){
-  await db.query(`
-    UPDATE users
-    SET refresh_token = $1
-    WHERE email = $2
-  `, [refreshToken, email]);
-}
-
+const { getUserData, insertRefreshToken } = require('../services/authService');
+const { isUserFound } = require('../utils/isUserFound')
 
 
 async function validateUserCredentials(email, password) {
@@ -76,7 +48,6 @@ function validateLoginInput(req) {
 }
 
 
-
 async function createUserSession(email, res) {
   const { accessToken, refreshToken } = await generateTokens(email);
   
@@ -97,16 +68,12 @@ async function createUserSession(email, res) {
 
 async function handleLogin(req, res){
   try{
-    // Validate input
     const { email, password } = validateLoginInput(req);
     
-    // Validate user credentials and get user data
     const userData = await validateUserCredentials(email, password);
-    
-    // Create user session (tokens and cookie)
+  
     const { accessToken } = await createUserSession(email, res);
     
-    // Return successful response
     return res.status(200).json({ 
       user_id: userData.id, 
       accessToken

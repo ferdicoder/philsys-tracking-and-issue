@@ -1,8 +1,10 @@
-const { db } = require('../config/connectDB'); 
 const bcrypt = require('bcrypt');
 const crypto = require('node:crypto'); 
 const jwt = require('jsonwebtoken'); 
-const joi = require('joi'); 
+const joi = require('joi');
+
+const { checkUserExists, createUser } = require('../services/userService'); 
+const roles = require('../config/roles'); 
 
 /*
  * TODO:
@@ -14,13 +16,19 @@ const joi = require('joi');
 // generate refresh and access token
 function generateTokens(email){
   const refreshToken = jwt.sign(
-    { email: email }, 
+    { 
+      email: email,
+      roles: "user"
+    }, 
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: '5m' }
+    { expiresIn: '1d' }
   ); 
 
   const accessToken = jwt.sign(
-    { email: email }, 
+    { 
+      email: email,
+      roles: "user"
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '5m' }
   )
@@ -41,7 +49,7 @@ function validateInput (email, password){
   return value; 
 }
 
-// hash user sensitivev data 
+// hash user sensitive data 
 async function hashData(password, refreshToken){
   const hashedPassword = await bcrypt.hash(password, 10); 
   const hashedRefreshToken = await bcrypt.hash(refreshToken, 10); 
@@ -58,12 +66,13 @@ async function createRecord(userData){
     last_name,  
     middle_name, 
     birth_date, 
-    sex, 
+    user_sex, 
     email, 
     password, 
     mobile_no, 
     tracking_number, 
-    refresh_token = null
+    refresh_token = null,
+    roles = 'user'
   } = userData; 
 
    // validate email and password
@@ -76,36 +85,33 @@ async function createRecord(userData){
 
   const user_id = crypto.randomUUID(); // generate UUID
 
-  const { accessToken, refreshToken } = generateTokens(user_id, email); // generate tokens  using user_id and email of user
+  const { accessToken, refreshToken } = generateTokens(email);
   // hash user password and refresh token for the database 
   const { hashedPassword, hashedRefreshToken } = await hashData(password, refreshToken);
    
-  //checks if user exist
-  const foundUser = await db.query('SELECT * FROM users WHERE email = $1', [email]); 
-  // if returns an record it means user already exist
-  if(foundUser.rows.length > 0) {
+  // check if user exist
+  const userExists = await checkUserExists(email);
+  if(userExists) {
     const error = new Error('User already exists');
     error.type = 'USER_EXIST';
     throw error;
   } 
   
-  // insert user record using SQL 
-  await db.query(
-    `INSERT INTO users (
+  // create user record using service
+  await createUser({
     user_id,
-    first_name, 
-    last_name, 
-    middle_name, 
+    first_name,
+    last_name,
+    middle_name,
     birth_date,
-    sex, 
-    email, 
-    password,
-    mobile_no, 
+    user_sex,
+    email,
+    hashedPassword,
+    mobile_no,
     tracking_number,
-    refresh_token
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`, 
-    [user_id, first_name, last_name, middle_name, birth_date, sex, email, hashedPassword, mobile_no, tracking_number, hashedRefreshToken]
-  );
+    hashedRefreshToken,
+    roles
+  });
   
   return { refreshToken, user_id, accessToken };
 }
