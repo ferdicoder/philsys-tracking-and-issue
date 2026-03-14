@@ -3,7 +3,7 @@ const { db } = require('../config/connectDB');
 // Get user password data for authentication
 async function getUserData(email) {
   const result = await db.query(`
-    SELECT id, password 
+    SELECT user_id, password 
     FROM users
     WHERE email = $1
   `, [email]);

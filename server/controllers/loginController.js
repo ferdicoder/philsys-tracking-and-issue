@@ -48,7 +48,6 @@ function validateLoginInput(req) {
 }
 
 
-
 async function createUserSession(email, res) {
   const { accessToken, refreshToken } = await generateTokens(email);
   
