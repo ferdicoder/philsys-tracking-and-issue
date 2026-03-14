@@ -1,36 +1,8 @@
 require('dotenv').config(); 
 const bcrypt = require('bcrypt'); 
 
-const { db } = require('../config/connectDB');
-const { isUserFound } = require('../utils/isUserFound'); 
 const { generateTokens } = require('./registerController'); 
-
-
-async function getUserData(email){
-  const result = await db.query(`
-    SELECT password 
-    FROM users
-    WHERE email = $1
-  `, [email]); 
-  
-  if(result.rows.length === 0) {
-    const error = new Error('User is not found');
-    error.type = 'USER_NOT_EXIST'; 
-    throw error;
-  }
-  
-  return result.rows[0];
-}
-
-
-
-async function insertRefreshToken (refreshToken, email){
-  await db.query(`
-    UPDATE users
-    SET refresh_token = $1
-    WHERE email = $2
-  `, [refreshToken, email]);
-}
+const { isUserFound, getUserData, insertRefreshToken } = require('../services/authService');
 
 
 
