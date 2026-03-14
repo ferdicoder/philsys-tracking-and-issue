@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const joi = require('joi');
 
 const { checkUserExists, createUser } = require('../services/userService'); 
+const roles = require('../config/roles'); 
 
 /*
  * TODO:
@@ -15,13 +16,19 @@ const { checkUserExists, createUser } = require('../services/userService');
 // generate refresh and access token
 function generateTokens(email){
   const refreshToken = jwt.sign(
-    { email: email }, 
+    { 
+      email: email,
+      roles: user
+    }, 
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: '5m' }
+    { expiresIn: '1d' }
   ); 
 
   const accessToken = jwt.sign(
-    { email: email }, 
+    { 
+      email: email,
+      roles: user
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '5m' }
   )
@@ -64,7 +71,8 @@ async function createRecord(userData){
     password, 
     mobile_no, 
     tracking_number, 
-    refresh_token = null
+    refresh_token = null,
+    roles = 'user'
   } = userData; 
 
    // validate email and password

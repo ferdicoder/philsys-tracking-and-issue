@@ -34,7 +34,8 @@ async function createUser(userData) {
       password,
       mobile_no, 
       tracking_number,
-      refresh_token
+      refresh_token,
+      roles
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
     [user_id, first_name, last_name, middle_name, birth_date, sex, email, hashedPassword, mobile_no, tracking_number, hashedRefreshToken]
   );

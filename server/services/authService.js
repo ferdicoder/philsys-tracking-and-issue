@@ -17,16 +17,6 @@ async function getUserData(email) {
   return result.rows[0];
 }
 
-// Check if user exists
-async function isUserFound(email) {
-  const result = await db.query(`
-    SELECT * 
-    FROM users
-    WHERE email = $1
-  `, [email]);
-
-  return result.rows.length > 0 ? true : false;
-}
 
 // Store refresh token for user
 async function insertRefreshToken(refreshToken, email) {

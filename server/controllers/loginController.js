@@ -2,8 +2,8 @@ require('dotenv').config();
 const bcrypt = require('bcrypt'); 
 
 const { generateTokens } = require('./registerController'); 
-const { isUserFound, getUserData, insertRefreshToken } = require('../services/authService');
-
+const { getUserData, insertRefreshToken } = require('../services/authService');
+const { isUserFound } = require('../utils/isUserFound')
 
 
 async function validateUserCredentials(email, password) {
@@ -69,16 +69,12 @@ async function createUserSession(email, res) {
 
 async function handleLogin(req, res){
   try{
-    // Validate input
     const { email, password } = validateLoginInput(req);
     
-    // Validate user credentials and get user data
     const userData = await validateUserCredentials(email, password);
-    
-    // Create user session (tokens and cookie)
+  
     const { accessToken } = await createUserSession(email, res);
     
-    // Return successful response
     return res.status(200).json({ 
       user_id: userData.id, 
       accessToken
