@@ -27,4 +27,4 @@ async function insertRefreshToken(refreshToken, email) {
   `, [refreshToken, email]);
 }
 
-module.exports = { getUserData, isUserFound, insertRefreshToken };
+module.exports = { getUserData, insertRefreshToken };

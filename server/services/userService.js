@@ -14,12 +14,13 @@ async function createUser(userData) {
     last_name,
     middle_name,
     birth_date,
-    sex,
+    user_sex,
     email,
     hashedPassword,
     mobile_no,
     tracking_number,
-    hashedRefreshToken
+    hashedRefreshToken,
+    roles,
   } = userData;
 
   await db.query(
@@ -29,15 +30,15 @@ async function createUser(userData) {
       last_name, 
       middle_name, 
       birth_date,
-      sex, 
+      user_sex, 
       email, 
       password,
       mobile_no, 
       tracking_number,
       refresh_token,
       roles
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-    [user_id, first_name, last_name, middle_name, birth_date, sex, email, hashedPassword, mobile_no, tracking_number, hashedRefreshToken]
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+    [user_id, first_name, last_name, middle_name, birth_date, user_sex, email, hashedPassword, mobile_no, tracking_number, hashedRefreshToken, roles]
   );
 }
 

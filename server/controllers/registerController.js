@@ -18,7 +18,7 @@ function generateTokens(email){
   const refreshToken = jwt.sign(
     { 
       email: email,
-      roles: user
+      roles: "user"
     }, 
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '1d' }
@@ -27,7 +27,7 @@ function generateTokens(email){
   const accessToken = jwt.sign(
     { 
       email: email,
-      roles: user
+      roles: "user"
     },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '5m' }
@@ -66,7 +66,7 @@ async function createRecord(userData){
     last_name,  
     middle_name, 
     birth_date, 
-    sex, 
+    user_sex, 
     email, 
     password, 
     mobile_no, 
@@ -104,12 +104,13 @@ async function createRecord(userData){
     last_name,
     middle_name,
     birth_date,
-    sex,
+    user_sex,
     email,
     hashedPassword,
     mobile_no,
     tracking_number,
-    hashedRefreshToken
+    hashedRefreshToken,
+    roles
   });
   
   return { refreshToken, user_id, accessToken };
