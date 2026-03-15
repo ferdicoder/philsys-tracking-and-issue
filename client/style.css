@@ -189,4 +189,277 @@ html, body {
   html, body { overflow: auto; }
   .page { height: auto; padding: 40px 20px; }
   .portals-grid { grid-template-columns: 1fr; }
+}/* ============================================
+   PHILTMS — SECURITY OVERLAY CSS
+   ============================================ */
+
+/* ── Backdrop ── */
+.sec-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 15, 30, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
+.sec-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Modal card ── */
+.sec-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 44px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+  transform: translateY(16px);
+  transition: transform 0.25s ease;
+}
+.sec-overlay.active .sec-modal {
+  transform: translateY(0);
+}
+
+/* ── Header ── */
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.sec-shield {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.sec-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a2540;
+  margin-bottom: 4px;
+}
+.sec-sub {
+  font-size: 0.78rem;
+  color: #9CA3AF;
+  line-height: 1.5;
+}
+.sec-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9CA3AF;
+  padding: 4px;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+}
+.sec-close:hover { color: #1a2540; }
+
+/* ── Warning banner ── */
+.sec-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.75rem;
+  color: #991b1b;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* ── Field label & hint ── */
+.sec-field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a2540;
+  display: block;
+  margin-bottom: 4px;
+}
+.sec-field-hint {
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* ── Passcode input wrapper ── */
+.sec-input-wrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+.sec-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+.sec-passcode-input {
+  width: 100%;
+  padding: 13px 48px 13px 42px;
+  border: 1.5px solid #dde1e9;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: #1a2540;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.sec-passcode-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(41, 66, 120, 0.12);
+}
+.sec-passcode-input.error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(223, 30, 44, 0.10);
+}
+.sec-toggle-pw {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+.sec-toggle-pw:hover { color: #1a2540; }
+
+/* ── Error message ── */
+.sec-error-msg {
+  font-size: 0.75rem;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+  min-height: 20px;
+}
+
+/* ── Lockout message ── */
+.sec-attempts-msg {
+  font-size: 0.75rem;
+  color: #92400E;
+  background: #FFF8E1;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 8px 12px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ── Action buttons ── */
+.sec-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+.sec-btn-cancel {
+  padding: 11px 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6B7280;
+  background: #fff;
+  border: 1.5px solid #dde1e9;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.sec-btn-cancel:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.sec-btn-verify {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--blue);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s ease;
+}
+.sec-btn-verify:hover { background: var(--blue-dark); }
+.sec-btn-verify:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Success state ── */
+.sec-success-wrap {
+  text-align: center;
+  padding: 16px 0 8px;
+}
+.sec-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: #22c55e;
+}
+.sec-success-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a2540;
+  margin-bottom: 6px;
+}
+.sec-success-sub {
+  font-size: 0.875rem;
+  color: #9CA3AF;
+}
+
+/* ── Shake animation ── */
+@keyframes sec-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+.shake { animation: sec-shake 0.4s ease; }
+
+/* ── Hidden utility ── */
+.hidden { display: none !important; }
+

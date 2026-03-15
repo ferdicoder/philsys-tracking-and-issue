@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS — Admin Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../shared/css/global.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body>
+
+  <!-- NAVBAR — global blue navbar -->
+  <nav class="navbar">
+    <a href="#" class="navbar-brand">
+      <img src="../../assets/images/logo-header.png" class="brand-logo"
+           alt="PhilTMS Logo" style="width:120px !important;height:120px !important;object-fit:contain;" />
+      <div>
+        <div class="brand-name">PhilTMS</div>
+        <div class="brand-tagline">PhilSys Identification Tracking and Appointment System</div>
+      </div>
+    </a>
+    <div class="navbar-actions">
+      <a href="../../user/pages/registration/step1.html" class="btn-secondary">Register</a>
+    </div>
+  </nav>
+
+  <!-- PAGE -->
+  <main class="admin-login-page">
+
+    <div class="admin-login-card">
+
+      <!-- Header -->
+      <div class="admin-login-header">
+        <h1 class="admin-login-title">Admin Login</h1>
+        <p class="admin-login-sub">Select your admin account to continue</p>
+      </div>
+
+      <!-- Select Admin Account -->
+      <div class="form-group">
+        <label class="form-label">Select Admin Account</label>
+        <div class="admin-select-wrapper">
+          <span class="admin-select-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <select class="admin-select" id="adminAccount" onchange="updateRole()">
+            <option value="carlos" data-role="Security Administrator">Jhanleur Balberan</option>
+            <option value="maria" data-role="System Administrator">Ferdinand Gelito</option>
+            <option value="jose" data-role="Data Administrator">Racy Ledres</option>
+            <option value="jose" data-role="Data Administrator">Alexis Arcenal</option>
+          </select>
+          <span class="admin-select-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="admin-role-hint" id="roleHint">Role: Security Administrator</div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="admin-input-wrapper">
+          <span class="admin-input-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <input type="password" class="admin-input" id="passwordInput" placeholder="" />
+          <button class="admin-toggle-pw" id="togglePw" onclick="togglePassword()" type="button" aria-label="Show password">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eyeIcon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Remember me + Forgot password -->
+      <div class="admin-row-inline">
+        <label class="admin-remember">
+          <input type="checkbox" id="rememberMe" />
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="admin-forgot">Forgot password?</a>
+      </div>
+
+      <!-- Sign In button -->
+      <button class="admin-signin-btn" onclick="handleSignIn()">Sign In</button>
+
+      <!-- OR divider -->
+      <div class="admin-or-divider">
+        <span class="admin-or-line"></span>
+        <span class="admin-or-text">OR</span>
+        <span class="admin-or-line"></span>
+      </div>
+
+      <!-- Contact support -->
+      <p class="admin-support-text">
+        Need help accessing your account? <a href="#" class="admin-support-link">Contact support</a>
+      </p>
+
+    </div>
+
+    <!-- Secure notice -->
+    <p class="admin-secure-notice">This is a secure area. Unauthorized access is prohibited.</p>
+
+  </main>
+
+  <script src="../js/login.js"></script>
+</body>
+</html>

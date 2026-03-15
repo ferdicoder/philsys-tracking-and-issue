@@ -1,0 +1,224 @@
+/* ============================================
+   PHILTMS — ADMIN LOGIN CSS
+   ============================================ */
+
+body { background-color: #f0f2f5; }
+
+/* ── Page layout ── */
+.admin-login-page {
+  min-height: calc(100vh - 75px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-6);
+}
+
+/* ── Login card ── */
+.admin-login-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: 48px 52px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── Header ── */
+.admin-login-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.admin-login-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-normal);
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+.admin-login-sub {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ── Select admin account ── */
+.admin-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.admin-select-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.admin-select {
+  width: 100%;
+  padding: 12px 44px 12px 40px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-family: var(--font-base);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.admin-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(41, 66, 120, 0.12);
+}
+.admin-select-arrow {
+  position: absolute;
+  right: 14px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+.admin-role-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: 6px;
+}
+
+/* ── Password input ── */
+.admin-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.admin-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+.admin-input {
+  width: 100%;
+  padding: 12px 44px 12px 40px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-family: var(--font-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.admin-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(41, 66, 120, 0.12);
+}
+.admin-toggle-pw {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: color var(--transition-fast);
+}
+.admin-toggle-pw:hover { color: var(--color-text-primary); }
+
+/* ── Remember me + Forgot ── */
+.admin-row-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  margin-top: 4px;
+}
+.admin-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.admin-remember input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+.admin-forgot {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.admin-forgot:hover { color: var(--color-primary); }
+
+/* ── Sign In button ── */
+.admin-signin-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-text-primary);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  font-family: var(--font-base);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  margin-bottom: 24px;
+}
+.admin-signin-btn:hover { background-color: #0f1a2e; }
+
+/* ── OR divider ── */
+.admin-or-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.admin-or-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+.admin-or-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.06em;
+}
+
+/* ── Support text ── */
+.admin-support-text {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.admin-support-link {
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.admin-support-link:hover { color: var(--color-primary); }
+
+/* ── Secure notice ── */
+.admin-secure-notice {
+  margin-top: 24px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
