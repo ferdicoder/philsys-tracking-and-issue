@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhilTMS — Register: Step 1</title>
+  <link rel="stylesheet" href="../../../shared/css/global.css" />
+  <link rel="stylesheet" href="../../../shared/css/components.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="../../../assets/images/logo-header.png" 
+      class="brand-logo" 
+      alt="PhilTMS Logo"
+      style="width: 120px !important; height: 120px !important; object-fit: contain;" />
+      <div>
+        <div class="brand-name">PhilTMS</div>
+        <div class="brand-tagline">PhilSys Status Tracking and Issue Management System</div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <a href="../../../index.html" class="btn-ghost btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg> Home
+      </a>
+      <a href="../../pages/login.html" class="btn btn-secondary">LogIn</a>
+    </div>
+  </nav>
+
+  <!-- PAGE -->
+  <div class="page-wrapper centered">
+    <div class="card">
+
+      <!-- STEPPER -->
+      <div class="stepper">
+        <div class="stepper-step active">
+          <div class="stepper-circle"><span class="stepper-number">1</span></div>
+        </div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step inactive">
+          <div class="stepper-circle"><span class="stepper-number">2</span></div>
+        </div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step inactive">
+          <div class="stepper-circle"><span class="stepper-number">3</span></div>
+        </div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step inactive">
+          <div class="stepper-circle"><span class="stepper-number">4</span></div>
+        </div>
+      </div>
+
+      <!-- ALERT -->
+      <div class="alert alert-error">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        Please ensure all information matches your PSA birth certificate or valid government ID.
+      </div>
+
+      <!-- STEP TITLE -->
+      <div class="step-title">Step 1 – Personal Information</div>
+
+      <!-- FORM -->
+      <form id="step1-form" novalidate>
+
+        <!-- Row 1: First Name + Last Name -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">First Name<span class="required">*</span></label>
+            <input type="text" class="form-input" id="first-name" placeholder="First name" required />
+            <span class="form-error-text" id="first-name-error"></span>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Last Name<span class="required">*</span></label>
+            <input type="text" class="form-input" id="last-name" placeholder="Last name" required />
+            <span class="form-error-text" id="last-name-error"></span>
+          </div>
+        </div>
+
+        <div style="height:var(--space-4)"></div>
+
+        <!-- Row 2: Middle Name + Suffix -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Middle Name</label>
+            <input type="text" class="form-input" id="middle-name" placeholder="Middle name" />
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Suffix</label>
+            <div class="form-select-wrapper">
+              <select class="form-select" id="suffix">
+                <option value="" selected>None</option>
+                <option value="jr">Jr.</option>
+                <option value="sr">Sr.</option>
+                <option value="ii">II</option>
+                <option value="iii">III</option>
+                <option value="iv">IV</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:var(--space-4)"></div>
+
+        <!-- Row 3: Date of Birth + Sex -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Date of Birth<span class="required">*</span></label>
+            <input type="date" class="form-input" id="dob" required />
+            <span class="form-error-text" id="dob-error"></span>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Sex<span class="required">*</span></label>
+            <div class="form-select-wrapper">
+              <select class="form-select" id="sex" required>
+                <option value="" disabled selected>Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <span class="form-error-text" id="sex-error"></span>
+          </div>
+        </div>
+
+        <div style="height:var(--space-5)"></div>
+
+        <button type="submit" class="btn btn-primary">Next</button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script src="../../js/registration/step1.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhilTMS — Track Issue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../shared/css/global.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../css/track-transaction.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="home.html" class="navbar-brand">
+      <img src="../../assets/images/logo-header.png" class="brand-logo"
+           alt="PhilTMS Logo" style="width: 120px !important; height: 120px !important; object-fit: contain;" />
+      <div>
+        <div class="brand-name">PhilTMS</div>
+        <div class="brand-tagline">Status Tracking and Issue Management System</div>
+      </div>
+    </a>
+    <div class="navbar-actions">
+      <nav class="navbar-nav">
+        <a href="../pages/home.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a href="../pages/track-transaction.html" class="nav-link active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Track
+        </a>
+        <a href="../pages/report.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Report
+        </a>
+        <a href="../pages/settings.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Settings
+        </a>
+        <a href="../pages/login.html" class="nav-link logout">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </a>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="track-main">
+
+    <!-- Page heading -->
+    <div class="track-heading">
+      <h2>Track Your Issue</h2>
+      <p>Enter your issue reference number to view the current status of your filed concern</p>
+    </div>
+
+    <!-- Search Card -->
+    <div class="track-card">
+      <div class="form-group">
+        <label class="form-label">Issue Reference Number</label>
+        <input type="text" class="form-input" id="issueInput" placeholder="ISS-2024-001234" maxlength="20" />
+        <span class="form-hint">Format: ISS-YYYY-XXXXXX</span>
+      </div>
+      <button class="track-btn" id="checkBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Check Status
+      </button>
+    </div>
+
+    <!-- Results — hidden until search -->
+    <div id="resultsSection" class="hidden">
+
+      <!-- Status Header Banner -->
+      <div class="track-status-banner">
+        <div class="track-status-banner-left">
+          <div class="track-ref-label">Issue Reference</div>
+          <div class="track-ref-number" id="refDisplay">ISS-2024-001234</div>
+          <div class="track-filed-date">Filed: November 15, 2024</div>
+        </div>
+        <div class="track-status-banner-right">
+          <span class="track-status-badge badge-warning-lg">Under Review</span>
+        </div>
+      </div>
+
+      <!-- Two-column layout: Issue Info + Progress -->
+      <div class="track-two-col">
+
+        <!-- LEFT: Issue Information -->
+        <div class="track-card track-info-card">
+          <div class="track-section-title">Issue Information</div>
+
+          <div class="track-info-row">
+            <div class="track-info-item">
+              <div class="track-info-label">Full Name</div>
+              <div class="track-info-value">Virginia Valdez</div>
+            </div>
+            <div class="track-info-item">
+              <div class="track-info-label">Contact Number</div>
+              <div class="track-info-value">+63 912 345 6789</div>
+            </div>
+          </div>
+
+          <div class="track-info-row">
+            <div class="track-info-item">
+              <div class="track-info-label">Issue Type</div>
+              <div class="track-info-value">Wrong Information on ID</div>
+            </div>
+            <div class="track-info-item">
+              <div class="track-info-label">Assigned Office</div>
+              <div class="track-info-value">PSA Quezon City</div>
+            </div>
+          </div>
+
+          <div class="track-info-item" style="margin-top: var(--space-3);">
+            <div class="track-info-label">Description</div>
+            <div class="track-info-value track-desc">
+              Incorrect middle name printed on the National ID card. The name shown is "Santos" but it should be "Reyes" based on PSA birth certificate.
+            </div>
+          </div>
+
+          <div class="track-info-row" style="margin-top: var(--space-3);">
+            <div class="track-info-item">
+              <div class="track-info-label">Date Submitted</div>
+              <div class="track-info-value">November 15, 2024</div>
+            </div>
+            <div class="track-info-item">
+              <div class="track-info-label">PhilSys Reference No.</div>
+              <div class="track-info-value">1234-5678-9012-3456</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Activity Timeline -->
+        <div class="track-card track-timeline-card">
+          <div class="track-section-title">Activity Log</div>
+          <div class="track-timeline">
+
+            <div class="tl-item tl-latest">
+              <div class="tl-dot tl-dot-warning"></div>
+              <div class="tl-content">
+                <div class="tl-title">Issue Under Review</div>
+                <div class="tl-desc">Your concern has been assigned to a PSA officer for review and verification.</div>
+                <div class="tl-date">Nov 18, 2024 · 2:30 PM</div>
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-dot tl-dot-primary"></div>
+              <div class="tl-content">
+                <div class="tl-title">Assigned to PSA Quezon City</div>
+                <div class="tl-desc">Issue forwarded to the nearest PSA branch for processing.</div>
+                <div class="tl-date">Nov 16, 2024 · 10:15 AM</div>
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-dot tl-dot-success"></div>
+              <div class="tl-content">
+                <div class="tl-title">Issue Successfully Received</div>
+                <div class="tl-desc">Your issue report has been received and logged into the system.</div>
+                <div class="tl-date">Nov 15, 2024 · 9:00 AM</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Issue Progress Tracker (full width) -->
+      <div class="track-card">
+        <div class="track-section-title">Issue Progress</div>
+        <div class="track-section-sub">Current status of your filed issue</div>
+
+        <div class="issue-tracker">
+
+          <div class="it-step it-done">
+            <div class="it-circle">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="it-label">Submitted</div>
+            <div class="it-date">Nov 15, 2024</div>
+          </div>
+
+          <div class="it-step it-active">
+            <div class="it-circle">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div class="it-label">Under Review</div>
+            <div class="it-date">Current</div>
+          </div>
+
+          <div class="it-step it-inactive">
+            <div class="it-circle">3</div>
+            <div class="it-label">Biometric<br>Appointment</div>
+            <div class="it-date">Pending</div>
+          </div>
+
+          <div class="it-step it-inactive">
+            <div class="it-circle">4</div>
+            <div class="it-label">ID<br>Processing</div>
+            <div class="it-date">Pending</div>
+          </div>
+
+          <div class="it-step it-inactive it-last">
+            <div class="it-circle">5</div>
+            <div class="it-label">Ready for<br>Pickup</div>
+            <div class="it-date">Pending</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Next Steps Card -->
+      <div class="track-card track-nextsteps-card">
+        <div class="track-section-title">Next Steps</div>
+        <div class="track-section-sub">What you need to do while your issue is being processed</div>
+
+        <div class="track-steps-grid">
+          <div class="track-step-item">
+            <div class="track-step-num">1</div>
+            <div>
+              <div class="track-step-title">Wait for Appointment Schedule</div>
+              <div class="track-step-desc">You will receive an SMS or email notification once your biometric appointment is scheduled by PSA.</div>
+            </div>
+          </div>
+          <div class="track-step-item">
+            <div class="track-step-num">2</div>
+            <div>
+              <div class="track-step-title">Prepare Required Documents</div>
+              <div class="track-step-desc">Bring your PSA Birth Certificate, valid government-issued ID, and original supporting documents on the day of your appointment.</div>
+            </div>
+          </div>
+          <div class="track-step-item">
+            <div class="track-step-num">3</div>
+            <div>
+              <div class="track-step-title">Check Back Regularly</div>
+              <div class="track-step-desc">Monitor this page using your issue reference number for real-time updates on your concern.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /resultsSection -->
+
+  </main>
+
+  <script src="../js/track-transaction.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhilTMS — Registration Successful</title>
+  <link rel="stylesheet" href="../../../shared/css/global.css" />
+  <link rel="stylesheet" href="../../../shared/css/components.css" />
+  <link rel="stylesheet" href="../../css/registration/confirmation.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="../../../assets/images/logo-header.png" 
+      class="brand-logo" 
+      alt="PhilTMS Logo"
+      style="width: 120px !important; height: 120px !important; object-fit: contain;" />
+      <div>
+        <div class="brand-name">PhilTMS</div>
+        <div class="brand-tagline">PhilSys Status Tracking and Issue Management System</div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <a href="../pages/home.html" class="btn-ghost btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9,22 9,12 15,12 15,22"/>
+  </svg> Home
+      <a href="../pages/login.html" class="btn btn-secondary">LogIn</a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper centered">
+    <div class="card confirmation-card">
+
+      <div class="success-card">
+        <h1 class="success-title">Registration Successful!</h1>
+        <p class="success-subtitle">
+          Welcome to PhilTMS! Your account has been created<br/>and verified successfully.
+        </p>
+
+        <div class="success-items">
+
+          <!-- Getting Started — full teal info banner -->
+          <div class="confirm-banner">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;margin-top:2px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span><strong>Getting Started:</strong> You can now log in to your account to schedule appointments, track your PhilSys registration status, and manage your profile.</span>
+          </div>
+
+          <!-- Account Activated -->
+          <div class="confirm-item">
+            <div class="confirm-icon" style="background-color:#00BFA5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="confirm-item-text">
+              <strong>Account Activated</strong>
+              <span>Your PhilTMS account is now active and ready to use. You can access all features and services immediately.</span>
+            </div>
+          </div>
+
+          <!-- Your Information is Secure -->
+          <div class="confirm-item">
+            <div class="confirm-icon" style="background-color:#8B5CF6">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="confirm-item-text">
+              <strong>Your Information is Secure</strong>
+              <span>All your personal data and documents are encrypted and stored securely in compliance with the Data Privacy Act of 2012.</span>
+            </div>
+          </div>
+
+          <!-- Confirmation Email Sent -->
+          <div class="confirm-item">
+            <div class="confirm-icon" style="background-color:#F59E0B">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="confirm-item-text">
+              <strong>Confirmation Email Sent</strong>
+              <span>Check your inbox for a detailed confirmation email with your account details and login credentials.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <a href="../pages/login.html" class="btn btn-primary" style="text-decoration:none">
+          Continue to Login
+        </a>
+
+        <p class="confirm-footer">Thank you for registering with PhilTMS</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../../js/registration/confirmation.js"></script>
+</body>
+</html>

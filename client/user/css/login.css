@@ -1,0 +1,50 @@
+/* login.css */
+
+.login-card {
+  max-width: 440px;
+  padding: var(--space-8) var(--space-10);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.login-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-loose);
+}
+
+.login-btn {
+  background-color: var(--color-dark) !important;
+  margin-top: var(--space-2);
+}
+.login-btn:hover {
+  background-color: var(--color-dark-soft) !important;
+  box-shadow: none !important;
+}
+
+.login-register {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-4);
+}
+
+.login-register a {
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+}
+
+.navbar-separator {
+  color: rgba(255,255,255,0.3);
+  font-size: var(--text-lg);
+}
