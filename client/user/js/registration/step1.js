@@ -1,4 +1,4 @@
- const form = document.getElementById('step1-form');
+const form = document.getElementById('step1-form');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -43,6 +43,6 @@ form.addEventListener('submit', (e) => {
     sessionStorage.setItem('reg_suffix', document.getElementById('suffix').value);
     sessionStorage.setItem('reg_dob', dob.value);
     sessionStorage.setItem('reg_sex', sex.value);
-    window.location.href = 'step2.html';
+    window.location.href = 'step3.html';
   }
 });

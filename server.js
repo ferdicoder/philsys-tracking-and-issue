@@ -14,17 +14,17 @@ app.use(express.json());
 
 async function startServer(){
   try{
-    // register route
+
+    app.listen(PORT, ()=>{
+      console.log(`Server running to PORT: ${PORT}`)
+    }); 
+
     app.use('/register', require('./server/routes/user')); 
     app.use('/login', require('./server/routes/login')); 
     app.use(require('./server/middlewares/verify'));
     app.use('/reports', require('./server/routes/reports'));
 
     await connectDatabase(); 
-
-    app.listen(PORT, ()=>{
-      console.log(`Server running to PORT: ${PORT}`)
-    }); 
     
   }catch(error){
     console.error(error); 

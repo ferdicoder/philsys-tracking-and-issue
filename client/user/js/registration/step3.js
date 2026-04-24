@@ -57,6 +57,7 @@ document.getElementById('step3-form').addEventListener('submit', (e) => {
   if (valid) {
     sessionStorage.setItem('reg_email', email.value.trim());
     sessionStorage.setItem('reg_mobile', document.getElementById('mobile').value.trim());
+    sessionStorage.setItem('reg_password', newPass.value);
     window.location.href = 'step4-verification.html';
   }
 });

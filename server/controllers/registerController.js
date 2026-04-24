@@ -36,14 +36,26 @@ function generateTokens(email){
   return { accessToken, refreshToken };
 }
 
-// validate the email and password using joi
-function validateInput (email, password){
+function generateTrackingNumber() {
+  const timestamp = Date.now().toString().slice(-8);
+  const random = crypto.randomInt(100000, 999999);
+  return `PTM-${timestamp}-${random}`;
+}
+
+// validate registration input using joi
+function validateInput (userData){
   const schema = joi.object({
+    first_name: joi.string().trim().min(1).required(),
+    last_name: joi.string().trim().min(1).required(),
+    middle_name: joi.string().trim().allow('').optional(),
+    birth_date: joi.date().iso().required(),
+    user_sex: joi.string().valid('male', 'female').required(),
     email: joi.string().email().required(), // user email format 
     password: joi.string().min(8).required(), // password with min 8 characters
+    mobile_no: joi.string().trim().allow('').optional()
   }); 
   
-  const { error, value } = schema.validate({ email, password }); 
+  const { error, value } = schema.validate(userData); 
   if(error) return error;
 
   return value; 
@@ -70,13 +82,21 @@ async function createRecord(userData){
     email, 
     password, 
     mobile_no, 
-    tracking_number, 
     refresh_token = null,
     roles = 'user'
   } = userData; 
 
-   // validate email and password
-  const validationResult = validateInput(email, password);
+   // validate registration data
+  const validationResult = validateInput({
+    first_name,
+    last_name,
+    middle_name,
+    birth_date,
+    user_sex,
+    email,
+    password,
+    mobile_no
+  });
   if(validationResult && validationResult.details) {
     const error = new Error('Validation failed');
     error.type = 'VALIDATION_ERROR';
@@ -97,6 +117,8 @@ async function createRecord(userData){
     throw error;
   } 
   
+  const tracking_number = generateTrackingNumber();
+
   // create user record using service
   await createUser({
     user_id,
