@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.style.boxShadow   = '';
 
     // Redirect to admin dashboard
-    window.location.href = 'admin-dashboard.html';
+    window.location.href = '../pages/dashboard.html';
   };
 
   // Clear password error on type
