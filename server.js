@@ -8,7 +8,7 @@ const { db , connectDatabase } = require('./server/config/connectDB');
 
 const PORT = process.env.PORT; 
 
-app.use(express.static(path.join(__dirname, 'client', 'public'))); 
+app.use(express.static(path.join(__dirname, 'client'))); 
 app.use(express.json());
 
 
@@ -21,6 +21,7 @@ async function startServer(){
 
     app.use('/register', require('./server/routes/user')); 
     app.use('/login', require('./server/routes/login')); 
+    app.use('/email', require('./server/routes/email'));
     app.use(require('./server/middlewares/verify'));
     app.use('/reports', require('./server/routes/reports'));
 

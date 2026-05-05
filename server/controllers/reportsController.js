@@ -21,7 +21,7 @@ function getContent(reportContent){
     error.type = 'INPUT_REQUIRED';
     throw error;
   }
-
+x``
   return content;
 }
 
@@ -47,10 +47,10 @@ async function createReport(req, res){
       reportId: crypto.randomUUID(),
       userId,
       reportContent,
-      status: 'submitted'
+      status: 'pending'
     });
 
-    return res.status(201).json({ report });k
+    return res.status(201).json({ report });
   }catch(error){
     if(error.type === 'INPUT_REQUIRED') return res.status(400).json({ error: error.message });
     if(error.type === 'UNAUTHORIZED') return res.status(401).json({ error: error.message });
