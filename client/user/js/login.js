@@ -7,7 +7,7 @@ document.getElementById('toggle-password').addEventListener('click', () => {
 });
 
 // Form submit
-document.getElementById('login-form').addEventListener('submit', (e) => {
+document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   let valid = true;
 
@@ -31,9 +31,55 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
     valid = false;
   }
 
-  if (valid) {
-    // Store user info and redirect to login confirmation
-    sessionStorage.setItem('user_name', 'Virginia Valdez');
-    window.location.href = '../../../../../../confirmation.html';
+  if (!valid) return;
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: identifier.value.trim(),
+        password: password.value
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      const message = data?.error || 'Unable to sign in.';
+      if (response.status === 401) {
+        document.getElementById('password-error').textContent = message;
+        password.classList.add('error');
+        return;
+      }
+
+      document.getElementById('identifier-error').textContent = message;
+      identifier.classList.add('error');
+      return;
+    }
+
+    if (window.PhilTmsAuth) {
+      window.PhilTmsAuth.setSession({
+        accessToken: data.accessToken,
+        user_id: data.user_id,
+        role: data.role,
+        user_name: data.user_name,
+        email: data.email
+      });
+    }
+
+    sessionStorage.setItem('user_name', data.user_name || 'User');
+
+    if (data.role === 'admin') {
+      window.location.href = '../../admin/pages/dashboard.html';
+      return;
+    }
+
+    window.location.href = '../pages/login-confirmation.html';
+  } catch (error) {
+    document.getElementById('identifier-error').textContent = 'Login failed. Please try again.';
+    identifier.classList.add('error');
   }
 });

@@ -23,6 +23,7 @@ async function startServer(){
     app.use('/login', require('./server/routes/login')); 
     app.use('/email', require('./server/routes/email'));
     app.use(require('./server/middlewares/verify'));
+    app.use('/user', require('./server/routes/profile'));
     app.use('/reports', require('./server/routes/reports'));
 
     await connectDatabase(); 

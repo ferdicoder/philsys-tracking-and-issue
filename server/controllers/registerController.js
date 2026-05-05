@@ -22,11 +22,11 @@ const roles = require('../config/roles');
 */
 
 // generate refresh and access token
-function generateTokens(email){
+function generateTokens(email, roles = 'user'){
   const refreshToken = jwt.sign(
     { 
       email: email,
-      roles: "user"
+      roles: roles
     }, 
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '1d' }
@@ -35,7 +35,7 @@ function generateTokens(email){
   const accessToken = jwt.sign(
     { 
       email: email,
-      roles: "user"
+      roles: roles
     },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '5m' }
@@ -125,7 +125,7 @@ async function createRecord(userData){
 
   const user_id = crypto.randomUUID(); // generate UUID
 
-  const { accessToken, refreshToken } = generateTokens(email);
+  const { accessToken, refreshToken } = generateTokens(email, roles);
   // hash user password and refresh token for the database 
   const { hashedPassword, hashedRefreshToken } = await hashData(password, refreshToken);
    
@@ -287,7 +287,7 @@ async function verifyRegistration(req, res) {
       return res.status(409).json({ error: 'User already exist.' });
     }
 
-    const { accessToken, refreshToken } = generateTokens(email);
+    const { accessToken, refreshToken } = generateTokens(email, 'user');
     const hashedRefreshToken = await hashRefreshTokenOnly(refreshToken);
     const user_id = crypto.randomUUID();
 
