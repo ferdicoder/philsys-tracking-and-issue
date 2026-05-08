@@ -91,7 +91,7 @@ function showLoadingOverlay() {
 // ============================================
 
 let userEmail = '';
-let verificationCodeSent = '';
+let verifiedOtp = '';
 
 function openForgotPasswordModal(event) {
   event.preventDefault();
@@ -118,7 +118,7 @@ function closeForgotPasswordModal() {
   document.getElementById('forgotPwOverlay').style.display = 'none';
   document.body.style.overflow = '';
   userEmail = '';
-  verificationCodeSent = '';
+  verifiedOtp = '';
 }
 
 function clearAllErrors() {
@@ -134,7 +134,7 @@ function clearAllErrors() {
 }
 
 // STEP 1: Send Verification Code
-function sendVerificationCode() {
+async function sendVerificationCode() {
   const emailInput = document.getElementById('resetEmail');
   const errorDiv = document.getElementById('email-error');
   const sendBtn = document.getElementById('sendCodeBtn');
@@ -159,58 +159,40 @@ function sendVerificationCode() {
     return;
   }
   
-  // Send code (simulated)
   sendBtn.disabled = true;
   sendBtn.textContent = 'Sending...';
-  
-  // Simulate API call to send email with verification code
-  setTimeout(() => {
-    // Generate random 6-digit code (in production, backend sends this)
-    verificationCodeSent = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('Verification Code:', verificationCodeSent); // For testing - remove in production
-    
+
+  try {
+    const response = await fetch('/password/forgot/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      errorDiv.textContent = data?.error || 'Failed to send code. Please try again.';
+      emailInput.style.borderColor = '#ef4444';
+      return;
+    }
+
     userEmail = email;
-    
-    // Move to step 2
+    verifiedOtp = '';
+
     document.getElementById('step1-email').style.display = 'none';
     document.getElementById('step2-code').style.display = 'block';
     document.getElementById('emailDisplay').textContent = email;
-    
-    // Reset button
+  } catch (error) {
+    errorDiv.textContent = 'Failed to send code. Please try again.';
+    emailInput.style.borderColor = '#ef4444';
+  } finally {
     sendBtn.disabled = false;
     sendBtn.textContent = 'Send Verification Code';
-    
-    /* PRODUCTION CODE - Replace setTimeout with this:
-    fetch('/api/forgot-password/send-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        userEmail = email;
-        document.getElementById('step1-email').style.display = 'none';
-        document.getElementById('step2-code').style.display = 'block';
-        document.getElementById('emailDisplay').textContent = email;
-      } else {
-        errorDiv.textContent = data.message || 'Email not found';
-        emailInput.style.borderColor = '#ef4444';
-      }
-    })
-    .catch(error => {
-      errorDiv.textContent = 'Failed to send code. Please try again.';
-    })
-    .finally(() => {
-      sendBtn.disabled = false;
-      sendBtn.textContent = 'Send Verification Code';
-    });
-    */
-  }, 1500);
+  }
 }
 
 // STEP 2: Verify Code
-function verifyCode() {
+async function verifyCode() {
   const codeInput = document.getElementById('verificationCode');
   const errorDiv = document.getElementById('code-error');
   const verifyBtn = document.getElementById('verifyCodeBtn');
@@ -234,50 +216,37 @@ function verifyCode() {
     return;
   }
   
-  // Verify code
   verifyBtn.disabled = true;
   verifyBtn.textContent = 'Verifying...';
-  
-  setTimeout(() => {
-    // Check if code matches (in production, verify with backend)
-    if (code === verificationCodeSent) {
-      // Move to step 3
-      document.getElementById('step2-code').style.display = 'none';
-      document.getElementById('step3-password').style.display = 'block';
-    } else {
-      errorDiv.textContent = 'Invalid verification code';
-      codeInput.style.borderColor = '#ef4444';
-    }
-    
-    verifyBtn.disabled = false;
-    verifyBtn.textContent = 'Verify Code';
-    
-    /* PRODUCTION CODE:
-    fetch('/api/forgot-password/verify-code', {
+
+  try {
+    const response = await fetch('/password/forgot/verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: userEmail, code: code })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('step2-code').style.display = 'none';
-        document.getElementById('step3-password').style.display = 'block';
-      } else {
-        errorDiv.textContent = 'Invalid or expired code';
-        codeInput.style.borderColor = '#ef4444';
-      }
-    })
-    .finally(() => {
-      verifyBtn.disabled = false;
-      verifyBtn.textContent = 'Verify Code';
+      body: JSON.stringify({ email: userEmail, otp: code })
     });
-    */
-  }, 1000);
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      errorDiv.textContent = data?.error || 'Invalid or expired code';
+      codeInput.style.borderColor = '#ef4444';
+      return;
+    }
+
+    verifiedOtp = code;
+    document.getElementById('step2-code').style.display = 'none';
+    document.getElementById('step3-password').style.display = 'block';
+  } catch (error) {
+    errorDiv.textContent = 'Failed to verify code. Please try again.';
+    codeInput.style.borderColor = '#ef4444';
+  } finally {
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = 'Verify Code';
+  }
 }
 
 // STEP 3: Reset Password
-function resetPassword() {
+async function resetPassword() {
   const newPasswordInput = document.getElementById('newPassword');
   const confirmPasswordInput = document.getElementById('confirmPassword');
   const newPasswordError = document.getElementById('newpassword-error');
@@ -319,68 +288,66 @@ function resetPassword() {
   
   if (!valid) return;
   
-  // Reset password
+  if (!verifiedOtp) {
+    newPasswordError.textContent = 'Please verify the code first';
+    return;
+  }
+
   resetBtn.disabled = true;
   resetBtn.textContent = 'Resetting...';
-  
-  setTimeout(() => {
-    // Move to success
-    document.getElementById('step3-password').style.display = 'none';
-    document.getElementById('step4-success').style.display = 'block';
-    
-    resetBtn.disabled = false;
-    resetBtn.textContent = 'Reset Password';
-    
-    /* PRODUCTION CODE:
-    fetch('/api/forgot-password/reset', {
+
+  try {
+    const response = await fetch('/password/forgot/reset', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        email: userEmail, 
-        code: verificationCodeSent,
-        newPassword: newPassword 
+      body: JSON.stringify({
+        email: userEmail,
+        otp: verifiedOtp,
+        newPassword
       })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('step3-password').style.display = 'none';
-        document.getElementById('step4-success').style.display = 'block';
-      } else {
-        newPasswordError.textContent = data.message || 'Failed to reset password';
-      }
-    })
-    .finally(() => {
-      resetBtn.disabled = false;
-      resetBtn.textContent = 'Reset Password';
     });
-    */
-  }, 1500);
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      newPasswordError.textContent = data?.error || 'Failed to reset password';
+      return;
+    }
+
+    document.getElementById('step3-password').style.display = 'none';
+    document.getElementById('step4-success').style.display = 'block';
+  } catch (error) {
+    newPasswordError.textContent = 'Failed to reset password. Please try again.';
+  } finally {
+    resetBtn.disabled = false;
+    resetBtn.textContent = 'Reset Password';
+  }
 }
 
 // Helper Functions
-function resendCode(event) {
+async function resendCode(event) {
   event.preventDefault();
-  
-  // Resend the code
-  verificationCodeSent = Math.floor(100000 + Math.random() * 900000).toString();
-  console.log('New Verification Code:', verificationCodeSent);
-  
-  alert('A new verification code has been sent to ' + userEmail);
-  
-  /* PRODUCTION CODE:
-  fetch('/api/forgot-password/resend-code', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: userEmail })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert('A new code has been sent to your email');
+
+  const errorDiv = document.getElementById('code-error');
+  errorDiv.textContent = '';
+
+  try {
+    const response = await fetch('/password/forgot/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: userEmail })
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      errorDiv.textContent = data?.error || 'Failed to resend code.';
+      return;
     }
-  });
-  */
+
+    verifiedOtp = '';
+    alert('A new verification code has been sent to ' + userEmail);
+  } catch (error) {
+    errorDiv.textContent = 'Failed to resend code.';
+  }
 }
 
 function goBackToStep1() {
@@ -388,6 +355,7 @@ function goBackToStep1() {
   document.getElementById('step1-email').style.display = 'block';
   document.getElementById('verificationCode').value = '';
   document.getElementById('code-error').textContent = '';
+  verifiedOtp = '';
 }
 
 function toggleNewPassword() {

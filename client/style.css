@@ -189,6 +189,407 @@ html, body {
   html, body { overflow: auto; }
   .page { height: auto; padding: 40px 20px; }
   .portals-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   ENHANCED RESPONSIVE DESIGN
+   ============================================ */
+
+/* CSS Custom Properties for Responsive Design */
+:root {
+  --vh: 1vh; /* Dynamic viewport height */
+  --animation-duration: 0.25s;
+}
+
+/* Mobile First - Base styles are mobile optimized */
+@media (max-width: 480px) {
+  .page {
+    padding: 20px 16px;
+    gap: 24px;
+  }
+
+  .hero {
+    gap: 16px;
+  }
+
+  .hero-logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.75rem;
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-divider {
+    width: 24px;
+    height: 1px;
+  }
+
+  .portals-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 100%;
+  }
+
+  .glass-card {
+    padding: 18px 20px;
+  }
+
+  .glass-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .glass-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .glass-title {
+    font-size: 1.1rem;
+  }
+
+  .glass-desc {
+    font-size: 0.72rem;
+  }
+
+  .glass-btn {
+    font-size: 0.75rem;
+    padding: 8px 18px;
+  }
+
+  .footer {
+    font-size: 0.55rem;
+    text-align: center;
+  }
+
+  /* Security overlay mobile */
+  .sec-overlay {
+    padding: 16px;
+  }
+
+  .sec-modal {
+    padding: 24px 20px;
+    max-width: 100%;
+  }
+
+  .sec-header {
+    gap: 12px;
+  }
+
+  .sec-title {
+    font-size: 1rem;
+  }
+
+  .sec-sub {
+    font-size: 0.7rem;
+  }
+
+  .sec-warning {
+    font-size: 0.7rem;
+    padding: 10px 12px;
+  }
+
+  .sec-passcode-input {
+    font-size: 1rem;
+    padding: 12px 40px 12px 38px;
+  }
+
+  .sec-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sec-btn-cancel,
+  .sec-btn-verify {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 481px) and (max-width: 768px) {
+  .page {
+    padding: 32px 24px;
+  }
+
+  .hero-logo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .hero-title {
+    font-size: 2.1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .portals-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 600px;
+  }
+
+  .glass-card {
+    padding: 20px 24px;
+  }
+
+  .sec-modal {
+    max-width: 420px;
+  }
+}
+
+/* Small desktop styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .page {
+    padding: 40px 60px;
+  }
+
+  .hero-logo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+  }
+
+  .portals-grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 800px;
+  }
+
+  .sec-modal {
+    max-width: 440px;
+  }
+}
+
+/* Large desktop styles */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .page {
+    padding: 48px 80px;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .portals-grid {
+    max-width: 900px;
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1441px) {
+  .page {
+    padding: 56px 120px;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+    max-width: 1000px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    max-width: 600px;
+  }
+
+  .portals-grid {
+    max-width: 1000px;
+  }
+
+  .glass-card {
+    padding: 24px 28px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .bg-grid {
+    background-size: 24px 24px;
+  }
+
+  .hero-logo {
+    filter: drop-shadow(0 6px 24px rgba(0,0,0,0.4));
+  }
+}
+
+/* Orientation changes */
+@media (orientation: landscape) and (max-height: 500px) {
+  .page {
+    padding: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hero {
+    flex: 1;
+    max-width: 50%;
+    text-align: left;
+  }
+
+  .portals {
+    flex: 1;
+    max-width: 45%;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-stats {
+    justify-content: flex-start;
+  }
+}
+
+/* Landscape mobile specific styles */
+.landscape-mobile .page {
+  padding: 12px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--vh, 1vh) * 100;
+}
+
+.landscape-mobile .hero {
+  flex: 1;
+  max-width: 50%;
+  text-align: left;
+  gap: 8px;
+}
+
+.landscape-mobile .portals {
+  flex: 1;
+  max-width: 45%;
+}
+
+.landscape-mobile .hero-title {
+  font-size: 1.6rem;
+}
+
+.landscape-mobile .hero-subtitle {
+  font-size: 0.7rem;
+}
+
+.landscape-mobile .portals-grid {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.landscape-mobile .glass-card {
+  padding: 14px 16px;
+}
+
+.landscape-mobile .glass-title {
+  font-size: 1rem;
+}
+
+.landscape-mobile .glass-desc {
+  font-size: 0.68rem;
+}
+
+/* Print styles */
+@media print {
+  .bg-decoration,
+  .sec-overlay {
+    display: none !important;
+  }
+
+  .page {
+    background: white !important;
+    color: black !important;
+  }
+
+  .glass-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+
+  .glass-card:hover {
+    transform: none !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .bg-blob-1,
+  .bg-blob-2 {
+    animation: none;
+  }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles here if needed */
+}
+
+/* Touch device optimizations */
+.touch-device .glass-card {
+  min-height: 44px; /* iOS touch target minimum */
+}
+
+.touch-device .glass-btn,
+.touch-device .sec-btn-cancel,
+.touch-device .sec-btn-verify {
+  min-height: 44px;
+  padding: 12px 24px;
+}
+
+.touch-device .sec-close,
+.touch-device .sec-toggle-pw {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Focus visible for accessibility */
+@media (prefers-reduced-motion: no-preference) {
+  .glass-card:focus-visible,
+  .sec-btn-cancel:focus-visible,
+  .sec-btn-verify:focus-visible,
+  .sec-close:focus-visible,
+  .sec-toggle-pw:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-card {
+    border-width: 2px;
+  }
+
+  .sec-passcode-input {
+    border-width: 2px;
+  }
 }/* ============================================
    PHILTMS — SECURITY OVERLAY CSS
    ============================================ */
