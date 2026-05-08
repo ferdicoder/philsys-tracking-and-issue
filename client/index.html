@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="PhilTMS - Philippine Tracking and Issue Management System for PhilSys registration tracking" />
+  <meta name="theme-color" content="#294278" />
   <title>PhilTMS — Welcome</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 </head>
 <body>
 
@@ -176,6 +179,96 @@
        EMBEDDED JS
        ============================================ -->
   <script>
+    /* ── Responsive and Interactive Features ── */
+
+    // Dynamic viewport height for mobile browsers
+    function setVH() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    // Initialize responsive features
+    function initResponsive() {
+      setVH();
+      handleOrientationChange();
+      optimizePerformance();
+    }
+
+    // Handle orientation changes
+    function handleOrientationChange() {
+      const isLandscape = window.innerHeight < window.innerWidth;
+      const isMobile = window.innerWidth < 768;
+
+      if (isLandscape && isMobile && window.innerHeight < 500) {
+        document.body.classList.add('landscape-mobile');
+      } else {
+        document.body.classList.remove('landscape-mobile');
+      }
+    }
+
+    // Performance optimizations
+    function optimizePerformance() {
+      // Reduce animations on low-performance devices
+      const isSlowDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+      if (isSlowDevice || window.innerWidth < 480) {
+        document.documentElement.style.setProperty('--animation-duration', '0.15s');
+      }
+
+      // Add touch class for touch devices
+      if ('ontouchstart' in window) {
+        document.documentElement.classList.add('touch-device');
+      }
+    }
+
+    // Smooth scroll for better UX
+    function initSmoothScroll() {
+      const scrollElements = document.querySelectorAll('[data-scroll]');
+      scrollElements.forEach(element => {
+        element.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.querySelector(element.getAttribute('data-scroll'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    }
+
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setVH();
+        handleOrientationChange();
+      }, 100);
+    });
+
+    // Handle orientation change
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        setVH();
+        handleOrientationChange();
+      }, 100);
+    });
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      initResponsive();
+      initSmoothScroll();
+    });
+
+    // Preload critical resources
+    function preloadResources() {
+      const images = ['assets/logo-header.png'];
+      images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    }
+
+    preloadResources();
+
     /* ── Config ── */
     const PASSCODE     = '123456'; // Change to your real 6-digit code
     const MAX_ATTEMPTS = 3;
