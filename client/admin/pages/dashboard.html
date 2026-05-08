@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>PhilTMS – Dashboard</title>
+
+  <!-- Google Fonts -->\
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="../../shared/css/global.css"/>
+  <link rel="stylesheet" href="../../shared/css/components.css"/>
+
+  <!-- PAGE CSS -->
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Top Navigation -->
+    <header class="topnav">
+      <div class="topnav-brand">
+        <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="brand-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#1a3a6e"/>
+            <path d="M7 10h18M7 16h12M7 22h15" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <span class="brand-name">PhilTMS</span>
+          <span class="brand-sub">PhilSys Identification Tracking and Appointment System</span>
+        </div>
+      </div>
+      <nav class="topnav-links">
+        <a href="dashboard.html" class="nav-link active">Dashboard</a>
+        <a href="applications.html" class="nav-link">Applications</a>
+        <a href="status-management.html" class="nav-link">Status Management</a>
+        <a href="report-management.html" class="nav-link">Report Management</a>
+        <a href="reports.html" class="nav-link">Reports</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+        <a href="login.html" class="nav-link nav-logout">Logout</a>
+      </nav>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <aside class="mobile-sidebar" id="mobileSidebar">
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link active">Dashboard</a>
+        <a href="applications.html" class="sidebar-link">Applications</a>
+        <a href="status-management.html" class="sidebar-link">Status Management</a>
+        <a href="report-management.html" class="sidebar-link">Report Management</a>
+        <a href="reports.html" class="sidebar-link">Reports</a>
+        <a href="settings.html" class="sidebar-link">Settings</a>
+        <a href="login.html" class="sidebar-link logout">Logout</a>
+      </nav>
+    </aside>
+    <div class="sidebar-overlay hidden" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Overview of PhilSys applications tracking and monitoring</p>
+      </div>
+
+      <!-- Summary Cards -->
+      <section class="summary-section">
+        <h2 class="section-title">Summary</h2>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-icon blue">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <rect x="2" y="3" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M7 8h8M7 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="summary-info">
+              <span class="summary-label">Total Applications</span>
+              <span class="summary-value" data-count="2847">0</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon orange">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M11 6v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="summary-info">
+              <span class="summary-label">Processing</span>
+              <span class="summary-value" data-count="456">0</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon green">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M7 11l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="summary-info">
+              <span class="summary-label">Delivered</span>
+              <span class="summary-value" data-count="2145">0</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon red">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M11 3l9 16H2L11 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M11 10v4M11 16.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="summary-info">
+              <span class="summary-label">Pending Reports</span>
+              <span class="summary-value" data-count="28">0</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon teal">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <rect x="2" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M7 9h8M7 13h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M6 5V3M16 5V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="summary-info">
+              <span class="summary-label">Resolved Reports</span>
+              <span class="summary-value" data-count="142">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Activity -->
+      <section class="activity-section">
+        <h2 class="section-title">Recent Activity</h2>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>TRN</th>
+                <th>Applicant Name</th>
+                <th>Activity</th>
+                <th>Date</th>
+                <th>Updated By</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr><td>TRN-2024-001234</td><td>Maria Santos</td><td>Status updated to For Delivery</td><td>2025-02-25, 14:32</td><td>Admin User</td></tr>
+              <tr><td>TRN-2024-001235</td><td>Juan Dela Cruz</td><td>Status updated to Printed</td><td>2025-02-25, 14:19</td><td>Admin User</td></tr>
+              <tr><td>TRN-2024-001236</td><td>Ana Reyes</td><td>Status updated to For Printing</td><td>2025-02-25, 11:45</td><td>Admin User</td></tr>
+              <tr><td>TRN-2024-001237</td><td>Pedro Garcia</td><td>Application verified</td><td>2025-02-25, 10:22</td><td>Admin User</td></tr>
+              <tr><td>TRN-2024-001238</td><td>Sofia Martinez</td><td>New applicant registered</td><td>2025-02-25, 09:10</td><td>System</td></tr>
+              <tr><td>TRN-2024-001239</td><td>Carlos Lopez</td><td>Status updated to Delivered</td><td>2025-02-25, 08:30</td><td>Admin User</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Applications Preview -->
+      <section class="apps-section">
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title">Applications</h2>
+            <p class="section-desc">Manage and track PhilSys applications</p>
+          </div>
+          <a href="applications.html" class="btn-link">View All →</a>
+        </div>
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="#9ca3af" stroke-width="1.5"/>
+            <path d="M11 11l3 3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="dashSearch" placeholder="Search by TRN or applicant name..." oninput="filterDashTable(this.value)"/>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="dashAppTable">
+            <thead>
+              <tr>
+                <th>TRN</th>
+                <th>Applicant Name</th>
+                <th>Registration Date</th>
+                <th>Current Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>TRN-2024-001234</td><td>Maria Santos</td><td>2025-01-10</td><td><span class="badge badge-delivery">For Delivery</span></td><td><a href="applications.html" class="view-link">View Details →</a></td></tr>
+              <tr><td>TRN-2024-001235</td><td>Juan Dela Cruz</td><td>2025-01-12</td><td><span class="badge badge-printed">Printed</span></td><td><a href="applications.html" class="view-link">View Details →</a></td></tr>
+              <tr><td>TRN-2024-001236</td><td>Ana Reyes</td><td>2025-01-20</td><td><span class="badge badge-printing">For Printing</span></td><td><a href="applications.html" class="view-link">View Details →</a></td></tr>
+              <tr><td>TRN-2024-001237</td><td>Pedro Garcia</td><td>2025-01-22</td><td><span class="badge badge-verified">Verified</span></td><td><a href="applications.html" class="view-link">View Details →</a></td></tr>
+              <tr><td>TRN-2024-001238</td><td>Sofia Martinez</td><td>2025-01-20</td><td><span class="badge badge-registered">Registered</span></td><td><a href="applications.html" class="view-link">View Details →</a></td></tr>
+              <tr><td>TRN-2024-001239</td><td>Carlos Lopez</td><td>2025-01-21</td><td><span class="badge badge-delivered">Delivered</span></td><td><a href="applications.html" class="view-link">View Details →</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
