@@ -69,12 +69,22 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       window.location.href = '../../admin/pages/dashboard.html';
       return;
     }
-    window.location.href = '../pages/login-confirmation.html';
+    showLoadingOverlay();
+    setTimeout(() => {
+      window.location.href = 'home.html';
+    }, 3000);
   } catch (error) {
     document.getElementById('identifier-error').textContent = 'Login failed. Please try again.';
     identifier.classList.add('error');
   }
 }); // <-- CLOSE THE FORM SUBMIT LISTENER HERE
+
+function showLoadingOverlay() {
+  const overlay = document.getElementById('login-loading-overlay');
+  if (!overlay) return;
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
 
 // ============================================
 // FORGOT PASSWORD FLOW
