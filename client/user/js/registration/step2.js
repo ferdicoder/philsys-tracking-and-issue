@@ -1,59 +1,63 @@
-// step2.js — Government ID Verification
+// step3.js — Account Setup
 
-const form       = document.getElementById('step2-form');
-const uploadArea = document.getElementById('upload-area');
-const fileInput  = document.getElementById('file-input');
-const preview    = document.getElementById('upload-preview');
-
-// Drag and drop
-uploadArea.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  uploadArea.classList.add('dragover');
-});
-uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-uploadArea.addEventListener('drop', (e) => {
-  e.preventDefault();
-  uploadArea.classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file) handleFile(file);
-});
-
-fileInput.addEventListener('change', () => {
-  if (fileInput.files[0]) handleFile(fileInput.files[0]);
-});
-
-function handleFile(file) {
-  const allowed = ['image/jpeg','image/png','image/jpg','application/pdf'];
-  if (!allowed.includes(file.type)) {
-    document.getElementById('file-error').textContent = 'Only JPG, PNG, or PDF files are allowed.';
-    return;
-  }
-  document.getElementById('file-error').textContent = '';
-  preview.textContent = `✓ ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
-  sessionStorage.setItem('reg_id_file', file.name);
+// Password toggles
+function setupToggle(toggleId, inputId) {
+  document.getElementById(toggleId).addEventListener('click', () => {
+    const input = document.getElementById(inputId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
 }
+setupToggle('toggle-new', 'new-password');
+setupToggle('toggle-confirm', 'confirm-password');
 
-form.addEventListener('submit', (e) => {
+// Form submission
+document.getElementById('step3-form').addEventListener('submit', (e) => {
   e.preventDefault();
   let valid = true;
 
-  const idType = document.getElementById('id-type');
-  document.getElementById('id-type-error').textContent = '';
-  document.getElementById('file-error').textContent = '';
-  idType.classList.remove('error');
+  const email    = document.getElementById('email');
+  const newPass  = document.getElementById('new-password');
+  const confPass = document.getElementById('confirm-password');
+  const terms    = document.getElementById('terms');
 
-  if (!idType.value) {
-    document.getElementById('id-type-error').textContent = 'Please select an ID type.';
-    idType.classList.add('error');
+  // Clear errors
+  ['email-error','password-error','confirm-error','terms-error'].forEach(id => {
+    document.getElementById(id).textContent = '';
+  });
+  [email, newPass, confPass].forEach(el => el.classList.remove('error'));
+
+  // Validate email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email.value.trim() || !emailRegex.test(email.value)) {
+    document.getElementById('email-error').textContent = 'Please enter a valid email address.';
+    email.classList.add('error');
     valid = false;
   }
-  if (!sessionStorage.getItem('reg_id_file') && !fileInput.files[0]) {
-    document.getElementById('file-error').textContent = 'Please upload your government ID.';
+
+  // Validate password
+  if (newPass.value.length < 8) {
+    document.getElementById('password-error').textContent = 'Password must be at least 8 characters.';
+    newPass.classList.add('error');
+    valid = false;
+  }
+
+  // Validate confirm password
+  if (confPass.value !== newPass.value) {
+    document.getElementById('confirm-error').textContent = 'Passwords do not match.';
+    confPass.classList.add('error');
+    valid = false;
+  }
+
+  // Validate terms
+  if (!terms.checked) {
+    document.getElementById('terms-error').textContent = 'You must agree to the terms to continue.';
     valid = false;
   }
 
   if (valid) {
-    sessionStorage.setItem('reg_id_type', idType.value);
+    sessionStorage.setItem('reg_email', email.value.trim());
+    sessionStorage.setItem('reg_mobile', document.getElementById('mobile').value.trim());
+    sessionStorage.setItem('reg_password', newPass.value);
     window.location.href = 'step3.html';
   }
 });

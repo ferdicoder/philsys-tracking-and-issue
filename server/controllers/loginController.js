@@ -48,8 +48,8 @@ function validateLoginInput(req) {
 }
 
 
-async function createUserSession(email, res) {
-  const { accessToken, refreshToken } = await generateTokens(email);
+async function createUserSession(email, roles, res) {
+  const { accessToken, refreshToken } = await generateTokens(email, roles);
   
   await insertRefreshToken(refreshToken, email);
 
@@ -71,11 +71,16 @@ async function handleLogin(req, res){
     const { email, password } = validateLoginInput(req);
     
     const userData = await validateUserCredentials(email, password);
-  
-    const { accessToken } = await createUserSession(email, res);
+    const roleValue = userData.roles;
+    const normalizedRole = roleValue === 1 ? 'admin' : roleValue === 2 ? 'user' : roleValue;
+
+    const { accessToken } = await createUserSession(email, normalizedRole, res);
     
     return res.status(200).json({ 
-      user_id: userData.id, 
+      user_id: userData.user_id, 
+      role: normalizedRole,
+      user_name: `${userData.first_name} ${userData.last_name}`.trim(),
+      email: userData.email,
       accessToken
     }); 
 

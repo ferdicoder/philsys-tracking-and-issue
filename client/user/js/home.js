@@ -5,6 +5,28 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  async function loadProfileName() {
+    const session = window.PhilTmsAuth?.getSession?.();
+    if (!session?.accessToken) return;
+
+    try {
+      const response = await fetch('/user/me', {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`
+        }
+      });
+
+      if (!response.ok) return;
+
+      const user = await response.json();
+      const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || 'User';
+      const nameEl = document.getElementById('homeUserName');
+      if (nameEl) nameEl.textContent = fullName;
+    } catch (error) {
+      console.error('Failed to load profile name:', error);
+    }
+  }
+
   /* ============================================
      ALERT DISMISS
      ============================================ */
@@ -288,5 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
         : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
     });
   });
+
+  loadProfileName();
 
 });

@@ -42,6 +42,32 @@ async function createUser(userData) {
   );
 }
 
+// Get user profile data by email
+async function getUserProfileByEmail(email) {
+  const result = await db.query(
+    `SELECT
+      user_id,
+      first_name,
+      last_name,
+      middle_name,
+      birth_date,
+      email,
+      mobile_no,
+      tracking_number,
+      roles
+    FROM users
+    WHERE email = $1`,
+    [email]
+  );
+
+  if (result.rows.length === 0) {
+    const error = new Error('User does not exist');
+    error.type = 'NOT_FOUND';
+    throw error;
+  }
+
+  return result.rows[0];
+}
 
 
-module.exports = { checkUserExists, createUser };
+module.exports = { checkUserExists, createUser, getUserProfileByEmail };

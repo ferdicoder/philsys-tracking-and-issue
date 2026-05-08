@@ -10,20 +10,33 @@
   opacity: 0; visibility: hidden;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-.admin-login-overlay.active { opacity: 1; visibility: visible; }
 
-.admin-login-modal {
-  background: #fff; border-radius: 16px; padding: 40px 44px;
-  width: 100%; max-width: 460px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
-  transform: translateY(16px); transition: transform 0.25s ease;
+/* ── Login card ── */
+.admin-login-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: 48px 52px;
+  width: 100%;
+  max-width: 480px;
 }
-.admin-login-overlay.active .admin-login-modal { transform: translateY(0); }
 
-/* Modal header */
-.alm-header { margin-bottom: 24px; }
-.alm-title { font-size: 1.3rem; font-weight: 700; color: #1a2540; margin-bottom: 4px; }
-.alm-sub   { font-size: 0.8rem; color: #9CA3AF; }
+/* ── Header ── */
+.admin-login-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.admin-login-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-normal);
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+.admin-login-sub {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
 
 /* Form groups */
 .alm-label {

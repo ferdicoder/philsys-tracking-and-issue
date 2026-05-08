@@ -25,10 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Sign In handler
-  window.handleSignIn = function () {
-    const account  = document.getElementById('adminAccount').value;
+  window.handleSignIn = async function () {
+    const accountSelect = document.getElementById('adminAccount');
+    const selected = accountSelect?.options[accountSelect.selectedIndex];
+    const identifier = selected?.getAttribute('data-email') || selected?.value || '';
     const password = document.getElementById('passwordInput').value.trim();
-    const input    = document.getElementById('passwordInput');
+    const input = document.getElementById('passwordInput');
+    const errorEl = document.getElementById('admin-error');
+
+    if (errorEl) errorEl.textContent = '';
+
+    if (!identifier) {
+      if (errorEl) errorEl.textContent = 'Select a valid admin account.';
+      return;
+    }
 
     if (!password) {
       input.style.borderColor = 'var(--color-error)';
@@ -40,14 +50,52 @@ document.addEventListener('DOMContentLoaded', () => {
     input.style.borderColor = '';
     input.style.boxShadow   = '';
 
-    // Redirect to admin dashboard
-    window.location.href = 'admin-dashboard.html';
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: identifier,
+          password: password
+        })
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        if (errorEl) errorEl.textContent = data?.error || 'Unable to sign in.';
+        return;
+      }
+
+      if (data.role !== 'admin') {
+        if (errorEl) errorEl.textContent = 'This account does not have admin access.';
+        return;
+      }
+
+      if (window.PhilTmsAuth) {
+        window.PhilTmsAuth.setSession({
+          accessToken: data.accessToken,
+          user_id: data.user_id,
+          role: data.role,
+          user_name: data.user_name,
+          email: data.email
+        });
+      }
+
+      window.location.href = '../pages/dashboard.html';
+    } catch (error) {
+      if (errorEl) errorEl.textContent = 'Login failed. Please try again.';
+    }
   };
 
   // Clear password error on type
   document.getElementById('passwordInput')?.addEventListener('input', function () {
     this.style.borderColor = '';
     this.style.boxShadow   = '';
+    const errorEl = document.getElementById('admin-error');
+    if (errorEl) errorEl.textContent = '';
   });
 
   // Enter key support

@@ -21,6 +21,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkBtn?.addEventListener('click', handleCheck);
 
+  async function loadProfile() {
+    const session = window.PhilTmsAuth?.getSession?.();
+    if (!session?.accessToken) return;
+
+    try {
+      const response = await fetch('/user/me', {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`
+        }
+      });
+
+      if (!response.ok) return;
+
+      const user = await response.json();
+      const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || 'User';
+      const trn = user.tracking_number || '--';
+
+      const nameEl = document.getElementById('trackUserName');
+      const mobileEl = document.getElementById('trackUserMobile');
+      const trnEl = document.getElementById('trackUserTrn');
+
+      if (nameEl) nameEl.textContent = fullName;
+      if (mobileEl) mobileEl.textContent = user.mobile_no || '--';
+      if (trnEl) trnEl.textContent = trn;
+    } catch (error) {
+      console.error('Failed to load profile:', error);
+    }
+  }
+
   function handleCheck() {
     const val = input?.value.trim();
 
@@ -50,5 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 100);
     }
   }
+
+  loadProfile();
 
 });

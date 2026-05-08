@@ -1,4 +1,4 @@
- const form = document.getElementById('step1-form');
+const form = document.getElementById('step1-form');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();

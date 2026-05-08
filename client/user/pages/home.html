@@ -56,7 +56,7 @@
 
     <!-- Centered page heading -->
     <div class="home-heading">
-      <h1>Welcome, Virginia Valdez</h1>
+      <h1>Welcome, <span id="homeUserName">User</span></h1>
       <p>Track issue status, manage reports, and monitor system activities</p>
     </div>
 
@@ -90,15 +90,7 @@
           <div class="ht-sublabel">Team is reviewing your issue</div>
         </div>
 
-        <!-- Step 3: Biometric Appointment — inactive -->
-        <div class="ht-step ht-inactive">
-          <div class="ht-circle"></div>
-          <div class="ht-connector"></div>
-          <div class="ht-label">Biometric<br>Appointment</div>
-          <div class="ht-sublabel">Schedule your biometric capture</div>
-        </div>
-
-        <!-- Step 4: ID Card Processing — inactive -->
+        <!-- Step 3: ID Card Processing — inactive -->
         <div class="ht-step ht-inactive">
           <div class="ht-circle"></div>
           <div class="ht-connector"></div>
@@ -106,7 +98,7 @@
           <div class="ht-sublabel">Your National ID is being printed</div>
         </div>
 
-        <!-- Step 5: Ready for Pickup — inactive (no connector after) -->
+        <!-- Step 4: Ready for Pickup — inactive (no connector after) -->
         <div class="ht-step ht-inactive ht-last">
           <div class="ht-circle"></div>
           <div class="ht-label">Ready for<br>Delivery</div>
@@ -157,6 +149,7 @@
 
   </main>
 
+  <script src="../../shared/js/auth.js"></script>
   <script src="../js/home.js"></script>
 </body>
 </html>

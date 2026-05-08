@@ -23,9 +23,6 @@
         <div class="brand-tagline">PhilSys Identification Tracking and Appointment System</div>
       </div>
     </a>
-    <div class="navbar-actions">
-      <a href="../../user/pages/registration/step1.html" class="btn-secondary">Register</a>
-    </div>
   </nav>
 
   <!-- PAGE -->
@@ -71,6 +68,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eyeIcon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
+        <div class="form-error-text" id="admin-error"></div>
       </div>
 
       <!-- Remember me + Forgot password -->
@@ -79,7 +77,7 @@
           <input type="checkbox" id="rememberMe" />
           <span>Remember me</span>
         </label>
-        <a href="#" class="admin-forgot">Forgot password?</a>
+        <a href="#" class="admin-forgot" onclick="openForgotPasswordModal(event)">Forgot password?</a>
       </div>
 
       <!-- Sign In button -->
@@ -104,6 +102,56 @@
 
   </main>
 
+  <script src="../../shared/js/auth.js"></script>
   <script src="../js/login.js"></script>
+
+  <!-- Forgot Password Modal -->
+<div class="forgot-pw-overlay" id="forgotPwOverlay">
+  <div class="forgot-pw-modal">
+    <button class="forgot-pw-close" onclick="closeForgotPasswordModal()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div class="forgot-pw-header">
+      <div class="forgot-pw-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </div>
+      <h2 class="forgot-pw-title">Forgot Password?</h2>
+      <p class="forgot-pw-subtitle">No worries, we'll send you reset instructions</p>
+    </div>
+
+    <div class="forgot-pw-content" id="forgotPwContent">
+      <div class="form-group">
+        <label class="form-label">Admin Email Address</label>
+        <div class="admin-input-wrapper">
+          <span class="admin-input-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+          <input type="email" class="admin-input" id="resetEmail" placeholder="admin@philtms.gov.ph" />
+        </div>
+        <div class="form-error-text" id="reset-error"></div>
+      </div>
+
+      <button class="admin-signin-btn" onclick="handlePasswordReset()" id="resetBtn">
+        Send Reset Link
+      </button>
+
+      <button class="forgot-pw-back" onclick="closeForgotPasswordModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to login
+      </button>
+    </div>
+
+    <!-- Success Message (hidden by default) -->
+    <div class="forgot-pw-success" id="forgotPwSuccess" style="display: none;">
+      <div class="success-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h3>Check your email</h3>
+      <p>We've sent password reset instructions to <strong id="sentEmail"></strong></p>
+      <button class="admin-signin-btn" onclick="closeForgotPasswordModal()">Back to login</button>
+    </div>
+
+  </div>
 </body>
 </html>
