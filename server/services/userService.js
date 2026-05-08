@@ -69,5 +69,14 @@ async function getUserProfileByEmail(email) {
   return result.rows[0];
 }
 
+async function updateUserPassword(email, hashedPassword) {
+  const result = await db.query(
+    'UPDATE users SET password = $1 WHERE email = $2',
+    [hashedPassword, email]
+  );
 
-module.exports = { checkUserExists, createUser, getUserProfileByEmail };
+  return result.rowCount > 0;
+}
+
+
+module.exports = { checkUserExists, createUser, getUserProfileByEmail, updateUserPassword };

@@ -22,6 +22,7 @@ async function startServer(){
     app.use('/register', require('./server/routes/user')); 
     app.use('/login', require('./server/routes/login')); 
     app.use('/email', require('./server/routes/email'));
+    app.use('/password', require('./server/routes/password'));
     app.use(require('./server/middlewares/verify'));
     app.use('/user', require('./server/routes/profile'));
     app.use('/reports', require('./server/routes/reports'));
