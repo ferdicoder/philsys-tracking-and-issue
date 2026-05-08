@@ -71,7 +71,7 @@ html, body {
   letter-spacing: 0.05em; padding: 4px 14px; border-radius: 999px;
 }
 .hero-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 2.4rem;
   color: #fff; line-height: 1.2;
   max-width: 800px;

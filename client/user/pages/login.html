@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="../css/login.css" />
 </head>
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-brand">
@@ -30,10 +29,7 @@
     
       <span class="navbar-separator">|</span>
       <a href="registration/step1.html" class="btn-ghost btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg> Register
+       Register
       </a>
     </div>
   </nav>
@@ -41,21 +37,16 @@
   <!-- PAGE -->
   <div class="page-wrapper centered">
     <div class="card login-card">
-
       <div class="login-header">
         <h2 class="login-title">Welcome!</h2>
-        <p class="login-subtitle">Sign in to access your PhilSys account and National ID related services</p>
       </div>
-
       <form id="login-form" novalidate>
-
         <div class="form-group">
           <label class="form-label">PhilSys Number or Email <span class="required">*</span></label>
           <input type="text" class="form-input" id="identifier"
                  placeholder="e.g. Valdezvirginia@gmail.com" required />
           <span class="form-error-text" id="identifier-error"></span>
         </div>
-
         <div class="form-group">
           <label class="form-label">Password</label>
           <div class="input-password-wrapper">
@@ -70,28 +61,138 @@
           </div>
           <span class="form-error-text" id="password-error"></span>
         </div>
-
         <div class="form-row-inline">
           <div class="form-checkbox-group" style="margin-bottom:0">
             <input type="checkbox" id="remember" />
             <label for="remember">Keep me signed in on this device</label>
           </div>
-          <a href="#" class="forgot-link">Forgot password?</a>
+          <a href="#" class="forgot-link" onclick="openForgotPasswordModal(event)">Forgot password?</a>
         </div>
-
         <button type="submit" class="btn btn-primary login-btn">Sign In</button>
-
-        <div class="or-divider">or</div>
-
-        <button type="button" class="btn-psa">Sign in with PSA PhilSys Number</button>
-
         <p class="login-register">
-          Don't have a account? <a href="../pages/registration/step1.html">Create new Account</a>
+          Don't have an account? <a href="../pages/registration/step1.html">Create new Account</a>
         </p>
-
       </form>
     </div>
   </div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div id="forgotPwOverlay" class="forgot-pw-overlay">
+  <div class="forgot-pw-modal">
+    <button class="forgot-pw-close" onclick="closeForgotPasswordModal()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- STEP 1: Enter Email -->
+    <div id="step1-email" class="forgot-pw-step">
+      <div class="forgot-pw-header">
+        <h2 class="forgot-pw-title">Forgot Password?</h2>
+        <p class="forgot-pw-subtitle">Enter your email to receive a verification code</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" id="resetEmail" placeholder="name@gmail.com" />
+        <div class="form-error-text" id="email-error"></div>
+      </div>
+
+      <button class="btn btn-primary login-btn" onclick="sendVerificationCode()" id="sendCodeBtn" type="button">
+        Send Verification Code
+      </button>
+
+      <button class="forgot-pw-back" onclick="closeForgotPasswordModal()" type="button">
+        Back to login
+      </button>
+    </div>
+
+    <!-- STEP 2: Enter Verification Code -->
+    <div id="step2-code" class="forgot-pw-step" style="display: none;">
+      <div class="forgot-pw-header">
+        <h2 class="forgot-pw-title">Enter Verification Code</h2>
+        <p class="forgot-pw-subtitle">We've sent a 6-digit code to <strong id="emailDisplay"></strong></p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Verification Code</label>
+        <input type="text" class="form-input code-input" id="verificationCode" placeholder="000000" maxlength="6" />
+        <div class="form-error-text" id="code-error"></div>
+      </div>
+
+      <button class="btn btn-primary login-btn" onclick="verifyCode()" id="verifyCodeBtn" type="button">
+        Verify Code
+      </button>
+
+      <p class="resend-text">
+        Didn't receive the code? <a href="#" onclick="resendCode(event)">Resend</a>
+      </p>
+
+      <button class="forgot-pw-back" onclick="goBackToStep1()" type="button">
+        Back
+      </button>
+    </div>
+
+    <!-- STEP 3: Reset Password -->
+    <div id="step3-password" class="forgot-pw-step" style="display: none;">
+      <div class="forgot-pw-header">
+        <h2 class="forgot-pw-title">Create New Password</h2>
+        <p class="forgot-pw-subtitle">Enter your new password below</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">New Password</label>
+        <div class="input-password-wrapper">
+          <input type="password" class="form-input" id="newPassword" placeholder="••••••••" />
+          <button type="button" class="password-toggle" onclick="toggleNewPassword()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <div class="form-error-text" id="newpassword-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirm New Password</label>
+        <div class="input-password-wrapper">
+          <input type="password" class="form-input" id="confirmPassword" placeholder="••••••••" />
+          <button type="button" class="password-toggle" onclick="toggleConfirmPassword()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <div class="form-error-text" id="confirmpassword-error"></div>
+      </div>
+
+      <button class="btn btn-primary login-btn" onclick="resetPassword()" id="resetPasswordBtn" type="button">
+        Reset Password
+      </button>
+    </div>
+
+    <!-- SUCCESS MESSAGE -->
+    <div id="step4-success" class="forgot-pw-step" style="display: none;">
+      <div class="forgot-pw-success">
+        <div class="success-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h3>Password Reset Successful!</h3>
+        <p>Your password has been successfully reset. You can now log in with your new password.</p>
+        <button class="btn btn-primary login-btn" onclick="closeForgotPasswordModal()" type="button">
+          Back to Login
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
   <script src="../../shared/js/auth.js"></script>
   <script src="../js/login.js"></script>

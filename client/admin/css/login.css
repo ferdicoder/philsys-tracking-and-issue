@@ -30,7 +30,7 @@ body { background-color: #f0f2f5; }
   margin-bottom: 36px;
 }
 .admin-login-title {
-  font-family: var(--font-display);
+  font-family: 'DM Sans', sans-serif;
   font-size: var(--text-2xl);
   font-weight: var(--font-normal);
   color: var(--color-text-primary);
