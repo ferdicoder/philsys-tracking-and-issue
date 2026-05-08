@@ -50,7 +50,7 @@ async function setOtp(email, otp) {
 	);
 }
 
-async function verifyOtp(email, otp) {
+async function verifyOtp(email, otp, { consume = true } = {}) {
 	const normalizedEmail = email.toLowerCase();
 	const result = await db.query(
 		`SELECT otp, expires_at
@@ -75,7 +75,9 @@ async function verifyOtp(email, otp) {
 		return { ok: false, reason: 'Invalid OTP' };
 	}
 
-	await db.query('DELETE FROM email_otps WHERE email = $1', [normalizedEmail]);
+	if (consume) {
+		await db.query('DELETE FROM email_otps WHERE email = $1', [normalizedEmail]);
+	}
 	return { ok: true };
 }
 
@@ -101,9 +103,16 @@ async function verifyEmailOtp(email, otp) {
 	return verifyOtp(email, otp);
 }
 
+async function verifyEmailOtpNoConsume(email, otp) {
+	await ensureOtpTable();
+	await cleanupExpiredOtps();
+	return verifyOtp(email, otp, { consume: false });
+}
+
 module.exports = {
 	sendOtpEmail,
 	verifyEmailOtp,
+	verifyEmailOtpNoConsume,
 	cleanupExpiredOtps,
 	ensureOtpTable
 };
