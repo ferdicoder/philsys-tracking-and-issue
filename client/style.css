@@ -87,13 +87,13 @@ html, body {
 }
 .hero-title span { color: var(--yellow); }
 .hero-subtitle {
-  font-size: 1rem; color: #1e3260;
-  line-height: 1.7; max-width: 560px;
+  font-size: 2.25rem; color: #1e3260;
+  line-height: 1.7; max-width: 850px;
 }
 .hero-stats { display: flex; align-items: center; gap: 28px; }
 .stat { text-align: center; }
-.stat-number { font-size: 0.95rem; font-weight: 700; color: var(--yellow); }
-.stat-label  { font-size: 0.74rem; color: #1e3260; margin-top: 2px; }
+.stat-number { font-size: 1.70rem; font-weight: 700; color: var(--yellow); }
+.stat-label  { font-size: 1rem; color: #1e3260; margin-top: 2px; }
 .stat-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.18); }
 
 /* Portals */
@@ -103,7 +103,7 @@ html, body {
   animation: fadeUp 0.6s 0.12s ease both;
 }
 .portals-label {
-  font-size: 0.72rem; font-weight: 700;
+  font-size: 1.25rem; font-weight: 700;
   letter-spacing: 0.12em; text-transform: uppercase;
   color: #1e3260;
 }
@@ -121,6 +121,7 @@ html, body {
   border-radius: 24px; padding: 30px 34px;
   text-decoration: none; display: flex;
   flex-direction: column; gap: 18px; overflow: hidden;
+  height: 100%;
   transition: transform 0.25s ease, box-shadow 0.25s ease,
               border-color 0.25s ease, background 0.25s ease;
 }
@@ -167,6 +168,7 @@ html, body {
 .glass-footer {
   display: flex; align-items: center;
   justify-content: space-between; position: relative; z-index: 1;
+  margin-top: auto;
 }
 .glass-btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -189,7 +191,7 @@ html, body {
 .glass-card:hover .glass-dots span:nth-child(2) { background: rgba(255,255,255,0.45); }
 .glass-card:hover .glass-dots span:nth-child(3) { background: rgba(255,255,255,0.22); }
 
-.footer { font-size: 0.6rem; color: rgba(26,39,72,0.62); }
+.footer { font-size: 1rem; color: rgba(26,39,72,0.62); }
 
 @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeUp   { from { opacity: 0; transform: translateY(20px);  } to { opacity: 1; transform: translateY(0); } }
@@ -233,7 +235,7 @@ html, body {
   }
 
   .hero-subtitle {
-    font-size: 0.75rem;
+    font-size: 1.25rem;
     max-width: 100%;
     padding: 0 10px;
   }
@@ -343,11 +345,11 @@ html, body {
   }
 
   .hero-title {
-    font-size: 2.1rem;
+    font-size: 4.1rem;
   }
 
   .hero-subtitle {
-    font-size: 0.8rem;
+    font-size: 1.25rem;
   }
 
   .portals-grid {
@@ -377,7 +379,7 @@ html, body {
   }
 
   .hero-title {
-    font-size: 2.3rem;
+    font-size: 4.3rem;
   }
 
   .portals-grid {
@@ -397,7 +399,7 @@ html, body {
   }
 
   .hero-title {
-    font-size: 2.4rem;
+    font-size: 2.5rem;
   }
 
   .portals-grid {
@@ -412,13 +414,13 @@ html, body {
   }
 
   .hero-title {
-    font-size: 2.6rem;
+    font-size: 4.6rem;
     max-width: 1000px;
   }
 
   .hero-subtitle {
-    font-size: 0.85rem;
-    max-width: 600px;
+    font-size: 1.25rem;
+    max-width: 800px;
   }
 
   .portals-grid {
@@ -462,7 +464,7 @@ html, body {
   }
 
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 4.8rem;
   }
 
   .hero-stats {
@@ -492,11 +494,11 @@ html, body {
 }
 
 .landscape-mobile .hero-title {
-  font-size: 1.6rem;
+  font-size: 8rem;
 }
 
 .landscape-mobile .hero-subtitle {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 
 .landscape-mobile .portals-grid {
