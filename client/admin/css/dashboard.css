@@ -1,0 +1,21 @@
+/* ============================================
+   PHILTMS — DASHBOARD PAGE
+   ============================================ */
+
+body {
+  background: #f5f7fb;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: #1a2540;
+}
+
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  width: 100%;
+  padding: 110px 32px 40px;
+}
