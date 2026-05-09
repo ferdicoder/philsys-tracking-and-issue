@@ -43,7 +43,7 @@ body {
   margin-bottom: 32px;
 }
 .admin-login-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 26px;
   font-weight: 400;
   color: #111827;
@@ -325,7 +325,7 @@ body {
 }
 
 .forgot-pw-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 21px;
   font-weight: 400;
   color: #111827;
@@ -358,7 +358,7 @@ body {
 .forgot-pw-success { text-align: center; padding: 8px 0; }
 .forgot-pw-success .success-icon { margin-bottom: 16px; }
 .forgot-pw-success h3 {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 20px;
   font-weight: 400;
   color: #111827;

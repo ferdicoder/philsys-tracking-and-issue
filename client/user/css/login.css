@@ -327,6 +327,8 @@
   font-size: 0.98rem;
   line-height: 1.6;
 }
+
+.forgot-pw-success h3 {
   color: #1e293b;
   margin-bottom: 12px;
 }
