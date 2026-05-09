@@ -44,6 +44,18 @@
   font-size: var(--text-lg);
 }
 
+.navbar-separator {
+  color: rgba(255,255,255,0.3);
+  font-size: var(--text-lg);
+}
+
+/* ← ADD THIS RIGHT HERE */
+.navbar-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* ============================================
    FORGOT PASSWORD MODAL
    ============================================ */

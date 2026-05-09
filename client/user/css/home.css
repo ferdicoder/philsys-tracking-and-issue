@@ -24,7 +24,7 @@ body {
   padding: var(--space-4) 0;
 }
 .home-heading h1 {
-  font-family: var(--font-display);
+  font-family: 'Roboto', sans-serif;
   font-size: 2rem;
   color: var(--color-text-primary);
   font-weight: var(--font-normal);
