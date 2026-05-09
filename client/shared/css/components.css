@@ -4,6 +4,325 @@
    ============================================ */
 
 /* ============================================
+   ADMIN LAYOUT (shared)
+   ============================================ */
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.topnav {
+  height: var(--navbar-height);
+  background-color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary-hover);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-1);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  z-index: 101;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-inverse);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.brand-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.brand-name {
+  font-size: var(--text-md);
+  font-weight: var(--font-bold);
+  color: var(--color-text-inverse);
+  display: block;
+}
+
+.brand-sub {
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
+  max-width: 350px;
+}
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-link {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-text-inverse);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: var(--color-accent);
+}
+
+.nav-link.nav-logout {
+  color: #ffb3b3;
+  margin-left: var(--space-4);
+}
+
+.nav-link.nav-logout:hover {
+  background-color: rgba(223, 30, 44, 0.2);
+}
+
+.mobile-sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: -100%;
+  width: 100%;
+  max-width: 280px;
+  height: calc(100vh - var(--navbar-height));
+  background-color: var(--color-surface);
+  z-index: 99;
+  transition: left var(--transition-base);
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.mobile-sidebar.active {
+  left: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  gap: var(--space-2);
+}
+
+.sidebar-link {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: all var(--transition-fast);
+  display: block;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+}
+
+.sidebar-link.logout {
+  color: var(--color-error);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 98;
+  opacity: 1;
+  transition: opacity var(--transition-base);
+}
+
+.sidebar-overlay.hidden {
+  display: none;
+}
+
+.main-content {
+  flex: 1;
+  padding: var(--space-8);
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: var(--space-8);
+}
+
+.page-header h1 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.page-header p {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.content-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.card-heading {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.table-wrapper {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.data-table thead {
+  background-color: var(--color-primary-light);
+}
+
+.data-table th {
+  padding: var(--space-4);
+  text-align: left;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.data-table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--color-bg);
+  transition: background-color var(--transition-fast);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .topnav {
+    padding: 0 var(--space-4);
+  }
+
+  .topnav-links {
+    display: none;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .main-content {
+    padding: var(--space-4);
+  }
+
+  .data-table {
+    font-size: var(--text-xs);
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .topnav-brand {
+    gap: var(--space-2);
+  }
+
+  .brand-name {
+    font-size: var(--text-sm);
+  }
+
+  .page-header h1 {
+    font-size: var(--text-xl);
+  }
+
+  .main-content {
+    padding: var(--space-3);
+  }
+}
+
+/* ============================================
    BUTTONS
    ============================================ */
 .btn {

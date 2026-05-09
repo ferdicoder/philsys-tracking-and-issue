@@ -55,16 +55,18 @@
         <p>Review and manage user-submitted reports</p>
       </div>
  
-      <div class="search-bar">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="7" cy="7" r="5" stroke="#9ca3af" stroke-width="1.5"/>
-          <path d="M11 11l3 3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <input type="text" id="reportSearch" placeholder="Search by Report ID, TRN, no applicant name..." oninput="filterReports(this.value)"/>
+      <div class="search-container">
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="#9ca3af" stroke-width="1.5"/>
+            <path d="M11 11l3 3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="reportSearch" placeholder="Search by Report ID, TRN, or applicant name..." oninput="filterReports(this.value)"/>
+        </div>
       </div>
  
-      <div class="table-card">
-        <h2 class="table-heading">User Reports</h2>
+      <div class="reports-section">
+        <h2 class="section-heading">User Reports</h2>
         <div class="table-wrapper">
           <table class="data-table" id="reportTable">
             <thead>
@@ -78,27 +80,58 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="reportTableBody"></tbody>
+            <tbody id="reportTableBody">
+            </tbody>
           </table>
         </div>
       </div>
     </main>
  
-    <!-- View Report Modal -->
-    <div class="modal-overlay hidden" id="reportModal">
-      <div class="modal-box">
+    <!-- Report Details Modal -->
+    <div class="modal-overlay hidden" id="reportModal" onclick="closeReportModal(event)">
+      <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-header">
           <h3>Report Details</h3>
           <button onclick="closeReportModal()" class="modal-close">&times;</button>
         </div>
-        <div class="modal-body" id="reportModalBody"></div>
+        <div class="modal-body" id="reportModalBody">
+          <div class="report-detail-grid">
+            <div class="detail-item">
+              <label>Report ID</label>
+              <p id="detailReportId"></p>
+            </div>
+            <div class="detail-item">
+              <label>TRN</label>
+              <p id="detailTRN"></p>
+            </div>
+            <div class="detail-item">
+              <label>Applicant Name</label>
+              <p id="detailApplicantName"></p>
+            </div>
+            <div class="detail-item">
+              <label>Report Type</label>
+              <p id="detailReportType"></p>
+            </div>
+            <div class="detail-item">
+              <label>Date</label>
+              <p id="detailDate"></p>
+            </div>
+            <div class="detail-item">
+              <label>Current Status</label>
+              <p id="detailStatus"></p>
+            </div>
+          </div>
+          <div class="detail-section">
+            <label for="reportStatusUpdate">Update Status</label>
+            <select id="reportStatusUpdate" class="status-select">
+              <option value="open">Open</option>
+              <option value="reviewing">Reviewing</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+        </div>
         <div class="modal-footer">
-          <select id="reportStatusUpdate" class="status-select">
-            <option value="open">Open</option>
-            <option value="reviewing">Reviewing</option>
-            <option value="resolved">Resolved</option>
-          </select>
-          <button class="btn btn-primary" onclick="saveReportStatus()">Save</button>
+          <button class="btn btn-primary" onclick="saveReportStatus()">Save Changes</button>
           <button class="btn btn-outline" onclick="closeReportModal()">Cancel</button>
         </div>
       </div>
