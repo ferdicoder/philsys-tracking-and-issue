@@ -53,3 +53,9 @@
 .btn-primary {
   margin-top: var(--space-3);
 }
+
+.navbar-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

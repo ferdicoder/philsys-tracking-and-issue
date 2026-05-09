@@ -64,3 +64,9 @@
   color: var(--color-text-muted);
   font-size: var(--text-xs);
 }
+
+.navbar-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

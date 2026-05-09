@@ -112,3 +112,9 @@
   color: var(--color-text-muted);
   margin-top: var(--space-4);
 }
+
+.navbar-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
