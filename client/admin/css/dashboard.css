@@ -106,32 +106,39 @@
   flex: 1;
   justify-content: flex-end;
 }
-
 .nav-link {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
   transition: all var(--transition-fast);
-  border-bottom: 2px solid transparent;
+  border-bottom: none;                    /* remove old underline style */
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
   color: var(--color-text-inverse);
   background-color: rgba(255, 255, 255, 0.1);
-  border-bottom-color: var(--color-accent);
+}
+
+.nav-link.active {
+  color: #1a2744;                         /* dark text on yellow pill */
+  background-color: #f5b800;             /* yellow pill */
+  font-weight: var(--font-bold);
 }
 
 .nav-link.nav-logout {
-  color: #ffb3b3;
-  margin-left: var(--space-4);
+  color: #f87171;
+  margin-left: var(--space-2);
 }
 
 .nav-link.nav-logout:hover {
-  background-color: rgba(223, 30, 44, 0.2);
+  background-color: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
 }
 
 /* ============================================
@@ -216,6 +223,7 @@
 }
 
 .page-header h1 {
+  font-style: 'Roboto', sans-serif;
   font-size: var(--text-2xl);
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
