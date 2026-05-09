@@ -48,62 +48,59 @@ document.addEventListener('DOMContentLoaded', () => {
     el.querySelector('input[type="radio"]').checked = true;
   };
 
-  /* ── Submit Follow-up ── */
-  window.submitFollowup = function () {
-    const trn = document.getElementById('fuTRN')?.value.trim();
-    if (!trn) {
-      document.getElementById('fuTRN').classList.add('error');
-      document.getElementById('fuTRN').focus();
-      return;
+/* ── Submit Follow-up ── */
+window.submitFollowup = function () {
+  const trn = document.getElementById('fuTRN')?.value.trim();
+  if (!trn) {
+    document.getElementById('fuTRN').classList.add('error');
+    document.getElementById('fuTRN').focus();
+    return;
+  }
+  document.getElementById('fuTRN').classList.remove('error');
+  document.getElementById('overlayFollowup').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+/* ── Submit Report ── */
+window.submitReport = function () {
+  const trn = document.getElementById('reportTRN')?.value.trim();
+  if (!trn) {
+    document.getElementById('reportTRN').classList.add('error');
+    document.getElementById('reportTRN').focus();
+    return;
+  }
+  document.getElementById('reportTRN').classList.remove('error');
+  document.getElementById('overlayReport').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+/* ── Close overlay ── */
+window.closeOverlay = function (id) {
+  document.getElementById(id).style.display = 'none';
+  document.body.style.overflow = '';
+};
+
+/* ── Close on backdrop click ── */
+document.querySelectorAll('.overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
     }
-    document.getElementById('fuTRN').classList.remove('error');
-    // Show overlay
-    const overlay = document.getElementById('overlayFollowup');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
+  });
+});
 
-  /* ── Submit Report ── */
-  window.submitReport = function () {
-    const trn = document.getElementById('reportTRN')?.value.trim();
-    if (!trn) {
-      document.getElementById('reportTRN').classList.add('error');
-      document.getElementById('reportTRN').focus();
-      return;
-    }
-    document.getElementById('reportTRN').classList.remove('error');
-    // Show overlay
-    const overlay = document.getElementById('overlayReport');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
-
-  /* ── Close overlay ── */
-  window.closeOverlay = function (id) {
-    document.getElementById(id).classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
-  /* ── Close on backdrop click ── */
-  document.querySelectorAll('.overlay').forEach(overlay => {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        overlay.classList.remove('active');
+/* ── Escape key ── */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.overlay').forEach(o => {
+      if (o.style.display === 'flex') {
+        o.style.display = 'none';
         document.body.style.overflow = '';
       }
     });
-  });
-
-  /* ── Escape key ── */
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.overlay.active').forEach(o => {
-        o.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    }
-  });
-
+  }
+});
   /* ── Clear error on input ── */
   document.querySelectorAll('.form-input').forEach(input => {
     input.addEventListener('input', () => input.classList.remove('error'));

@@ -27,7 +27,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 2rem;
   color: var(--color-text-primary);
-  font-weight: var(--font-normal);
+  font-weight: var(--font-bold);
   margin-bottom: var(--space-1);
 }
 .home-heading p {

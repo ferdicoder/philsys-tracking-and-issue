@@ -179,6 +179,28 @@ body { background-color: #f0f2f5; }
   line-height: var(--leading-loose);
 }
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* ← change from center to flex-start */
+  padding: 40px 20px;
+  overflow-y: auto; /* ← scroll on overlay, not modal */
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 680px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  /* remove max-height and overflow-y from here */
+}
+
 /* ── Hello bar ── */
 .rpt-hello-bar {
   display: flex;
@@ -194,7 +216,7 @@ body { background-color: #f0f2f5; }
 .rpt-hello-name {
   font-size: var(--text-xl);
   font-weight: var(--font-bold);
-  font-family: var(--font-display);
+  font-family: 'Roboto', sans-serif;
   color: var(--color-text-primary);
   margin-bottom: 4px;
 }
@@ -271,8 +293,8 @@ body { background-color: #f0f2f5; }
 }
 .rpt-modal-title {
   font-size: var(--text-xl);
-  font-weight: var(--font-bold);
-  font-family: var(--font-display);
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
   color: var(--color-text-primary);
   margin-bottom: 8px;
 }

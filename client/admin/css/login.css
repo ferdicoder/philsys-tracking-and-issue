@@ -45,7 +45,7 @@ body {
 .admin-login-title {
   font-family: 'Roboto', sans-serif;
   font-size: 26px;
-  font-weight: 400;
+  font-weight: bold;
   color: #111827;
   letter-spacing: -0.01em;
   margin-bottom: 6px;
