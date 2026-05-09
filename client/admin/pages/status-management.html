@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS – Status Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../shared/css/global.css"/>
+  <link rel="stylesheet" href="../../shared/css/components.css"/>
+  <link rel="stylesheet" href="../css/status-management.css"/>
+</head>
+<body>
+  <div class="admin-layout">
+    <header class="topnav">
+      <div class="topnav-brand">
+        <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+        <div class="brand-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#1a3a6e"/>
+            <path d="M7 10h18M7 16h12M7 22h15" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <span class="brand-name">PhilTMS</span>
+          <span class="brand-sub">PhilSys Identification Tracking and Appointment System</span>
+        </div>
+      </div>
+      <nav class="topnav-links">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="applications.html" class="nav-link">Applications</a>
+        <a href="status-management.html" class="nav-link active">Status Management</a>
+        <a href="report-management.html" class="nav-link">Report Management</a>
+        <a href="reports.html" class="nav-link">Reports</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+        <a href="login.html" class="nav-link nav-logout">Logout</a>
+      </nav>
+    </header>
+    <aside class="mobile-sidebar" id="mobileSidebar">
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+        <a href="applications.html" class="sidebar-link">Applications</a>
+        <a href="status-management.html" class="sidebar-link active">Status Management</a>
+        <a href="report-management.html" class="sidebar-link">Report Management</a>
+        <a href="reports.html" class="sidebar-link">Reports</a>
+        <a href="settings.html" class="sidebar-link">Settings</a>
+        <a href="login.html" class="sidebar-link logout">Logout</a>
+      </nav>
+    </aside>
+    <div class="sidebar-overlay hidden" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+ 
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Status Management</h1>
+        <p>Manage application status progression</p>
+      </div>
+ 
+      <div class="content-card">
+        <h2 class="card-heading">Search Application</h2>
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="7" cy="7" r="5" stroke="#9ca3af" stroke-width="1.5"/>
+              <path d="M11 11l3 3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="trnSearch" placeholder="Enter Transaction Reference Number (TRN)"/>
+          </div>
+          <button class="btn btn-primary" onclick="searchTRN()">Search</button>
+        </div>
+ 
+        <!-- Result -->
+        <div class="search-result hidden" id="searchResult">
+          <div class="result-info">
+            <div class="result-row"><span class="result-label">TRN:</span><span id="resTRN" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Applicant:</span><span id="resName" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Registration Date:</span><span id="resDate" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Current Status:</span><span id="resStatus" class="result-value"></span></div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Status Workflow -->
+      <div class="content-card">
+        <h2 class="card-heading">Status Workflow</h2>
+        <div class="workflow">
+          <div class="workflow-step active" data-step="1">
+            <div class="step-circle">1</div>
+            <div class="step-label">Registered</div>
+            <div class="step-desc">Application submitted</div>
+          </div>
+          <div class="workflow-arrow">›</div>
+          <div class="workflow-step" data-step="2">
+            <div class="step-circle">2</div>
+            <div class="step-label">Verified</div>
+            <div class="step-desc">Documents verified</div>
+          </div>
+          <div class="workflow-arrow">›</div>
+          <div class="workflow-step" data-step="3">
+            <div class="step-circle">3</div>
+            <div class="step-label">For Printing</div>
+            <div class="step-desc">Ready for printing</div>
+          </div>
+          <div class="workflow-arrow">›</div>
+          <div class="workflow-step" data-step="4">
+            <div class="step-circle">4</div>
+            <div class="step-label">Printed</div>
+            <div class="step-desc">ID card printed</div>
+          </div>
+          <div class="workflow-arrow">›</div>
+          <div class="workflow-step" data-step="5">
+            <div class="step-circle">5</div>
+            <div class="step-label">For Delivery</div>
+            <div class="step-desc">Ready for collection</div>
+          </div>
+          <div class="workflow-arrow">›</div>
+          <div class="workflow-step" data-step="6">
+            <div class="step-circle">6</div>
+            <div class="step-label">Delivered</div>
+            <div class="step-desc">ID card collected</div>
+          </div>
+        </div>
+ 
+        <div class="update-section hidden" id="updateSection">
+          <h3>Update Status</h3>
+          <div class="update-row">
+            <select id="newStatus" class="status-select">
+              <option value="">Select new status...</option>
+              <option value="registered">Registered</option>
+              <option value="verified">Verified</option>
+              <option value="for printing">For Printing</option>
+              <option value="printed">Printed</option>
+              <option value="for delivery">For Delivery</option>
+              <option value="delivered">Delivered</option>
+            </select>
+            <button class="btn btn-primary" onclick="applyStatusUpdate()">Update Status</button>
+          </div>
+          <div class="toast-inline hidden" id="updateSuccess">✓ Status updated successfully!</div>
+        </div>
+      </div>
+    </main>
+  </div>
+ 
+  <script src="../js/status-management.js"></script>
+</body>
+</html>

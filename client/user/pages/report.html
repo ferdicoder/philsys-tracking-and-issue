@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhilTMS — Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../shared/css/global.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../css/report.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="home.html" class="navbar-brand">
+      <img src="../../assets/main-logo-header.png" class="brand-logo"
+           alt="PhilTMS Logo" style="width:64px !important;height:64px !important;object-fit:contain;" />
+      <div>
+        <div class="brand-name">PhilTMS</div>
+        <div class="brand-tagline">Status Tracking and Issue Management System</div>
+      </div>
+    </a>
+    <div class="navbar-actions">
+      <nav class="navbar-nav">
+        <a href="../pages/home.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a href="../pages/track-transaction.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Track
+        </a>
+        <a href="../pages/report.html" class="nav-link active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Report
+        </a>
+        <a href="../pages/settings.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Settings
+        </a>
+        <a href="../pages/login.html" class="nav-link logout">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </a>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="report-main">
+
+    <!-- Tabs: Report Concerns LEFT, Follow-Up RIGHT -->
+    <div class="report-tabs">
+      <button class="report-tab active" id="tabConcern" onclick="switchTab('concern')">Report Concerns</button>
+      <button class="report-tab" id="tabFollowup" onclick="switchTab('followup')">Follow-Up Application</button>
+    </div>
+
+    <!-- ===== FOLLOW-UP TAB ===== -->
+    <div id="panelFollowup" class="hidden">
+
+      <!-- Info alert — blue -->
+      <div class="rpt-alert rpt-alert-blue">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Use this form to follow up on the status of your pending PhilSys application or ID delivery. Please have your transaction reference number ready.</span>
+      </div>
+
+      <!-- TRN input -->
+      <div class="rpt-card">
+        <div class="form-group">
+          <label class="form-label">Transaction Reference Number <span class="required">*</span></label>
+          <input type="text" class="form-input" id="fuTRN" placeholder="TRN-2024-001234" />
+        </div>
+      </div>
+
+      <!-- Who is this for -->
+      <div class="rpt-card">
+        <div class="rpt-section-title">Who are you checking this for?</div>
+        <div class="rpt-for-toggle">
+          <button class="rpt-for-btn rpt-for-btn--active" id="forMyself" onclick="setFor('myself')">Myself</button>
+          <button class="rpt-for-btn" id="forSomeone" onclick="setFor('someone')">Someone Else</button>
+        </div>
+
+        <!-- Relationship (hidden by default) -->
+        <div id="relationshipSection" class="hidden" style="margin-top:20px;">
+          <div class="rpt-section-title">What is your relationship to this person?</div>
+          <div class="rpt-rel-grid">
+            <label class="rpt-rel-option"><input type="radio" name="rel" value="parent" /> Parent</label>
+            <label class="rpt-rel-option"><input type="radio" name="rel" value="child" /> Child</label>
+            <label class="rpt-rel-option"><input type="radio" name="rel" value="spouse" /> Spouse</label>
+          </div>
+          <div class="rpt-alert rpt-alert-green" style="margin-top:12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>You may be required to verify your relationship during processing</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type of Follow-Up -->
+      <div class="rpt-card">
+        <div class="rpt-section-title">Type of Follow-Up</div>
+        <div class="rpt-option-list">
+          <label class="rpt-option" onclick="selectOption(this,'fuType')">
+            <input type="radio" name="fuType" />
+            <div>
+              <div class="rpt-option-title">Application Status Inquiry</div>
+              <div class="rpt-option-desc">Check the status of my PhilSys Application</div>
+            </div>
+          </label>
+          <label class="rpt-option" onclick="selectOption(this,'fuType')">
+            <input type="radio" name="fuType" />
+            <div>
+              <div class="rpt-option-title">Appointment Rescheduling</div>
+              <div class="rpt-option-desc">Request to reschedule my biometric capture appointment</div>
+            </div>
+          </label>
+          <label class="rpt-option" onclick="selectOption(this,'fuType')">
+            <input type="radio" name="fuType" />
+            <div>
+              <div class="rpt-option-title">ID Card Delivery Status</div>
+              <div class="rpt-option-desc">Track the delivery of my PhilSys ID card</div>
+            </div>
+          </label>
+          <label class="rpt-option" onclick="selectOption(this,'fuType')">
+            <input type="radio" name="fuType" />
+            <div>
+              <div class="rpt-option-title">Document Verification in Progress</div>
+              <div class="rpt-option-desc">Follow-up document verification that's taking longer than expected</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Additional Details -->
+      <div class="rpt-card">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Additional Details</label>
+          <textarea class="form-textarea" id="fuDetails" rows="4" placeholder="Provide any additional information that may help process your request..."></textarea>
+        </div>
+      </div>
+
+      <!-- Action bar -->
+      <div class="rpt-action-bar">
+        <a href="../pages/home.html" class="rpt-btn-cancel">Cancel</a>
+        <button class="rpt-btn-submit" onclick="submitFollowup()">Submit Follow-up Request</button>
+      </div>
+
+    </div>
+
+    <!-- ===== REPORT CONCERN TAB ===== -->
+    <div id="panelConcern">
+
+      <!-- Warning alert — red -->
+      <div class="rpt-alert rpt-alert-red">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Use this form to report issues, technical problems, incorrect information, or other concerns related to your PhilSys registration or account.</span>
+      </div>
+
+      <!-- Hello bar + TRN -->
+      <div class="rpt-hello-bar">
+        <div>
+          <h2 class="rpt-hello-name">Hello, <span id="reportUserName">User</span>!</h2>
+          <p class="rpt-hello-sub">For your concerns please enter your TRN before submitting a report.</p>
+        </div>
+        <div class="rpt-hello-trn">
+          <label class="form-label">Transaction Reference Number (TRN) <span class="required">*</span></label>
+          <input type="text" class="form-input" id="reportTRN" placeholder="TRN-2024-001234" />
+        </div>
+      </div>
+
+      <!-- Type of Concern -->
+      <div class="rpt-section-title" style="margin-bottom:12px;">Type of Concerns <span class="required">*</span></div>
+      <div class="rpt-option-list" style="margin-bottom:24px;">
+        <label class="rpt-option" onclick="selectOption(this,'concern')">
+          <input type="radio" name="concern" />
+          <div>
+            <div class="rpt-option-title">Incorrect Personal Information</div>
+            <div class="rpt-option-desc">My name, birthdate, or other personal details are incorrect (NC/KPC)</div>
+          </div>
+        </label>
+        <label class="rpt-option" onclick="selectOption(this,'concern')">
+          <input type="radio" name="concern" />
+          <div>
+            <div class="rpt-option-title">Lost or Damaged ID Card</div>
+            <div class="rpt-option-desc">Need to report a lost, stolen, or damaged PhilSys ID</div>
+          </div>
+        </label>
+        <label class="rpt-option" onclick="selectOption(this,'concern')">
+          <input type="radio" name="concern" />
+          <div>
+            <div class="rpt-option-title">Other Concern: Website/System Technical Issue</div>
+            <div class="rpt-option-desc">Error messages, login problems, or system not working properly</div>
+          </div>
+        </label>
+        <label class="rpt-option" onclick="selectOption(this,'concern')">
+          <input type="radio" name="concern" />
+          <div>
+            <div class="rpt-option-title">Other Concerns</div>
+            <div class="rpt-option-desc">General inquiry or issue not listed above</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Detailed Description -->
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Detailed Description <span class="required">*</span></label>
+        <textarea class="form-textarea" id="reportDesc" rows="5" placeholder="Please describe your concern in detail..."></textarea>
+      </div>
+
+      <!-- Action bar -->
+      <div class="rpt-action-bar">
+        <a href="home.html" class="rpt-btn-cancel">Cancel</a>
+        <button class="rpt-btn-submit" onclick="submitReport()">Submit</button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ===== FOLLOW-UP SUCCESS OVERLAY ===== -->
+  <div class="overlay" id="overlayFollowup">
+    <div class="modal rpt-modal">
+      <div class="rpt-modal-body">
+
+        <!-- Check icon -->
+        <div class="rpt-modal-check rpt-modal-check--blue">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+
+        <h2 class="rpt-modal-title">Follow-Up Request Submitted!</h2>
+        <p class="rpt-modal-sub">Your follow-up request has been received. We'll process your inquiry and provide an update soon.</p>
+
+        <div class="rpt-modal-next-title">
+          What Happens Next
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="rpt-modal-items">
+          <div class="rpt-modal-item">
+            <div class="rpt-modal-icon" style="background:#6366f1;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="rpt-modal-item-title">Processing Your Request</div>
+              <p class="rpt-modal-item-desc">We'll review your follow-up within <strong>1–2 business days</strong> and update your application status accordingly.</p>
+            </div>
+          </div>
+          <div class="rpt-modal-item">
+            <div class="rpt-modal-icon" style="background:#8b5cf6;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+            </div>
+            <div>
+              <div class="rpt-modal-item-title">Status Update Notification</div>
+              <p class="rpt-modal-item-desc">You'll receive an SMS and email notification once we've reviewed your request with the latest status update.</p>
+            </div>
+          </div>
+          <div class="rpt-modal-item">
+            <div class="rpt-modal-icon" style="background:#8b5cf6;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <div>
+              <div class="rpt-modal-item-title">Confirmation Email Sent</div>
+              <p class="rpt-modal-item-desc">Check your inbox for a detailed confirmation email with your follow-up request details and tracking information.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rpt-modal-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span><strong>Track Your Follow-Up:</strong> Use your TRN (Transaction Reference Number) in the Track section to monitor the status of your application anytime.</span>
+        </div>
+
+        <button class="rpt-modal-btn" onclick="closeOverlay('overlayFollowup'); window.location.href='home.html'">Return to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== REPORT SUCCESS OVERLAY ===== -->
+  <div class="overlay" id="overlayReport">
+    <div class="modal rpt-modal">
+      <div class="rpt-modal-body">
+
+        <!-- Check icon -->
+        <div class="rpt-modal-check rpt-modal-check--green">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+
+        <h2 class="rpt-modal-title">Report Successfully Submitted!</h2>
+        <p class="rpt-modal-sub">Your report has been received. Our team will review your concern and respond accordingly.</p>
+
+        <div class="rpt-modal-next-title">
+          What Happens Next
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="rpt-modal-items">
+          <div class="rpt-modal-item">
+            <div class="rpt-modal-icon" style="background:#6366f1;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="rpt-modal-item-title">Review & Processing</div>
+              <p class="rpt-modal-item-desc">We'll review your concern within <strong>2–3 business days</strong>. Complex cases may take additional time for thorough investigation.</p>
+            </div>
+          </div>
+          <div class="rpt-modal-item">
+            <div class="rpt-modal-icon" style="background:#8b5cf6;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <div>
+              <div class="rpt-modal-item-title">Confirmation Email Sent</div>
+              <p class="rpt-modal-item-desc">Check your inbox for a detailed confirmation email with your submission details and next steps.</p>
+            </div>
+          </div>
+          <div class="rpt-modal-item">
+            <div class="rpt-modal-icon" style="background:#f59e0b;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div>
+              <div class="rpt-modal-item-title">Track Your Report</div>
+              <p class="rpt-modal-item-desc">Use your TRN (Transaction Reference Number) to track your report status anytime in the Track section.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rpt-modal-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span><strong>Need Help?</strong> If you have questions about your submission, visit our Help Center or contact our support team.</span>
+        </div>
+
+        <button class="rpt-modal-btn" onclick="closeOverlay('overlayReport'); window.location.href='home.html'">Return to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../shared/js/auth.js"></script>
+  <script src="../js/report.js"></script>
+</body>
+</html>

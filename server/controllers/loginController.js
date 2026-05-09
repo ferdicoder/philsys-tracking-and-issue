@@ -1,0 +1,103 @@
+require('dotenv').config(); 
+const bcrypt = require('bcrypt'); 
+
+const { generateTokens } = require('./registerController'); 
+const { getUserData, insertRefreshToken } = require('../services/authService');
+const { isUserFound } = require('../utils/isUserFound')
+
+
+async function validateUserCredentials(email, password) {
+  const user = await isUserFound(email);
+  
+  if(!user){
+    const error = new Error('User does not exist');
+    error.type = 'NOT_FOUND';
+    throw error;
+  }
+
+  const userData = await getUserData(email);
+  const passwordMatched = await bcrypt.compare(password, userData.password);
+  
+  if(!passwordMatched){
+    const error = new Error('Invalid password');
+    error.type = 'INVALID_CREDENTIALS';
+    throw error;
+  }
+
+  return userData;
+}
+
+
+
+function validateLoginInput(req) {
+  if(!req?.body) {
+    const error = new Error('Request body required');
+    error.type = 'BAD_REQUEST';
+    throw error;
+  }
+  
+  const { email, password } = req.body;
+  
+  if(!email || !password) {
+    const error = new Error('Email and password are required');
+    error.type = 'BAD_REQUEST';
+    throw error;
+  }
+  
+  return { email, password };
+}
+
+
+async function createUserSession(email, roles, res) {
+  const { accessToken, refreshToken } = await generateTokens(email, roles);
+  
+  await insertRefreshToken(refreshToken, email);
+
+  // Set refresh token to http-only cookie
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  });
+
+  return { accessToken };
+}
+
+
+
+async function handleLogin(req, res){
+  try{
+    const { email, password } = validateLoginInput(req);
+    
+    const userData = await validateUserCredentials(email, password);
+    const roleValue = userData.roles;
+    const normalizedRole = roleValue === 1 ? 'admin' : roleValue === 2 ? 'user' : roleValue;
+
+    const { accessToken } = await createUserSession(email, normalizedRole, res);
+    
+    return res.status(200).json({ 
+      user_id: userData.user_id, 
+      role: normalizedRole,
+      user_name: `${userData.first_name} ${userData.last_name}`.trim(),
+      email: userData.email,
+      accessToken
+    }); 
+
+  } catch(error) {
+    // Handle different error types
+    if(error.type === 'BAD_REQUEST') return res.status(400).json({ error: error.message });
+    
+    if(error.type === 'INVALID_CREDENTIALS') return res.status(401).json({ error: error.message });
+    
+    if(error.type === 'NOT_FOUND') return res.status(404).json({ error: error.message });
+   
+    if(error.type === 'USER_NOT_EXIST') return res.status(404).json({ error: error.message });
+    
+    // Fallback for unexpected errors
+    console.error('Unexpected login error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { handleLogin }; 

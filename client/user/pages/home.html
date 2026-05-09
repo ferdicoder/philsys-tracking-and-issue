@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhilTMS — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../shared/css/global.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../css/home.css" />
+  
+</head>
+<body>
+
+  <!-- NAVBAR — uses global.css classes -->
+  <nav class="navbar">
+    <a href="home.html" class="navbar-brand">
+      <img src="../../assets/main-logo-header.png" class="brand-logo"
+           alt="PhilTMS Logo" style="width: 64px !important; height: 64px !important; object-fit: contain;" />
+      <div>
+        <div class="brand-name">PhilTMS</div>
+        <div class="brand-tagline">Status Tracking and Issue Management System</div>
+      </div>
+    </a>
+
+    <div class="navbar-actions">
+      <nav class="navbar-nav">
+        <a href="../pages/home.html" class="nav-link active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a href="../pages/track-transaction.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Track
+        </a>
+        <a href="../pages/report.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Report
+        </a>
+        <a href="../pages/settings.html" class="nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Settings
+        </a>
+        <a href="../pages/login.html" class="nav-link logout">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </a>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="home-main">
+
+    <!-- Centered page heading -->
+    <div class="home-heading">
+      <h1>Welcome, <span id="homeUserName">User</span></h1>
+      <p>Track issue status, manage reports, and monitor system activities</p>
+    </div>
+
+    <!-- Card 1: Alert + Status Tracker -->
+    <div class="home-card">
+
+      <!-- Italic alert text -->
+      <p class="home-alert-text" id="successAlert">
+        You have successfully submitted your issue report. You will receive an email when the status changes. You may also check back here to see the current status of your issue.
+      </p>
+
+      <!-- Status Tracker -->
+      <div class="home-tracker">
+
+        <!-- Step 1: Issue Submitted — done (green filled) -->
+        <div class="ht-step ht-done">
+          <div class="ht-circle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="ht-connector ht-connector-done"></div>
+          <div class="ht-label">Issue<br>Submitted</div>
+        </div>
+
+        <!-- Step 2: Under Review — active (blue filled) -->
+        <div class="ht-step ht-active">
+          <div class="ht-circle">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="ht-connector"></div>
+          <div class="ht-label">Under<br>Review</div>
+          <div class="ht-sublabel">Team is reviewing your issue</div>
+        </div>
+
+        <!-- Step 3: ID Card Processing — inactive -->
+        <div class="ht-step ht-inactive">
+          <div class="ht-circle"></div>
+          <div class="ht-connector"></div>
+          <div class="ht-label">ID Card<br>Processing</div>
+          <div class="ht-sublabel">Your National ID is being printed</div>
+        </div>
+
+        <!-- Step 4: Ready for Pickup — inactive (no connector after) -->
+        <div class="ht-step ht-inactive ht-last">
+          <div class="ht-circle"></div>
+          <div class="ht-label">Ready for<br>Delivery</div>
+          <div class="ht-sublabel">Your ID is out for delivery</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Card 2: Quick Actions -->
+    <div class="home-card">
+      <div class="home-qa-header">
+        <span class="home-qa-dot"></span>
+        <span class="home-qa-title">Quick Actions</span>
+      </div>
+
+      <div class="home-qa-grid">
+
+        <a href="../pages/track-transaction.html" class="home-qa-card">
+          <div class="home-qa-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <div class="home-qa-name">Track Issues</div>
+          <div class="home-qa-desc">View issue status</div>
+          <div class="home-qa-status">• Active</div>
+        </a>
+
+        <a href="../pages/report.html" class="home-qa-card">
+          <div class="home-qa-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <div class="home-qa-name">Have an Issue?</div>
+          <div class="home-qa-desc">File new issue report</div>
+          <div class="home-qa-status">• Active</div>
+        </a>
+
+        <a href="../pages/settings.html" class="home-qa-card">
+          <div class="home-qa-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <div class="home-qa-name">Account Settings</div>
+          <div class="home-qa-desc">View your account</div>
+          <div class="home-qa-status">• Active</div>
+        </a>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../../shared/js/auth.js"></script>
+  <script src="../js/home.js"></script>
+</body>
+</html>
