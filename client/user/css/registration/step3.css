@@ -1,21 +1,37 @@
-/* step4-verification.css — OTP Verification */
+/* ============================================
+   STEP 3 — OTP Verification
+   Scoped additions only. global.css handles
+   navbar, card, page-wrapper, stepper base.
+   ============================================ */
 
-.brand-icon {
-  width: 36px;
-  height: 36px;
-  background-color: var(--color-bg);
-  border-radius: var(--radius-md);
+/* ── Stepper: done state (green + checkmark) ── */
+.stepper-step.done .stepper-circle {
+  background: var(--stepper-done);        /* #22c55e */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-secondary);
 }
 
-.card { max-width: 420px; }
+.stepper-line.done {
+  background: var(--stepper-line-done);   /* #22c55e */
+}
 
+/* ── Verify header ── */
 .verify-header {
   text-align: center;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.verify-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+  color: var(--color-primary);
 }
 
 .verify-title {
@@ -36,37 +52,100 @@
   font-weight: var(--font-semibold);
 }
 
-/* Resend row */
-.resend-row {
+/* ── OTP label ── */
+.otp-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
   text-align: center;
+}
+
+/* ── OTP input row ── */
+.otp-container {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.otp-input {
+  width: 52px;
+  height: 58px;
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  outline: none;
+  caret-color: var(--color-primary);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background var(--transition-fast);
+  /* remove browser spinner on number inputs */
+  -moz-appearance: textfield;
+}
+
+.otp-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(41, 66, 120, 0.12);
+}
+
+.otp-input.filled {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.otp-input.error-state {
+  border-color: var(--color-error);
+  background: #fff0f0;
+}
+
+/* ── OTP error text ── */
+#otp-error {
+  display: block;
+  text-align: center;
+  margin-bottom: var(--space-3);
+  min-height: 1.2em;
+}
+
+/* ── Resend row ── */
+.resend-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
   font-size: var(--text-xs);
   color: var(--color-text-muted);
-  margin-top: var(--space-2);
 }
 
 .resend-btn {
   background: none;
   border: none;
   color: var(--color-primary);
+  font-family: var(--font-base);
   font-size: var(--text-xs);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-semibold);
   cursor: pointer;
-  padding: 0 var(--space-1);
+  padding: 0 2px;
   transition: color var(--transition-fast);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-.resend-btn:hover { color: var(--color-primary-hover); }
+
+.resend-btn:hover:not(:disabled) {
+  color: var(--color-primary-hover);
+}
+
 .resend-btn:disabled {
   color: var(--color-text-muted);
   cursor: not-allowed;
+  text-decoration: none;
 }
 
 .resend-timer {
   color: var(--color-text-muted);
   font-size: var(--text-xs);
-}
-
-.navbar-actions .btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }

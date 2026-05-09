@@ -1,45 +1,83 @@
-// step4-verification.js — OTP Verification
+// ============================================
+//  STEP 3 — OTP Verification
+// ============================================
 
-// Fill in masked contact info from session
-const email  = sessionStorage.getItem('reg_email') || '';
-const mobile = sessionStorage.getItem('reg_mobile') || '';
-
-if (email) {
+// ── Mask email for display ────────────────────
+function maskEmail(email) {
+  if (!email || !email.includes('@')) return email;
   const [user, domain] = email.split('@');
-  const masked = user.slice(0,1) + '•'.repeat(Math.max(user.length - 1, 6)) + '@' + domain;
-  document.getElementById('masked-email').textContent = masked;
+  const visible = user.slice(0, 1);
+  const dots    = '•'.repeat(Math.max(user.length - 1, 6));
+  return `${visible}${dots}@${domain}`;
 }
 
-// OTP inputs — auto advance
-const otpInputs = document.querySelectorAll('.otp-input');
+const storedEmail = sessionStorage.getItem('reg_email') || '';
+const maskedEl    = document.getElementById('masked-email');
+if (maskedEl && storedEmail) {
+  maskedEl.textContent = maskEmail(storedEmail);
+}
+
+// ── OTP inputs — auto-advance & backspace ─────
+const otpInputs = Array.from(document.querySelectorAll('.otp-input'));
 
 otpInputs.forEach((input, index) => {
+  // digits only — input event
   input.addEventListener('input', (e) => {
     const val = e.target.value.replace(/\D/g, '');
-    input.value = val;
-    if (val) {
+    input.value = val ? val[0] : '';           // keep only first digit
+
+    if (input.value) {
       input.classList.add('filled');
+      input.classList.remove('error-state');
       if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
     } else {
       input.classList.remove('filled');
     }
   });
 
+  // backspace: clear current or go back
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && !input.value && index > 0) {
-      otpInputs[index - 1].focus();
-      otpInputs[index - 1].classList.remove('filled');
+    if (e.key === 'Backspace') {
+      if (input.value) {
+        input.value = '';
+        input.classList.remove('filled');
+      } else if (index > 0) {
+        otpInputs[index - 1].focus();
+        otpInputs[index - 1].value = '';
+        otpInputs[index - 1].classList.remove('filled');
+      }
+    }
+    // block non-numeric keys (allow control keys)
+    if (e.key.length === 1 && !/[0-9]/.test(e.key)) {
+      e.preventDefault();
     }
   });
 
-  // Allow only numbers
-  input.addEventListener('keypress', (e) => {
-    if (!/[0-9]/.test(e.key)) e.preventDefault();
+  // paste: spread digits across boxes
+  input.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData)
+      .getData('text')
+      .replace(/\D/g, '')
+      .slice(0, otpInputs.length - index);
+
+    pasted.split('').forEach((char, i) => {
+      if (otpInputs[index + i]) {
+        otpInputs[index + i].value = char;
+        otpInputs[index + i].classList.add('filled');
+      }
+    });
+
+    // move focus to next empty box or last box
+    const nextEmpty = otpInputs.findIndex(
+      (inp, i) => i >= index && !inp.value
+    );
+    if (nextEmpty !== -1) otpInputs[nextEmpty].focus();
+    else otpInputs[otpInputs.length - 1].focus();
   });
 });
 
-// Resend countdown
-let timer = 60;
+// ── Resend countdown ──────────────────────────
 const countdownEl = document.getElementById('countdown');
 const resendBtn   = document.getElementById('resend-btn');
 const timerEl     = document.getElementById('resend-timer');
@@ -47,126 +85,124 @@ const timerEl     = document.getElementById('resend-timer');
 let intervalId = null;
 
 function startResendTimer() {
-  if (intervalId) {
-    clearInterval(intervalId);
-  }
+  if (intervalId) clearInterval(intervalId);
 
-  timer = 60;
-  countdownEl.textContent = timer;
-  timerEl.style.display = 'inline';
-  resendBtn.disabled = true;
+  let seconds         = 60;
+  countdownEl.textContent = seconds;
+  timerEl.style.display   = 'inline';
+  resendBtn.disabled      = true;
 
   intervalId = setInterval(() => {
-    timer--;
-    countdownEl.textContent = timer;
-    if (timer <= 0) {
+    seconds--;
+    countdownEl.textContent = seconds;
+    if (seconds <= 0) {
       clearInterval(intervalId);
-      intervalId = null;
-      resendBtn.disabled = false;
+      intervalId            = null;
+      resendBtn.disabled    = false;
       timerEl.style.display = 'none';
     }
   }, 1000);
 }
 
-function getRegistrationPayload() {
-  return buildRegisterPayload();
+// ── Build & validate session payload ─────────
+function buildRegisterPayload() {
+  return {
+    first_name:  (sessionStorage.getItem('reg_first_name')  || '').trim(),
+    last_name:   (sessionStorage.getItem('reg_last_name')   || '').trim(),
+    middle_name: (sessionStorage.getItem('reg_middle_name') || '').trim(),
+    birth_date:  (sessionStorage.getItem('reg_dob')         || '').trim(),
+    user_sex:    (sessionStorage.getItem('reg_sex')         || '').trim(),
+    email:       (sessionStorage.getItem('reg_email')       || '').trim(),
+    password:     sessionStorage.getItem('reg_password')    || '',
+    mobile_no:   (sessionStorage.getItem('reg_mobile')      || '').trim(),
+  };
 }
 
-async function startRegistrationAndSendOtp() {
-  const payload = getRegistrationPayload();
-  const payloadError = validateRegisterPayload(payload);
-  if (payloadError) {
-    throw new Error(payloadError);
+function validatePayload(payload) {
+  if (!payload.first_name || !payload.last_name || !payload.birth_date || !payload.user_sex) {
+    return 'Personal information is incomplete. Please go back to Step 1.';
   }
+  if (!payload.email || !payload.password) {
+    return 'Account details are incomplete. Please go back to Step 2.';
+  }
+  return '';
+}
 
+// ── Error helpers ─────────────────────────────
+const otpError = document.getElementById('otp-error');
+
+function showError(msg) {
+  otpError.textContent = msg;
+  otpInputs.forEach(inp => inp.classList.add('error-state'));
+}
+
+function clearError() {
+  otpError.textContent = '';
+  otpInputs.forEach(inp => inp.classList.remove('error-state'));
+}
+
+// ── Start registration & send OTP ────────────
+async function startRegistrationAndSendOtp() {
+  const payload = buildRegisterPayload();
+  const err     = validatePayload(payload);
+  if (err) throw new Error(err);
   await window.PhilTMSApi.postStartRegistration(payload);
 }
 
+// Fire on page load
 startResendTimer();
 
-startRegistrationAndSendOtp().catch((error) => {
+startRegistrationAndSendOtp().catch((err) => {
   resendBtn.disabled = false;
-  const otpError = document.getElementById('otp-error');
-  otpError.textContent = error.message || 'Failed to send OTP. Please try again.';
+  showError(err.message || 'Failed to send OTP. Please try again.');
 });
 
+// Resend
 resendBtn.addEventListener('click', async () => {
-  const otpError = document.getElementById('otp-error');
-  otpError.textContent = '';
-
+  clearError();
   try {
     resendBtn.disabled = true;
     await startRegistrationAndSendOtp();
     startResendTimer();
-  } catch (error) {
+  } catch (err) {
     resendBtn.disabled = false;
-    otpError.textContent = error.message || 'Failed to resend OTP.';
+    showError(err.message || 'Failed to resend OTP. Please try again.');
   }
 });
 
-function buildRegisterPayload() {
-  return {
-    first_name: (sessionStorage.getItem('reg_first_name') || '').trim(),
-    last_name: (sessionStorage.getItem('reg_last_name') || '').trim(),
-    middle_name: (sessionStorage.getItem('reg_middle_name') || '').trim(),
-    // suffix: (sessionStorage.getItem('reg_middle_name') || '').trim(),
-    birth_date: (sessionStorage.getItem('reg_dob') || '').trim(),
-    user_sex: (sessionStorage.getItem('reg_sex') || '').trim(),
-    email: (sessionStorage.getItem('reg_email') || '').trim(),
-    password: sessionStorage.getItem('reg_password') || '',
-    mobile_no: (sessionStorage.getItem('reg_mobile') || '').trim()
-  };
-}
-
-function validateRegisterPayload(payload) {
-  if (!payload.first_name || !payload.last_name || !payload.birth_date || !payload.user_sex) {
-    return 'Please complete your personal information in Step 1.';
-  }
-
-  if (!payload.email || !payload.password) {
-    return 'Please complete your account details in Step 3.';
-  }
-
-  return '';
-}
-
-// Verify button
+// ── Confirm / verify OTP ──────────────────────
 document.getElementById('verify-btn').addEventListener('click', async () => {
-  const otp = Array.from(otpInputs).map(i => i.value).join('');
-  const otpError = document.getElementById('otp-error');
+  clearError();
+
+  const otp       = otpInputs.map(i => i.value).join('');
   const verifyBtn = document.getElementById('verify-btn');
-  otpError.textContent = '';
 
   if (otp.length < 6) {
-    otpError.textContent = 'Please enter the complete 6-digit code.';
+    showError('Please enter the complete 6-digit code.');
     return;
   }
 
-  const payload = getRegistrationPayload();
-  const payloadError = validateRegisterPayload(payload);
-  if (payloadError) {
-    otpError.textContent = payloadError;
+  const payload = buildRegisterPayload();
+  const payloadErr = validatePayload(payload);
+  if (payloadErr) {
+    showError(payloadErr);
     return;
   }
 
   try {
-    verifyBtn.disabled = true;
-    verifyBtn.textContent = 'Verifying...';
+    verifyBtn.disabled     = true;
+    verifyBtn.textContent  = 'Verifying…';
 
     const result = await window.PhilTMSApi.postVerifyRegistration(payload.email, otp);
 
-    if (result && result.accessToken) {
-      sessionStorage.setItem('access_token', result.accessToken);
-    }
-    if (result && result.user_id) {
-      sessionStorage.setItem('user_id', result.user_id);
-    }
+    if (result?.accessToken) sessionStorage.setItem('access_token', result.accessToken);
+    if (result?.user_id)     sessionStorage.setItem('user_id',      result.user_id);
 
     window.location.href = 'confirmation.html';
-  } catch (error) {
-    otpError.textContent = error.message || 'Registration failed. Please try again.';
+  } catch (err) {
+    showError(err.message || 'Verification failed. Please check the code and try again.');
   } finally {
-    verifyBtn.disabled = false;
+    verifyBtn.disabled    = false;
     verifyBtn.textContent = 'Confirm';
   }
 });
