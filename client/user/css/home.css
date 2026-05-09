@@ -151,19 +151,9 @@ body {
   margin-bottom: var(--space-4);
 }
 
-.home-qa-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #d1d5db;
-  background-color: var(--color-surface);
-  display: inline-block;
-  flex-shrink: 0;
-}
-
 .home-qa-title {
   font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
+  font-weight: bold;
   color: var(--color-text-primary);
 }
 

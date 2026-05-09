@@ -109,10 +109,10 @@ body { background-color: #f0f2f5; }
   color: #fff;
 }
 
-/* ── Relationship grid ── */
+/* ── Relationship grid — 3 columns for 6 options ── */
 .rpt-rel-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 8px;
 }
 .rpt-rel-option {
@@ -179,6 +179,7 @@ body { background-color: #f0f2f5; }
   line-height: var(--leading-loose);
 }
 
+/* ── Overlay ── */
 .overlay {
   position: fixed;
   inset: 0;
@@ -187,18 +188,35 @@ body { background-color: #f0f2f5; }
   z-index: 9999;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* ← change from center to flex-start */
+  align-items: flex-start;
   padding: 40px 20px;
-  overflow-y: auto; /* ← scroll on overlay, not modal */
+  overflow-y: auto;
 }
 
+/* ── Modal ── */
 .modal {
   background: #fff;
   border-radius: 16px;
   width: 100%;
   max-width: 680px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  /* remove max-height and overflow-y from here */
+}
+
+/* ── Modal close button (X) ── */
+.rpt-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.rpt-modal-close:hover {
+  color: #ef4444;
 }
 
 /* ── Hello bar ── */
@@ -268,7 +286,7 @@ body { background-color: #f0f2f5; }
 }
 .rpt-btn-submit:hover { background: var(--color-primary-hover); }
 
-/* ── Modal ── */
+/* ── Modal body ── */
 .rpt-modal { max-width: 680px; }
 .rpt-modal-body {
   padding: 40px 36px;
@@ -388,9 +406,96 @@ body { background-color: #f0f2f5; }
 .navbar-nav .nav-link.logout { color: rgba(255,120,120,0.9) !important; }
 .navbar-nav .nav-link.logout:hover { color: #ff8888 !important; background-color: transparent !important; }
 
+/* ── Form group stack */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+.form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: var(--text-sm);
+  font-family: var(--font-base);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  resize: vertical;
+  line-height: var(--leading-loose);
+  transition: border-color var(--transition-fast);
+  box-sizing: border-box;
+}
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.rpt-card > .rpt-option-list {
+  margin: 12px -28px 0 -28px;   /* remove the -24px bottom */
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 0;
+}
+/* Container for the TRN input section */
+.rpt-hello-trn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 320px; /* Prevents the box from stretching too wide */
+}
+
+/* Styling for the label */
+.form-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155; 
+}
+
+/* Red color for the required asterisk */
+.required {
+  color: #ef4444; 
+}
+
+/* Styling for the input box */
+.form-input {
+  font-family: 'DM Sans', sans-serif;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px; /* Rounds the corners nicely */
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+/* Changes the border color and adds a soft glow when the user clicks it */
+.form-input:focus {
+  border-color: #3b82f6; 
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); 
+}
+
+/* Error state (this matches the .error class your JS adds when empty) */
+.form-input.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
 /* ── Responsive ── */
 @media (max-width: 560px) {
-  .rpt-rel-grid { grid-template-columns: 1fr; }
+  .rpt-rel-grid { grid-template-columns: 1fr 1fr; }
   .rpt-hello-bar { flex-direction: column; }
   .rpt-hello-trn { min-width: unset; width: 100%; }
   .report-main { padding: 24px 16px; }

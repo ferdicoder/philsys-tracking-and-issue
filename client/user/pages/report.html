@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../shared/css/global.css" />
-  <link rel="stylesheet" href="../../shared/css/components.css" />
   <link rel="stylesheet" href="../css/report.css" />
 </head>
 <body>
@@ -29,7 +28,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
         </a>
-        <a href="../pages/track-transaction.html" class="nav-link">
+        <a href="../pages/track.html" class="nav-link">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           Track
         </a>
@@ -39,9 +38,10 @@
         </a>
         <a href="../pages/settings.html" class="nav-link">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>          Settings
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          Settings
         </a>
         <a href="../pages/login.html" class="nav-link logout">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -54,14 +54,14 @@
   <!-- MAIN -->
   <main class="report-main">
 
-    <!-- Tabs: Report Concerns LEFT, Follow-Up RIGHT -->
+    <!-- Tabs: Follow-Up LEFT, Report Concern RIGHT -->
     <div class="report-tabs">
-      <button class="report-tab active" id="tabConcern" onclick="switchTab('concern')">Report Concerns</button>
-      <button class="report-tab" id="tabFollowup" onclick="switchTab('followup')">Follow-Up Application</button>
+      <button class="report-tab active" id="tabFollowup" onclick="switchTab('followup')">Follow-Up Application</button>
+      <button class="report-tab" id="tabConcern" onclick="switchTab('concern')">Report Concern</button>
     </div>
 
-    <!-- ===== FOLLOW-UP TAB ===== -->
-    <div id="panelFollowup" class="hidden">
+    <!-- ===== FOLLOW-UP TAB (default active) ===== -->
+    <div id="panelFollowup">
 
       <!-- Info alert — blue -->
       <div class="rpt-alert rpt-alert-blue">
@@ -69,11 +69,14 @@
         <span>Use this form to follow up on the status of your pending PhilSys application or ID delivery. Please have your transaction reference number ready.</span>
       </div>
 
-      <!-- TRN input -->
-      <div class="rpt-card">
-        <div class="form-group">
-          <label class="form-label">Transaction Reference Number <span class="required">*</span></label>
-          <input type="text" class="form-input" id="fuTRN" placeholder="TRN-2024-001234" />
+      <div class="rpt-hello-bar">
+        <div>
+          <h2 class="rpt-hello-name">Hello, <span id="reportUserName">User</span>!</h2>
+          <p class="rpt-hello-sub">To proceed to Follow-Up Application, please enter your TRN first.</p>
+        </div>
+        <div class="rpt-hello-trn">
+          <label class="form-label">Transaction Reference Number (TRN) <span class="required">*</span></label>
+          <input type="text" class="form-input" id="fuTRN" placeholder="TRN-2024-001234" pattern="TRN-\d{4}-\d{6}"/>
         </div>
       </div>
 
@@ -91,7 +94,7 @@
           <div class="rpt-rel-grid">
             <label class="rpt-rel-option"><input type="radio" name="rel" value="parent" /> Parent</label>
             <label class="rpt-rel-option"><input type="radio" name="rel" value="child" /> Child</label>
-            <label class="rpt-rel-option"><input type="radio" name="rel" value="spouse" /> Spouse</label>
+            <label class="rpt-rel-option"><input type="radio" name="rel" value="spouse" /> Spouse</label>            
           </div>
           <div class="rpt-alert rpt-alert-green" style="margin-top:12px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
@@ -146,13 +149,13 @@
       <!-- Action bar -->
       <div class="rpt-action-bar">
         <a href="../pages/home.html" class="rpt-btn-cancel">Cancel</a>
-        <button class="rpt-btn-submit" onclick="submitFollowup()">Submit Follow-up Request</button>
+        <button class="rpt-btn-submit" onclick="submitFollowup()">Submit</button>
       </div>
 
     </div>
 
-    <!-- ===== REPORT CONCERN TAB ===== -->
-    <div id="panelConcern">
+    <!-- ===== REPORT CONCERN TAB (hidden by default) ===== -->
+    <div id="panelConcern" class="hidden">
 
       <!-- Warning alert — red -->
       <div class="rpt-alert rpt-alert-red">
@@ -168,47 +171,45 @@
         </div>
         <div class="rpt-hello-trn">
           <label class="form-label">Transaction Reference Number (TRN) <span class="required">*</span></label>
-          <input type="text" class="form-input" id="reportTRN" placeholder="TRN-2024-001234" />
-        </div>
+          <input type="text" class="form-input" id="reportTRN" placeholder="TRN-2024-001234" pattern="TRN-\d{4}-\d{6}" required />
+        </div> 
       </div>
 
       <!-- Type of Concern -->
-      <div class="rpt-section-title" style="margin-bottom:12px;">Type of Concerns <span class="required">*</span></div>
-      <div class="rpt-option-list" style="margin-bottom:24px;">
-        <label class="rpt-option" onclick="selectOption(this,'concern')">
-          <input type="radio" name="concern" />
-          <div>
-            <div class="rpt-option-title">Incorrect Personal Information</div>
-            <div class="rpt-option-desc">My name, birthdate, or other personal details are incorrect (NC/KPC)</div>
-          </div>
-        </label>
-        <label class="rpt-option" onclick="selectOption(this,'concern')">
-          <input type="radio" name="concern" />
-          <div>
-            <div class="rpt-option-title">Lost or Damaged ID Card</div>
-            <div class="rpt-option-desc">Need to report a lost, stolen, or damaged PhilSys ID</div>
-          </div>
-        </label>
-        <label class="rpt-option" onclick="selectOption(this,'concern')">
-          <input type="radio" name="concern" />
-          <div>
-            <div class="rpt-option-title">Other Concern: Website/System Technical Issue</div>
-            <div class="rpt-option-desc">Error messages, login problems, or system not working properly</div>
-          </div>
-        </label>
-        <label class="rpt-option" onclick="selectOption(this,'concern')">
-          <input type="radio" name="concern" />
-          <div>
-            <div class="rpt-option-title">Other Concerns</div>
-            <div class="rpt-option-desc">General inquiry or issue not listed above</div>
-          </div>
-        </label>
+       <div class="rpt-card" style="padding-bottom:0;">
+        <div class="rpt-section-title">Type of Concerns <span class="required">*</span></div>
+        <div class="rpt-option-list">
+          <label class="rpt-option" onclick="selectOption(this,'concern')">
+            <input type="radio" name="concern" />
+            <div>
+              <div class="rpt-option-title">Incorrect Personal Information</div>
+              <div class="rpt-option-desc">My name, birthdate, or other personal details are incorrect (NC/KPC)</div>
+            </div>
+          </label>
+          <label class="rpt-option" onclick="selectOption(this,'concern')">
+            <input type="radio" name="concern" />
+            <div>
+              <div class="rpt-option-title">Lost or Damaged ID Card</div>
+              <div class="rpt-option-desc">Need to report a lost, stolen, or damaged PhilSys ID</div>
+            </div>
+          </label>
+
+          <label class="rpt-option" onclick="selectOption(this,'concern')">
+            <input type="radio" name="concern" />
+            <div>
+              <div class="rpt-option-title">Other Concerns</div>
+              <div class="rpt-option-desc">General inquiry or issue not listed above</div>
+            </div>
+          </label>
+        </div>
       </div>
 
-      <!-- Detailed Description -->
-      <div class="form-group" style="margin-bottom:0;">
-        <label class="form-label">Detailed Description <span class="required">*</span></label>
-        <textarea class="form-textarea" id="reportDesc" rows="5" placeholder="Please describe your concern in detail..."></textarea>
+       <!-- Additional Details -->
+      <div class="rpt-card">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Additional Details</label>
+          <textarea class="form-textarea" id="fuDetails" rows="4" placeholder="Provide any additional information that may help process your request..."></textarea>
+        </div>
       </div>
 
       <!-- Action bar -->
@@ -223,13 +224,16 @@
 
   <!-- ===== FOLLOW-UP SUCCESS OVERLAY ===== -->
   <div class="overlay" id="overlayFollowup" style="display:none;">
-    <div class="modal rpt-modal">
-      <div class="rpt-modal-body">
+    <div class="modal rpt-modal" style="position:relative;">
 
-        <!-- Check icon -->
-        <div class="rpt-modal-check rpt-modal-check--blue">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
+      <button class="rpt-modal-close" onclick="closeOverlay('overlayFollowup')" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="rpt-modal-body">
 
         <h2 class="rpt-modal-title">Follow-Up Request Submitted!</h2>
         <p class="rpt-modal-sub">Your follow-up request has been received. We'll process your inquiry and provide an update soon.</p>
@@ -281,7 +285,15 @@
 
   <!-- ===== REPORT SUCCESS OVERLAY ===== -->
   <div class="overlay" id="overlayReport" style="display:none;">
-    <div class="modal rpt-modal">
+    <div class="modal rpt-modal" style="position:relative;">
+
+      <button class="rpt-modal-close" onclick="closeOverlay('overlayReport')" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
       <div class="rpt-modal-body">
 
         <h2 class="rpt-modal-title">Report Successfully Submitted!</h2>

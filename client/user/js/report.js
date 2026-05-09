@@ -48,59 +48,79 @@ document.addEventListener('DOMContentLoaded', () => {
     el.querySelector('input[type="radio"]').checked = true;
   };
 
+/* ── Helper Validation Function ── */
+function isValidTRN(trn) {
+  // This ensures it strictly follows: TRN-XXXX-XXXXXX
+  const trnPattern = /^TRN-\d{4}-\d{6}$/;
+  return trnPattern.test(trn);
+}
+
 /* ── Submit Follow-up ── */
 window.submitFollowup = function () {
-  const trn = document.getElementById('fuTRN')?.value.trim();
-  if (!trn) {
-    document.getElementById('fuTRN').classList.add('error');
-    document.getElementById('fuTRN').focus();
-    return;
+  const trnInput = document.getElementById('fuTRN');
+  const trnValue = trnInput?.value.trim();
+
+  // If it doesn't match the pattern, STOP here
+  if (!isValidTRN(trnValue)) {
+    trnInput.classList.add('error');
+    trnInput.focus();
+    alert("Please enter a valid TRN (e.g., TRN-2024-001234)");
+    return; // This 'return' prevents the overlay from showing
   }
-  document.getElementById('fuTRN').classList.remove('error');
+
+  // Only runs if valid
+  trnInput.classList.remove('error');
   document.getElementById('overlayFollowup').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 };
 
 /* ── Submit Report ── */
 window.submitReport = function () {
-  const trn = document.getElementById('reportTRN')?.value.trim();
-  if (!trn) {
-    document.getElementById('reportTRN').classList.add('error');
-    document.getElementById('reportTRN').focus();
-    return;
+  const trnInput = document.getElementById('reportTRN');
+  const trnValue = trnInput?.value.trim();
+
+  // If it doesn't match the pattern, STOP here
+  if (!isValidTRN(trnValue)) {
+    trnInput.classList.add('error');
+    trnInput.focus();
+    alert("Please enter a valid TRN (e.g., TRN-2024-001234)");
+    return; // This 'return' prevents the overlay from showing
   }
-  document.getElementById('reportTRN').classList.remove('error');
+
+  // Only runs if valid
+  trnInput.classList.remove('error');
   document.getElementById('overlayReport').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 };
 
-/* ── Close overlay ── */
-window.closeOverlay = function (id) {
-  document.getElementById(id).style.display = 'none';
-  document.body.style.overflow = '';
-};
+  /* ── Close overlay ── */
+  window.closeOverlay = function (id) {
+    document.getElementById(id).style.display = 'none';
+    document.body.style.overflow = '';
+  };
 
-/* ── Close on backdrop click ── */
-document.querySelectorAll('.overlay').forEach(overlay => {
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      overlay.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  });
-});
-
-/* ── Escape key ── */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.overlay').forEach(o => {
-      if (o.style.display === 'flex') {
-        o.style.display = 'none';
+  /* ── Close on backdrop click ── */
+  document.querySelectorAll('.overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.style.display = 'none';
         document.body.style.overflow = '';
       }
     });
-  }
-});
+  });
+
+  /* ── Escape key ── */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.overlay').forEach(o => {
+        if (o.style.display === 'flex') {
+          o.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
+
   /* ── Clear error on input ── */
   document.querySelectorAll('.form-input').forEach(input => {
     input.addEventListener('input', () => input.classList.remove('error'));
