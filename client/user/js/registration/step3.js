@@ -113,7 +113,7 @@ function buildRegisterPayload() {
     birth_date:  (sessionStorage.getItem('reg_dob')         || '').trim(),
     user_sex:    (sessionStorage.getItem('reg_sex')         || '').trim(),
     email:       (sessionStorage.getItem('reg_email')       || '').trim(),
-    password:     sessionStorage.getItem('reg_password')    || '',
+    password:    (sessionStorage.getItem('reg_password')    || ''),
     mobile_no:   (sessionStorage.getItem('reg_mobile')      || '').trim(),
   };
 }

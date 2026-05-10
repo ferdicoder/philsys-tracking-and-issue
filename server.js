@@ -19,7 +19,7 @@ async function startServer(){
       console.log(`Server running to PORT: ${PORT}`)
     }); 
 
-    app.use('/register', require('./server/routes/user')); 
+    app.use('/register', require('./server/routes/register')); 
     app.use('/login', require('./server/routes/login')); 
     app.use('/email', require('./server/routes/email'));
     app.use('/admin', require('./server/routes/admin'));

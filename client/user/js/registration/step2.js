@@ -105,10 +105,9 @@ function initForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    clearErrors(['email', 'username', 'mobile', 'new-password', 'confirm-password']);
+    clearErrors(['email', 'mobile', 'new-password', 'confirm-password']);
 
     const email   = document.getElementById('email').value.trim();
-    const uname   = document.getElementById('username').value.trim();
     const mobile  = document.getElementById('mobile').value.trim();
     const pw      = document.getElementById('new-password').value;
     const cpw     = document.getElementById('confirm-password').value;
@@ -119,15 +118,6 @@ function initForm() {
     // Email
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('email', 'email-error', 'Please enter a valid email address.');
-      valid = false;
-    }
-
-    // Username
-    if (!uname || uname.length < 4) {
-      setError('username', 'username-error', 'Username must be at least 4 characters.');
-      valid = false;
-    } else if (/\s/.test(uname)) {
-      setError('username', 'username-error', 'Username cannot contain spaces.');
       valid = false;
     }
 
@@ -165,10 +155,9 @@ function initForm() {
 
     if (valid) {
       sessionStorage.setItem('reg_email',    email);
-      sessionStorage.setItem('reg_username', uname);
       sessionStorage.setItem('reg_mobile',   '+63' + mobile);
-      // Password is intentionally NOT stored in sessionStorage for security;
-      // pass it in memory or re-collect at submission if needed.
+      // Store temporarily so Step 3 can complete registration.
+      sessionStorage.setItem('reg_password', pw);
       window.location.href = 'step3.html';
     }
   });
