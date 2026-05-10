@@ -131,10 +131,20 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ email, otp })
       });
 
+      const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
         throw new Error(data.error || 'OTP verification failed');
       }
+
+      if (!data.accessToken || data.role !== 'admin') {
+        throw new Error('Admin access required');
+      }
+
+      window.PhilTmsAuth?.setSession({
+        accessToken: data.accessToken,
+        role: data.role,
+        email
+      });
 
       showToast('OTP verified. Redirecting...');
       redirecting = true;
