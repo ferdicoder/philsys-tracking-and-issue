@@ -1,24 +1,9 @@
 // ============================================
 // APPLICATIONS.JS — PhilTMS Admin
+// Fetches real application data from API
 // ============================================
 
-const APPS = [
-  { trn: 'TRN-2024-001234', name: 'Maria Santos',      date: '2025-01-10', status: 'for delivery' },
-  { trn: 'TRN-2024-001235', name: 'Juan Dela Cruz',    date: '2025-01-12', status: 'printed' },
-  { trn: 'TRN-2024-001236', name: 'Ana Reyes',         date: '2025-01-20', status: 'for printing' },
-  { trn: 'TRN-2024-001237', name: 'Pedro Garcia',      date: '2025-01-22', status: 'verified' },
-  { trn: 'TRN-2024-001238', name: 'Sofia Martinez',    date: '2025-01-20', status: 'registered' },
-  { trn: 'TRN-2024-001239', name: 'Carlos Lopez',      date: '2025-01-21', status: 'delivered' },
-  { trn: 'TRN-2024-001240', name: 'Rosa Fernandez',    date: '2025-01-23', status: 'verified' },
-  { trn: 'TRN-2024-001241', name: 'Miguel Torres',     date: '2025-01-25', status: 'for delivery' },
-  { trn: 'TRN-2024-001242', name: 'Linda Ramos',       date: '2025-01-26', status: 'delivered' },
-  { trn: 'TRN-2024-001243', name: 'Antonio Cruz',      date: '2025-01-28', status: 'registered' },
-  { trn: 'TRN-2024-001244', name: 'Carmen Villanueva', date: '2025-01-29', status: 'printed' },
-  { trn: 'TRN-2024-001245', name: 'Ramon Aquino',      date: '2025-01-30', status: 'for printing' },
-  { trn: 'TRN-2024-001246', name: 'Liza Pascual',      date: '2025-02-01', status: 'verified' },
-  { trn: 'TRN-2024-001247', name: 'Eduardo Bautista',  date: '2025-02-02', status: 'delivered' },
-  { trn: 'TRN-2024-001248', name: 'Nena Castillo',     date: '2025-02-03', status: 'for delivery' },
-];
+let APPS = []; // Will be populated from API
 
 const BADGE = {
   'registered':   'badge-registered',
@@ -36,6 +21,68 @@ let currentPage   = 1;
 let currentFilter = 'all';
 let currentQuery  = '';
 let selectedApp   = null;
+
+/* ── API FUNCTIONS ── */
+async function loadApplicationsFromAPI() {
+  try {
+    const session = window.PhilTmsAuth?.getSession?.();
+    if (!session?.accessToken) {
+      showToast('Not authenticated');
+      return;
+    }
+
+    const response = await fetch('/admin/applications', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${session.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    APPS = result.data || [];
+    renderTable();
+  } catch (error) {
+    console.error('Failed to load applications:', error);
+    showToast('Failed to load applications');
+    // Fallback to empty array
+    APPS = [];
+    renderTable();
+  }
+}
+
+async function updateApplicationStatusAPI(applicationId, newStatus) {
+  try {
+    const session = window.PhilTmsAuth?.getSession?.();
+    if (!session?.accessToken) {
+      showToast('Not authenticated');
+      return false;
+    }
+
+    const response = await fetch(`/admin/applications/${applicationId}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${session.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ status: newStatus })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Failed to update status:', error);
+    showToast('Failed to update status');
+    return false;
+  }
+}
 
 /* ── FILTERING ── */
 function getFiltered() {
@@ -65,11 +112,11 @@ function renderTable() {
 
   tbody.innerHTML = slice.map(a => `
     <tr>
-      <td><code style="font-size:12px;background:#f1f5f9;padding:2px 6px;border-radius:4px">${a.trn}</code></td>
+      <td><code style="font-size:12px;background:#f1f5f9;padding:2px 6px;border-radius:4px">${a.trn || 'N/A'}</code></td>
       <td style="font-weight:500">${a.name}</td>
       <td style="color:#64748b">${a.date}</td>
       <td><span class="badge ${BADGE[a.status] || ''}">${formatStatus(a.status)}</span></td>
-      <td><button class="view-link" onclick="openDetail('${a.trn}')">View Details →</button></td>
+      <td><button class="view-link" onclick="openDetail('${a.application_id}')">View Details →</button></td>
     </tr>
   `).join('') || `
     <tr>
@@ -114,8 +161,8 @@ function formatStatus(s) {
 }
 
 /* ── MODAL ── */
-function openDetail(trn) {
-  selectedApp = APPS.find(a => a.trn === trn);
+function openDetail(applicationId) {
+  selectedApp = APPS.find(a => a.application_id === applicationId);
   if (!selectedApp) return;
 
   const isLast = STATUS_ORDER.indexOf(selectedApp.status) >= STATUS_ORDER.length - 1;
@@ -124,7 +171,7 @@ function openDetail(trn) {
     <div class="detail-row">
       <span class="detail-label">TRN</span>
       <span class="detail-value">
-        <code style="font-size:13px;background:#f1f5f9;padding:2px 8px;border-radius:5px">${selectedApp.trn}</code>
+        <code style="font-size:13px;background:#f1f5f9;padding:2px 8px;border-radius:5px">${selectedApp.trn || 'N/A'}</code>
       </span>
     </div>
     <div class="detail-row">
@@ -165,14 +212,21 @@ function handleOverlayClick(e) {
 }
 
 /* ── ADVANCE STATUS ── */
-function updateStatus() {
+async function updateStatus() {
   if (!selectedApp) return;
   const idx = STATUS_ORDER.indexOf(selectedApp.status);
   if (idx < 0 || idx >= STATUS_ORDER.length - 1) return;
 
-  selectedApp.status = STATUS_ORDER[idx + 1];
-  const appIdx = APPS.findIndex(a => a.trn === selectedApp.trn);
-  if (appIdx > -1) APPS[appIdx].status = selectedApp.status;
+  const newStatus = STATUS_ORDER[idx + 1];
+  
+  // Update via API
+  const success = await updateApplicationStatusAPI(selectedApp.application_id, newStatus);
+  if (!success) return;
+
+  // Update local state
+  selectedApp.status = newStatus;
+  const appIdx = APPS.findIndex(a => a.application_id === selectedApp.application_id);
+  if (appIdx > -1) APPS[appIdx].status = newStatus;
 
   closeModal();
   renderTable();
@@ -198,4 +252,6 @@ function toggleSidebar() {
 }
 
 /* ── INIT ── */
-document.addEventListener('DOMContentLoaded', renderTable);
+document.addEventListener('DOMContentLoaded', () => {
+  loadApplicationsFromAPI();
+});
