@@ -1,161 +1,166 @@
 /* ============================================
-   PHILTMS — ADMIN LOGIN JS
+   PHILTMS — ADMIN OTP LOGIN JS
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const accountSelect = document.getElementById('adminAccount');
+  const emailInput = document.getElementById('adminEmail');
+  const otpInput = document.getElementById('otpInput');
+  const sendOtpBtn = document.getElementById('sendOtpBtn');
+  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+  const emailError = document.getElementById('email-error');
+  const otpError = document.getElementById('otp-error');
+  const loadingOverlay = document.getElementById('login-loading-overlay');
 
-  window.updateRole = function () {
-    const select   = accountSelect || document.getElementById('adminAccount');
-    const selected = select.options[select.selectedIndex];
-    document.getElementById('roleHint').textContent = `Role: ${selected.getAttribute('data-role') || ''}`;
-    document.getElementById('passwordInput').value  = selected.getAttribute('data-password') || '';
-    document.getElementById('admin-error').textContent = '';
-  };
+  let lastEmail = '';
 
-  if (accountSelect) {
-    accountSelect.addEventListener('change', updateRole);
-    updateRole();
+  function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notify';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2600);
   }
 
-  // ── Toggle password visibility ──
-  window.togglePassword = function () {
-    const input = document.getElementById('passwordInput');
-    const icon  = document.getElementById('eyeIcon');
-    const isPassword = input.type === 'password';
-    input.type = isPassword ? 'text' : 'password';
-    icon.innerHTML = isPassword
-      ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-         <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-         <line x1="1" y1="1" x2="23" y2="23"/>`
-      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-         <circle cx="12" cy="12" r="3"/>`;
-  };
-
-window.handleSignIn = function () {
-  const accountSelect = document.getElementById('adminAccount');
-  const selected      = accountSelect?.options[accountSelect.selectedIndex];
-  const identifier    = selected?.value || '';
-  const correctPw     = selected?.getAttribute('data-password') || '';
-  const password      = document.getElementById('passwordInput').value;
-  const input         = document.getElementById('passwordInput');
-  const errorEl       = document.getElementById('admin-error');
-
-  if (errorEl) errorEl.textContent = '';
-  input.style.borderColor = '';
-  input.style.boxShadow   = '';
-
-  if (!identifier) {
-    if (errorEl) errorEl.textContent = 'Select a valid admin account.';
-    return;
+  function setError(input, errorEl, message) {
+    if (input) input.classList.add('error');
+    if (errorEl) errorEl.textContent = message || '';
   }
 
-  if (!password) {
-    input.style.borderColor = 'var(--color-error, #ef4444)';
-    input.style.boxShadow   = '0 0 0 3px rgba(239,68,68,0.12)';
-    input.focus();
-    return;
+  function clearError(input, errorEl) {
+    if (input) input.classList.remove('error');
+    if (errorEl) errorEl.textContent = '';
   }
 
-  // Check password locally
-  if (password !== correctPw) {
-    input.style.borderColor = 'var(--color-error, #ef4444)';
-    input.style.boxShadow   = '0 0 0 3px rgba(239,68,68,0.12)';
-    if (errorEl) errorEl.textContent = 'Incorrect password. Please try again.';
-    return;
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-// Password matched — go to dashboard
-  window.location.href = '../../admin/pages/dashboard.html';
-};
+  function showLoading() {
+    if (!loadingOverlay) return;
+    loadingOverlay.classList.add('active');
+    loadingOverlay.setAttribute('aria-hidden', 'false');
+  }
 
-  // ── Forgot Password Modal ──
-  window.openForgotPasswordModal = function (event) {
-    event.preventDefault();
-    // Reset to form step
-    document.getElementById('forgotPwContent').style.display = 'block';
-    document.getElementById('forgotPwSuccess').style.display = 'none';
-    document.getElementById('resetEmail').value = '';
-    document.getElementById('reset-error').textContent = '';
-    // Show overlay
-    const overlay = document.getElementById('forgotPwOverlay');
-    overlay.style.opacity    = '1';
-    overlay.style.visibility = 'visible';
-    document.body.style.overflow = 'hidden';
-  };
+  function hideLoading() {
+    if (!loadingOverlay) return;
+    loadingOverlay.classList.remove('active');
+    loadingOverlay.setAttribute('aria-hidden', 'true');
+  }
 
-  window.closeForgotPasswordModal = function () {
-    const overlay = document.getElementById('forgotPwOverlay');
-    overlay.style.opacity    = '0';
-    overlay.style.visibility = 'hidden';
-    document.body.style.overflow = '';
-  };
-
-  // ── Send Reset Link ──
-  window.handlePasswordReset = async function () {
-    const emailInput = document.getElementById('resetEmail');
-    const errorEl    = document.getElementById('reset-error');
-    const resetBtn   = document.getElementById('resetBtn');
-    const email      = emailInput.value.trim();
-
-    errorEl.textContent = '';
+  async function sendOtp() {
+    const email = emailInput.value.trim().toLowerCase();
+    clearError(emailInput, emailError);
 
     if (!email) {
-      errorEl.textContent = 'Please enter your email address.';
+      setError(emailInput, emailError, 'Please enter your admin email.');
       emailInput.focus();
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      errorEl.textContent = 'Please enter a valid email address.';
+    if (!isValidEmail(email)) {
+      setError(emailInput, emailError, 'Please enter a valid email address.');
       emailInput.focus();
       return;
     }
 
-    resetBtn.disabled    = true;
-    resetBtn.textContent = 'Sending...';
+    sendOtpBtn.disabled = true;
+    sendOtpBtn.textContent = 'Sending OTP...';
 
     try {
-      // Replace with real API call in production
-      await new Promise(resolve => setTimeout(resolve, 1200));
+      const response = await fetch('/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
 
-      document.getElementById('sentEmail').textContent = email;
-      document.getElementById('forgotPwContent').style.display = 'none';
-      document.getElementById('forgotPwSuccess').style.display  = 'block';
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'Unable to send OTP');
+      }
 
+      lastEmail = email;
+      showToast('OTP sent. Check your email.');
+      otpInput.focus();
     } catch (error) {
-      errorEl.textContent = 'Failed to send reset link. Please try again.';
+      setError(emailInput, emailError, error.message || 'Failed to send OTP.');
     } finally {
-      resetBtn.disabled    = false;
-      resetBtn.textContent = 'Send Reset Link';
+      sendOtpBtn.disabled = false;
+      sendOtpBtn.textContent = 'Send OTP';
     }
-  };
+  }
 
-  // ── Close modal on backdrop click ──
-  document.getElementById('forgotPwOverlay')?.addEventListener('click', function (e) {
-    if (e.target === this) window.closeForgotPasswordModal();
-  });
+  async function verifyOtp() {
+    const email = emailInput.value.trim().toLowerCase();
+    const otp = otpInput.value.trim();
+    let redirecting = false;
 
-  // ── Close modal on Escape key ──
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      const overlay = document.getElementById('forgotPwOverlay');
-      if (overlay?.style.visibility === 'visible') window.closeForgotPasswordModal();
+    clearError(otpInput, otpError);
+    clearError(emailInput, emailError);
+
+    if (!email) {
+      setError(emailInput, emailError, 'Please enter your admin email.');
+      emailInput.focus();
+      return;
     }
+
+    if (!isValidEmail(email)) {
+      setError(emailInput, emailError, 'Please enter a valid email address.');
+      emailInput.focus();
+      return;
+    }
+
+    if (!otp || otp.length < 6) {
+      setError(otpInput, otpError, 'Enter the 6-digit code.');
+      otpInput.focus();
+      return;
+    }
+
+    if (lastEmail && email !== lastEmail) {
+      setError(emailInput, emailError, 'Email does not match the OTP request.');
+      return;
+    }
+
+    verifyOtpBtn.disabled = true;
+    verifyOtpBtn.textContent = 'Verifying...';
+    showLoading();
+
+    try {
+      const response = await fetch('/email/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp })
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'OTP verification failed');
+      }
+
+      showToast('OTP verified. Redirecting...');
+      redirecting = true;
+      setTimeout(() => {
+        window.location.href = '../../admin/pages/dashboard.html';
+      }, 500);
+    } catch (error) {
+      setError(otpInput, otpError, error.message || 'Invalid OTP.');
+    } finally {
+      verifyOtpBtn.disabled = false;
+      verifyOtpBtn.textContent = 'Verify and Continue';
+      if (!redirecting) hideLoading();
+    }
+  }
+
+  sendOtpBtn?.addEventListener('click', sendOtp);
+  verifyOtpBtn?.addEventListener('click', verifyOtp);
+
+  emailInput?.addEventListener('input', () => clearError(emailInput, emailError));
+  otpInput?.addEventListener('input', () => clearError(otpInput, otpError));
+
+  emailInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendOtp();
   });
 
-  // ── Clear password error on input ──
-  document.getElementById('passwordInput')?.addEventListener('input', function () {
-    this.style.borderColor = '';
-    this.style.boxShadow   = '';
-    const errorEl = document.getElementById('admin-error');
-    if (errorEl) errorEl.textContent = '';
+  otpInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') verifyOtp();
   });
-
-  // ── Enter key triggers sign in ──
-  document.getElementById('passwordInput')?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleSignIn();
-  });
-
 });

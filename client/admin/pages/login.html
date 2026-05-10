@@ -4,9 +4,6 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PhilTMS — Admin Login</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../shared/css/global.css" />
   <link rel="stylesheet" href="../../shared/css/components.css" />
   <link rel="stylesheet" href="../../admin/css/login.css" />
@@ -20,7 +17,7 @@
            alt="PhilTMS Logo" style="width:64px !important;height:64px !important;object-fit:contain;" />
       <div>
         <div class="brand-name">PhilTMS</div>
-        <div class="brand-tagline">PhilSys Identification Tracking and Appointment System</div>
+        <div class="brand-tagline">PhilSys Identification Tracking and Report Management System</div>
       </div>
     </a>
     <div class="navbar-actions">
@@ -30,127 +27,49 @@
   </nav>
 
   <!-- PAGE -->
-  <main class="admin-login-page">
-    <div class="admin-login-card">
-
-      <!-- Header -->
-      <div class="admin-login-header">
-        <h1 class="admin-login-title">Admin Login</h1>
-        <p class="admin-login-sub">Select your admin account to continue</p>
+  <main class="page-wrapper centered">
+    <div class="card login-card">
+      <div class="login-header">
+        <h2 class="login-title">Admin Login</h2>
+        <p class="login-subtitle">Use your admin email to receive a one-time code.</p>
       </div>
 
-      <!-- Select Admin Account -->
-      <div class="alm-group">
-        <label class="alm-label" for="adminAccount">Select Admin Account</label>
-        <div class="alm-select-wrap">
-          <span class="alm-field-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-          </span>
-          <select id="adminAccount" onchange="updateRole()">
-            <option value="jhanleur@philtms.gov.ph"  data-role="Security Administrator" data-password="Jhanleur@2024">Jhanleur Balberan</option>
-            <option value="ferdinand@philtms.gov.ph" data-role="System Administrator"   data-password="Ferdinand@2024">Ferdinand Gelito</option>
-            <option value="racy@philtms.gov.ph"      data-role="Data Administrator"     data-password="Racy@2024">Racy Ledres</option>
-            <option value="alexis@philtms.gov.ph"    data-role="Data Administrator"     data-password="Alexis@2024">Alexis Arcenal</option>
-          </select>
-          <span class="alm-chevron">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </span>
+      <form id="admin-login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="adminEmail">Admin Email</label>
+          <input type="email" class="form-input" id="adminEmail" placeholder="admin@philtms.gov.ph" autocomplete="email" />
+          <span class="form-error-text" id="email-error"></span>
         </div>
-        <div class="alm-role-hint" id="roleHint">Role: Security Administrator</div>
-      </div>
 
-      <!-- Password -->
-      <div class="alm-group">
-        <label class="alm-label" for="passwordInput">Password</label>
-        <div class="alm-input-wrap">
-          <span class="alm-field-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-          </span>
-          <input type="password" id="passwordInput" placeholder="••••••••"/>
-          <button class="alm-toggle-pw" id="togglePw" onclick="togglePassword()" type="button" aria-label="Show password">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eyeIcon">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
+        <button class="btn btn-primary login-btn" id="sendOtpBtn" type="button">Send OTP</button>
+
+        <div class="login-divider"><span>enter code</span></div>
+
+        <div class="form-group">
+          <label class="form-label" for="otpInput">One-Time Password</label>
+          <input type="text" class="form-input code-input" id="otpInput" placeholder="000000" inputmode="numeric" maxlength="6" autocomplete="one-time-code" />
+          <span class="form-error-text" id="otp-error"></span>
         </div>
-        <div class="form-error-text" id="admin-error"></div>
-      </div>
 
-      <!-- Remember me + Forgot password -->
-      <div class="alm-row">
-        <label class="alm-checkbox">
-          <input type="checkbox" id="rememberMe" />
-          <span>Remember me</span>
-        </label>
-        <a href="#" class="alm-forgot" onclick="openForgotPasswordModal(event)">Forgot password?</a>
-      </div>
+        <button class="btn btn-primary login-btn" id="verifyOtpBtn" type="button">Verify and Continue</button>
 
-      <!-- Sign In button -->
-      <button class="alm-submit" onclick="handleSignIn()">Sign In</button>
-
-      <!-- Secure notice -->
-      <p class="alm-security">This is a secure area. Unauthorized access is prohibited.</p>
-
-    </div><!-- /.admin-login-card -->
+        <p class="login-security">This is a secure area. Unauthorized access is prohibited.</p>
+        <p class="login-help">Need help? Contact the system administrator.</p>
+      </form>
+    </div>
   </main>
 
-  <!-- ===== FORGOT PASSWORD MODAL ===== -->
-  <div class="forgot-pw-overlay" id="forgotPwOverlay">
-    <div class="forgot-pw-modal">
-      <button class="forgot-pw-close" onclick="closeForgotPasswordModal()" aria-label="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-
-      <!-- Form step -->
-      <div id="forgotPwContent">
-        <div class="forgot-pw-header">
-          <h2 class="forgot-pw-title">Forgot Password?</h2>
-          <p class="forgot-pw-subtitle">No worries, we'll send you reset instructions</p>
-        </div>
-        <div class="alm-group">
-          <label class="alm-label" for="resetEmail">Admin Email Address</label>
-          <div class="alm-input-wrap">
-            <span class="alm-field-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-            </span>
-            <input type="email" id="resetEmail" placeholder="admin@philtms.gov.ph" />
-          </div>
-          <div class="form-error-text" id="reset-error"></div>
-        </div>
-        <button class="alm-submit" onclick="handlePasswordReset()" id="resetBtn">Send Reset Link</button>
-        <button class="forgot-pw-back" onclick="closeForgotPasswordModal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"/>
-            <polyline points="12 19 5 12 12 5"/>
-          </svg>
-          Back to login
-        </button>
+  <div id="login-loading-overlay" class="login-loading-overlay" aria-hidden="true">
+    <div class="login-loading-card">
+      <div class="loader-ring" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-
-      <!-- Success step -->
-      <div class="forgot-pw-success" id="forgotPwSuccess" style="display:none;">
-        <h3>Check your email</h3>
-        <p>We've sent password reset instructions to <strong id="sentEmail"></strong></p>
-        <button class="alm-submit" onclick="closeForgotPasswordModal()">Back to login</button>
-      </div>
-
-    </div><!-- /.forgot-pw-modal -->
-  </div><!-- /.forgot-pw-overlay -->
+      <div class="loading-title">Signing you in...</div>
+      <div class="loading-sub">Preparing your PhilTMS dashboard</div>
+    </div>
+  </div>
 
   <script src="../../shared/js/auth.js"></script>
   <script src="../js/login.js"></script>
