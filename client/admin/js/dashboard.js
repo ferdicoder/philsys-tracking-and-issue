@@ -11,7 +11,7 @@ function toggleSidebar() {
   const overlay   = document.getElementById('sidebarOverlay');
 
   hamburger.classList.toggle('active');
-  sidebar.classList.toggle('active');
+  sidebar.classList.toggle('open');
   overlay.classList.toggle('hidden');
 }
 
