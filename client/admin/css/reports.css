@@ -1,11 +1,205 @@
 @import url('../../shared/css/global.css');
 
+/* ============================================
+   PHILTMS — REPORTS CSS
+   ============================================ */
+
 /* Page Layout */
 .admin-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: var(--color-bg);
+}
+
+/* Top Navigation (shared with admin pages) */
+.topnav {
+  height: var(--navbar-height);
+  background-color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary-hover);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-1);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  z-index: 101;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-inverse);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.brand-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.brand-name {
+  font-size: var(--text-md);
+  font-weight: var(--font-bold);
+  color: var(--color-text-inverse);
+  display: block;
+}
+
+.brand-sub {
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
+  max-width: 350px;
+}
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-link {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-link:hover {
+  color: var(--color-text-inverse);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  color: #1a2744;
+  background-color: #f5b800;
+  font-weight: var(--font-bold);
+}
+
+.nav-link.nav-logout {
+  color: #f87171;
+  margin-left: var(--space-2);
+}
+
+.nav-link.nav-logout:hover {
+  background-color: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
+}
+
+/* Mobile Sidebar */
+.mobile-sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: -100%;
+  width: 100%;
+  max-width: 280px;
+  height: calc(100vh - var(--navbar-height));
+  background-color: var(--color-surface);
+  z-index: 99;
+  transition: left var(--transition-base);
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.mobile-sidebar.active {
+  left: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  gap: var(--space-2);
+}
+
+.sidebar-link {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: all var(--transition-fast);
+  display: block;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+}
+
+.sidebar-link.logout {
+  color: var(--color-error);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 98;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .main-content {
@@ -24,13 +218,13 @@
 .page-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   margin: 0 0 8px 0;
 }
 
 .page-header p {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -44,7 +238,7 @@
   align-items: center;
   gap: 12px;
   background: #fff;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 12px 16px;
   max-width: 600px;
@@ -61,7 +255,7 @@
   border: none;
   outline: none;
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   background: transparent;
   font-family: 'DM Sans', sans-serif;
 }
@@ -74,7 +268,7 @@
 .reports-section {
   background: #fff;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--color-border);
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
@@ -82,10 +276,10 @@
 .section-heading {
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   padding: 20px 24px;
   margin: 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
   background: #fafbfc;
 }
 
@@ -102,21 +296,21 @@
 
 .data-table thead {
   background: #f9fafb;
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--color-border);
 }
 
 .data-table th {
   padding: 16px 24px;
   text-align: left;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .data-table tbody tr {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
   transition: background-color 0.15s ease;
 }
 
@@ -126,7 +320,7 @@
 
 .data-table td {
   padding: 16px 24px;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   font-size: 14px;
 }
 
@@ -224,13 +418,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px 24px 16px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .modal-header h3 {
   font-size: 18px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -238,7 +432,7 @@
   background: none;
   border: none;
   font-size: 24px;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   cursor: pointer;
   padding: 0;
   width: 32px;
@@ -250,7 +444,7 @@
 }
 
 .modal-close:hover {
-  color: var(--text-primary);
+  color: var(--color-text-primary);
 }
 
 .modal-body {
@@ -268,7 +462,7 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -276,7 +470,7 @@
 
 .detail-item p {
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   font-weight: 500;
   margin: 0;
 }
@@ -289,7 +483,7 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -298,11 +492,11 @@
 .status-select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   background: #fff;
   cursor: pointer;
   transition: border-color 0.15s ease;
@@ -322,7 +516,7 @@
   display: flex;
   gap: 12px;
   padding: 16px 24px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--color-border);
   background: #f9fafb;
   justify-content: flex-end;
 }
@@ -352,13 +546,23 @@
 
 .btn-outline {
   background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
 }
 
 .btn-outline:hover {
   background: #f9fafb;
-  border-color: var(--text-secondary);
+  border-color: var(--color-text-secondary);
+}
+
+@media (max-width: 1024px) {
+  .topnav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
 }
 
 /* Responsive Design */
