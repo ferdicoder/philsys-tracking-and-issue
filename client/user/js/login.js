@@ -81,6 +81,14 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   }
 });
 
+// Add Enter key support for login form
+document.getElementById('login-form').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.querySelector('.login-btn').click();
+  }
+});
+
 //loading overlay
 function showLoadingOverlay() {
   const overlay = document.getElementById('login-loading-overlay');

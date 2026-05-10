@@ -46,3 +46,11 @@ form.addEventListener('submit', (e) => {
     window.location.href = 'step2.html';
   }
 });
+
+// Add Enter key support for step1 form
+form.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.querySelector('button[type="submit"]').click();
+  }
+});

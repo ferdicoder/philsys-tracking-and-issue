@@ -206,3 +206,10 @@ document.getElementById('verify-btn').addEventListener('click', async () => {
     verifyBtn.textContent = 'Confirm';
   }
 });
+
+// Add Enter key support for OTP verification
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    document.getElementById('verify-btn').click();
+  }
+});

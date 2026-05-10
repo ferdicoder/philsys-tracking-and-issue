@@ -161,6 +161,14 @@ function initForm() {
       window.location.href = 'step3.html';
     }
   });
+
+  // Add Enter key support for step2 form
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.querySelector('button[type="submit"]').click();
+    }
+  });
 }
 
 // ── Back button ───────────────────────────────
