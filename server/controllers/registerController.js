@@ -38,7 +38,7 @@ function generateTokens(email, roles = 'user'){
       roles: roles
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '5m' }
+    { expiresIn: '1h' }
   )
    
   return { accessToken, refreshToken };

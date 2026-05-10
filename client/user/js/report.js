@@ -73,49 +73,127 @@ document.addEventListener('DOMContentLoaded', () => {
     el.querySelector('input[type="radio"]').checked = true;
   };
 
-/* ── Helper Validation Function ── */
-function isValidTRN(trn) {
-  // This ensures it strictly follows: TRN-XXXX-XXXXXX
-  const trnPattern = /^TRN-\d{4}-\d{6}$/;
-  return trnPattern.test(trn);
-}
-
 /* ── Submit Follow-up ── */
 window.submitFollowup = function () {
   const trnInput = document.getElementById('fuTRN');
   const trnValue = trnInput?.value.trim();
+  const detailsValue = document.getElementById('fuDetails')?.value.trim() || '';
+  const selectedOption = document.querySelector('input[name="fuType"]:checked')?.closest('.rpt-option');
+  const selectedLabel = selectedOption?.querySelector('.rpt-option-title')?.textContent?.trim();
+  const forMyself = document.getElementById('forMyself')?.classList.contains('rpt-for-btn--active');
+  const relationshipValue = document.querySelector('input[name="rel"]:checked')?.value || '';
 
-  // If it doesn't match the pattern, STOP here
-  if (!isValidTRN(trnValue)) {
+  if (!trnValue) {
     trnInput.classList.add('error');
     trnInput.focus();
-    alert("Please enter a valid TRN (e.g., TRN-2024-001234)");
-    return; // This 'return' prevents the overlay from showing
+    alert('Please enter your TRN.');
+    return;
   }
 
-  // Only runs if valid
-  trnInput.classList.remove('error');
-  document.getElementById('overlayFollowup').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  if (!selectedLabel) {
+    alert('Please select a follow-up type.');
+    return;
+  }
+
+  const contentParts = [
+    `TRN: ${trnValue}`,
+    `Follow-up type: ${selectedLabel}`,
+    `For: ${forMyself ? 'Myself' : 'Someone else'}`
+  ];
+
+  if (!forMyself && relationshipValue) {
+    contentParts.push(`Relationship: ${relationshipValue}`);
+  }
+
+  if (detailsValue) {
+    contentParts.push(`Details: ${detailsValue}`);
+  }
+
+  const session = window.PhilTmsAuth?.getSession?.();
+  if (!session?.accessToken) return;
+
+  fetch('/reports', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      reportContent: contentParts.join(' | '),
+      reportType: 'follow'
+    })
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to submit follow-up.');
+      }
+
+      trnInput.classList.remove('error');
+      document.getElementById('overlayFollowup').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    })
+    .catch((error) => {
+      console.error(error);
+      alert('Unable to submit follow-up. Please try again.');
+    });
 };
 
 /* ── Submit Report ── */
 window.submitReport = function () {
   const trnInput = document.getElementById('reportTRN');
   const trnValue = trnInput?.value.trim();
+  const detailsValue = document.getElementById('reportDetails')?.value.trim() || '';
+  const selectedOption = document.querySelector('input[name="concern"]:checked')?.closest('.rpt-option');
+  const selectedLabel = selectedOption?.querySelector('.rpt-option-title')?.textContent?.trim();
 
-  // If it doesn't match the pattern, STOP here
-  if (!isValidTRN(trnValue)) {
+  if (!trnValue) {
     trnInput.classList.add('error');
     trnInput.focus();
-    alert("Please enter a valid TRN (e.g., TRN-2024-001234)");
-    return; // This 'return' prevents the overlay from showing
+    alert('Please enter your TRN.');
+    return;
   }
 
-  // Only runs if valid
-  trnInput.classList.remove('error');
-  document.getElementById('overlayReport').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  if (!selectedLabel) {
+    alert('Please select a concern type.');
+    return;
+  }
+
+  const contentParts = [
+    `TRN: ${trnValue}`,
+    `Concern type: ${selectedLabel}`
+  ];
+
+  if (detailsValue) {
+    contentParts.push(`Details: ${detailsValue}`);
+  }
+
+  const session = window.PhilTmsAuth?.getSession?.();
+  if (!session?.accessToken) return;
+
+  fetch('/reports', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      reportContent: contentParts.join(' | '),
+      reportType: 'concern'
+    })
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to submit report.');
+      }
+
+      trnInput.classList.remove('error');
+      document.getElementById('overlayReport').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    })
+    .catch((error) => {
+      console.error(error);
+      alert('Unable to submit report. Please try again.');
+    });
 };
 
   /* ── Close overlay ── */

@@ -34,7 +34,7 @@ async function isAdmin(email){
 }
 
 async function createReportRecord(reportData){
-	const { reportId, userId, reportContent, status } = reportData;
+	const { reportId, userId, reportContent, status, type } = reportData;
 
 	const result = await db.query(`
 		INSERT INTO reports (
@@ -42,10 +42,11 @@ async function createReportRecord(reportData){
 			user_id,
 			report_content,
 			status,
+			type,
 			created_at
-		) VALUES ($1, $2, $3, $4, NOW())
-		RETURNING report_id, user_id, report_content, status, created_at, updated_at
-	`, [reportId, userId, reportContent, status,]);
+		) VALUES ($1, $2, $3, $4, $5, NOW())
+		RETURNING report_id, user_id, report_content, status, type, created_at
+	`, [reportId, userId, reportContent, status, type]);
 
 	return result.rows[0];
 }
@@ -57,9 +58,13 @@ async function getAllReports(){
 			r.report_id,
 			r.user_id,
 			u.email,
+			u.tracking_number,
+			u.first_name,
+			u.last_name,
 			r.report_content,
 			r.status,
-			r.created_at,
+			r.type,
+			r.created_at
 		FROM reports r
 		JOIN users u ON u.user_id = r.user_id
 		ORDER BY r.created_at DESC
@@ -68,4 +73,15 @@ async function getAllReports(){
 	return result.rows;
 }
 
-module.exports = { getUser, isAdmin, createReportRecord, getAllReports };
+async function updateReportStatus(reportId, status){
+	const result = await db.query(`
+		UPDATE reports
+		SET status = $1
+		WHERE report_id = $2
+		RETURNING report_id, user_id, report_content, status, type, created_at
+	`, [status, reportId]);
+
+	return result.rows[0] || null;
+}
+
+module.exports = { getUser, isAdmin, createReportRecord, getAllReports, updateReportStatus };
