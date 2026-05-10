@@ -6,6 +6,7 @@ const {
   createReportRecord,
   getAllReports,
   updateReportStatus,
+  getReportsByUserId,
 } = require('../services/reportServices');
 
 function getContent(reportContent){
@@ -99,6 +100,22 @@ async function viewReports(req, res){
   }
 }
 
+async function viewUserReports(req, res){
+  try{
+    const email = getCurrentUser(req);
+    const userId = await getUser(email);
+    const reports = await getReportsByUserId(userId);
+
+    return res.status(200).json({ reports });
+  }catch(error){
+    if(error.type === 'UNAUTHORIZED') return res.status(401).json({ error: error.message });
+    if(error.type === 'NOT_FOUND') return res.status(404).json({ error: error.message });
+
+    console.error('View user reports error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 async function updateReport(req, res){
   try{
     const email = getCurrentUser(req);
@@ -136,4 +153,4 @@ async function updateReport(req, res){
   }
 }
 
-module.exports = { createReport, viewReports, updateReport };
+module.exports = { createReport, viewReports, viewUserReports, updateReport };

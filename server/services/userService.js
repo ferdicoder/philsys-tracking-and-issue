@@ -131,6 +131,38 @@ async function createApplicationForUserId(userId, applicationId) {
   return result.rowCount > 0;
 }
 
+// Get all applications with user details for admin
+async function getAllApplicationsWithUserDetails() {
+  const result = await db.query(
+    `SELECT
+      a.application_id,
+      a.status,
+      a.current_location,
+      a.date_registered,
+      u.user_id,
+      u.tracking_number,
+      u.first_name,
+      u.last_name,
+      u.middle_name,
+      u.email
+    FROM applications a
+    JOIN users u ON a.user_id = u.user_id
+    ORDER BY a.date_registered DESC`
+  );
+
+  return result.rows;
+}
+
+// Update application status by application_id
+async function updateApplicationStatus(applicationId, newStatus) {
+  const result = await db.query(
+    'UPDATE applications SET status = $1 WHERE application_id = $2',
+    [newStatus, applicationId]
+  );
+
+  return result.rowCount > 0;
+}
+
 
 module.exports = {
   checkUserExists,
@@ -140,5 +172,7 @@ module.exports = {
   updateUserPassword,
   updateTrackingNumberByEmail,
   getLatestApplicationByUserId,
-  createApplicationForUserId
+  createApplicationForUserId,
+  getAllApplicationsWithUserDetails,
+  updateApplicationStatus
 };
