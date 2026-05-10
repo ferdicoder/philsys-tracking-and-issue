@@ -26,6 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		return value;
 	}
 
+	function parseReportContent(content) {
+		const parts = String(content || '').split('|').map(item => item.trim()).filter(Boolean);
+		const detailMap = {};
+		parts.forEach((part) => {
+			const [key, ...rest] = part.split(':');
+			if (!key || !rest.length) return;
+			detailMap[key.trim().toLowerCase()] = rest.join(':').trim();
+		});
+
+		return {
+			selectedOption: detailMap['follow-up type'] || detailMap['concern type'] || '—',
+			description: detailMap['details'] || '—'
+		};
+	}
+
 	function renderReports(list) {
 		if (!reportTableBody) return;
 		reportTableBody.innerHTML = '';
@@ -60,12 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		activeReport = report;
 		if (!reportModal) return;
 
+		const parsed = parseReportContent(report.report_content);
+
 		document.getElementById('detailReportId').textContent = report.report_id || '—';
 		document.getElementById('detailTRN').textContent = report.tracking_number || '—';
 		document.getElementById('detailApplicantName').textContent = [report.first_name, report.last_name].filter(Boolean).join(' ') || '—';
 		document.getElementById('detailReportType').textContent = formatType(report.type);
 		document.getElementById('detailDate').textContent = formatDate(report.created_at);
 		document.getElementById('detailStatus').textContent = report.status || '—';
+		document.getElementById('detailSelectedOption').textContent = parsed.selectedOption;
+		document.getElementById('detailDescription').textContent = parsed.description;
 
 		if (statusSelect) {
 			statusSelect.value = report.status || 'pending';
