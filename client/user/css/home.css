@@ -194,6 +194,32 @@ body {
   color: var(--color-text-muted);
   margin-bottom: var(--space-3);
   background-color: var(--color-surface);
+  transition: all var(--transition-fast);
+}
+
+/* Hover effects for each Quick Action icon */
+.home-qa-card:nth-child(1) .home-qa-icon:hover,
+.home-qa-card:nth-child(1):hover .home-qa-icon {
+  background-color: #dbeafe;
+  color: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.2);
+}
+
+.home-qa-card:nth-child(2) .home-qa-icon:hover,
+.home-qa-card:nth-child(2):hover .home-qa-icon {
+  background-color: #fed7aa;
+  color: #ea580c;
+  border-color: #ea580c;
+  box-shadow: 0 0 12px rgba(234, 88, 12, 0.2);
+}
+
+.home-qa-card:nth-child(3) .home-qa-icon:hover,
+.home-qa-card:nth-child(3):hover .home-qa-icon {
+  background-color: #e9d5ff;
+  color: #9333ea;
+  border-color: #9333ea;
+  box-shadow: 0 0 12px rgba(147, 51, 234, 0.2);
 }
 
 .home-qa-name {
