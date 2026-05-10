@@ -51,6 +51,81 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function parseReportContent(content) {
+    const parts = String(content || '').split('|').map(item => item.trim()).filter(Boolean);
+    const detailMap = {};
+    parts.forEach((part) => {
+      const [key, ...rest] = part.split(':');
+      if (!key || !rest.length) return;
+      detailMap[key.trim().toLowerCase()] = rest.join(':').trim();
+    });
+
+    return {
+      selectedOption: detailMap['follow-up type'] || detailMap['concern type'] || '—',
+      description: detailMap['details'] || ''
+    };
+  }
+
+  function formatDate(value) {
+    if (!value) return '—';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleDateString();
+  }
+
+  function formatStatus(status) {
+    return String(status || '').trim().toLowerCase();
+  }
+
+  function renderReportHistory(list) {
+    const container = document.getElementById('reportHistoryList');
+    if (!container) return;
+
+    if (!Array.isArray(list) || list.length === 0) {
+      container.innerHTML = '<div class="history-empty">No reports submitted yet.</div>';
+      return;
+    }
+
+    container.innerHTML = list.map((report) => {
+      const parsed = parseReportContent(report.report_content);
+      const statusValue = formatStatus(report.status);
+      const statusClass = statusValue ? `history-status--${statusValue}` : '';
+      const label = parsed.selectedOption || 'Report';
+      const details = parsed.description ? parsed.description : 'No description provided.';
+
+      return `
+        <div class="history-item">
+          <div class="history-meta">
+            <span>${formatDate(report.created_at)}</span>
+            <span class="history-status ${statusClass}">${statusValue || 'pending'}</span>
+          </div>
+          <div class="history-title">${label}</div>
+          <div class="history-desc">${details}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function loadUserReports() {
+    const session = window.PhilTmsAuth?.getSession?.();
+    if (!session?.accessToken) return;
+
+    try {
+      const response = await fetch('/reports/me', {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`
+        }
+      });
+
+      if (!response.ok) return;
+
+      const payload = await response.json();
+      renderReportHistory(payload.reports || []);
+    } catch (error) {
+      console.error('Failed to load report history:', error);
+    }
+  }
+
   /* ── Tab switcher ── */
   window.switchTab = function (tab) {
     document.getElementById('tabFollowup').classList.toggle('active', tab === 'followup');
@@ -129,6 +204,7 @@ window.submitFollowup = function () {
       }
 
       trnInput.classList.remove('error');
+      loadUserReports();
       document.getElementById('overlayFollowup').style.display = 'flex';
       document.body.style.overflow = 'hidden';
     })
@@ -187,6 +263,7 @@ window.submitReport = function () {
       }
 
       trnInput.classList.remove('error');
+      loadUserReports();
       document.getElementById('overlayReport').style.display = 'flex';
       document.body.style.overflow = 'hidden';
     })
@@ -232,5 +309,6 @@ window.submitReport = function () {
   loadProfileName();
   syncTrnInputsFromStorage();
   bindTrnSyncToStorage();
+  loadUserReports();
 
 });

@@ -2,9 +2,108 @@ body { background-color: #f0f2f5; }
 
 /* ── Main layout ── */
 .report-main {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 40px 32px;
+}
+
+.report-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.report-history {
+  position: sticky;
+  top: 88px;
+}
+
+.history-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(15, 32, 68, 0.08);
+}
+
+.history-header h3 {
+  font-size: var(--text-md);
+  margin: 0 0 4px 0;
+  color: var(--color-text-primary);
+}
+
+.history-sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.history-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.history-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.history-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.history-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  line-height: var(--leading-loose);
+}
+
+.history-status {
+  font-size: 10px;
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.history-status--pending {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.history-status--reviewed {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+.history-empty {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 20px 12px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: #f8fafc;
 }
 
 /* ── Tab switcher ── */
@@ -499,4 +598,14 @@ body { background-color: #f0f2f5; }
   .rpt-hello-bar { flex-direction: column; }
   .rpt-hello-trn { min-width: unset; width: 100%; }
   .report-main { padding: 24px 16px; }
+}
+
+@media (max-width: 980px) {
+  .report-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .report-history {
+    position: static;
+  }
 }

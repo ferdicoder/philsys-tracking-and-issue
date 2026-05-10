@@ -84,4 +84,20 @@ async function updateReportStatus(reportId, status){
 	return result.rows[0] || null;
 }
 
-module.exports = { getUser, isAdmin, createReportRecord, getAllReports, updateReportStatus };
+async function getReportsByUserId(userId){
+	const result = await db.query(`
+		SELECT
+			r.report_id,
+			r.report_content,
+			r.status,
+			r.type,
+			r.created_at
+		FROM reports r
+		WHERE r.user_id = $1
+		ORDER BY r.created_at DESC
+	`, [userId]);
+
+	return result.rows;
+}
+
+module.exports = { getUser, isAdmin, createReportRecord, getAllReports, updateReportStatus, getReportsByUserId };

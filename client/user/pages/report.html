@@ -53,15 +53,28 @@
 
   <!-- MAIN -->
   <main class="report-main">
+    <div class="report-layout">
+      <aside class="report-history">
+        <div class="history-card">
+          <div class="history-header">
+            <h3>Submitted Reports</h3>
+            <span class="history-sub">Your recent follow-ups and concerns</span>
+          </div>
+          <div class="history-list" id="reportHistoryList">
+            <div class="history-empty">No reports submitted yet.</div>
+          </div>
+        </div>
+      </aside>
 
-    <!-- Tabs: Follow-Up LEFT, Report Concern RIGHT -->
-    <div class="report-tabs">
-      <button class="report-tab active" id="tabFollowup" onclick="switchTab('followup')">Follow-Up Application</button>
-      <button class="report-tab" id="tabConcern" onclick="switchTab('concern')">Report Concern</button>
-    </div>
+      <section class="report-content">
+        <!-- Tabs: Follow-Up LEFT, Report Concern RIGHT -->
+        <div class="report-tabs">
+          <button class="report-tab active" id="tabFollowup" onclick="switchTab('followup')">Follow-Up Application</button>
+          <button class="report-tab" id="tabConcern" onclick="switchTab('concern')">Report Concern</button>
+        </div>
 
-    <!-- ===== FOLLOW-UP TAB (default active) ===== -->
-    <div id="panelFollowup">
+        <!-- ===== FOLLOW-UP TAB (default active) ===== -->
+        <div id="panelFollowup">
 
       <!-- Info alert — blue -->
       <div class="rpt-alert rpt-alert-blue">
@@ -145,10 +158,10 @@
         <button class="rpt-btn-submit" onclick="submitFollowup()">Submit</button>
       </div>
 
-    </div>
+      </div>
 
-    <!-- ===== REPORT CONCERN TAB (hidden by default) ===== -->
-    <div id="panelConcern" class="hidden">
+      <!-- ===== REPORT CONCERN TAB (hidden by default) ===== -->
+      <div id="panelConcern" class="hidden">
 
       <!-- Warning alert — red -->
       <div class="rpt-alert rpt-alert-red">
@@ -211,6 +224,8 @@
         <button class="rpt-btn-submit" onclick="submitReport()">Submit</button>
       </div>
 
+        </div>
+      </section>
     </div>
 
   </main>

@@ -5,11 +5,14 @@ const verifyToken = require('../middlewares/verify');
 const {
   createReport,
   viewReports,
+  viewUserReports,
   updateReport,
 } = require('../controllers/reportsController');
 
 
 router.post('/', verifyToken, createReport);
+
+router.get('/me', verifyToken, viewUserReports);
 
 router.get('/', verifyToken, viewReports);
 
