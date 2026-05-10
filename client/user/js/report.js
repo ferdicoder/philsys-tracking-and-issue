@@ -4,6 +4,31 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  function syncTrnInputsFromStorage() {
+    const storedTrn = localStorage.getItem('philtms_trn') || '';
+    if (!storedTrn) return;
+
+    const followupTrn = document.getElementById('fuTRN');
+    const reportTrn = document.getElementById('reportTRN');
+
+    if (followupTrn && !followupTrn.value) followupTrn.value = storedTrn;
+    if (reportTrn && !reportTrn.value) reportTrn.value = storedTrn;
+  }
+
+  function bindTrnSyncToStorage() {
+    const inputs = [
+      document.getElementById('fuTRN'),
+      document.getElementById('reportTRN')
+    ].filter(Boolean);
+
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        const value = input.value.trim();
+        if (value) localStorage.setItem('philtms_trn', value);
+      });
+    });
+  }
+
   async function loadProfileName() {
     const session = window.PhilTmsAuth?.getSession?.();
     if (!session?.accessToken) return;
@@ -127,5 +152,7 @@ window.submitReport = function () {
   });
 
   loadProfileName();
+  syncTrnInputsFromStorage();
+  bindTrnSyncToStorage();
 
 });
