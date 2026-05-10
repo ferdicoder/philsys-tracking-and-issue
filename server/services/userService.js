@@ -95,11 +95,50 @@ async function updateUserPassword(email, hashedPassword) {
   return result.rowCount > 0;
 }
 
+async function updateTrackingNumberByEmail(email, trackingNumber) {
+  const result = await db.query(
+    'UPDATE users SET tracking_number = $1 WHERE email = $2',
+    [trackingNumber, email]
+  );
+
+  return result.rowCount > 0;
+}
+
+async function getLatestApplicationByUserId(userId) {
+  const result = await db.query(
+    `SELECT application_id, status, current_location, date_registered
+     FROM applications
+     WHERE user_id = $1
+     ORDER BY date_registered DESC
+     LIMIT 1`,
+    [userId]
+  );
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  return result.rows[0];
+}
+
+async function createApplicationForUserId(userId, applicationId) {
+  const result = await db.query(
+    `INSERT INTO applications (application_id, user_id, date_registered)
+     VALUES ($1, $2, CURRENT_DATE)`,
+    [applicationId, userId]
+  );
+
+  return result.rowCount > 0;
+}
+
 
 module.exports = {
   checkUserExists,
   createUser,
   getUserProfileByEmail,
   getUserRoleByEmail,
-  updateUserPassword
+  updateUserPassword,
+  updateTrackingNumberByEmail,
+  getLatestApplicationByUserId,
+  createApplicationForUserId
 };

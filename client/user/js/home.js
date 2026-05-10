@@ -4,6 +4,56 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const STATUS_FLOW = [
+    'registered',
+    'verified',
+    'for printing',
+    'printing',
+    'printed',
+    'for delivery',
+    'delivered'
+  ];
+
+  function normalizeStatus(value) {
+    if (!value) return '';
+    const normalized = String(value).trim().toLowerCase();
+    if (normalized === 'pritned') return 'printed';
+    return normalized;
+  }
+
+  function applyTrackerStatus(status) {
+    const normalized = normalizeStatus(status);
+    const steps = Array.from(document.querySelectorAll('.ht-step[data-status]'));
+    const activeIndex = STATUS_FLOW.indexOf(normalized);
+
+    steps.forEach((step) => {
+      step.classList.remove('ht-done', 'ht-active', 'ht-inactive');
+      const stepStatus = step.dataset.status || '';
+      const stepIndex = STATUS_FLOW.indexOf(stepStatus);
+      const connector = step.querySelector('.ht-connector');
+
+      if (activeIndex === -1 || stepIndex === -1) {
+        step.classList.add('ht-inactive');
+        if (connector) connector.classList.remove('ht-connector-done');
+        return;
+      }
+
+      if (stepIndex < activeIndex) {
+        step.classList.add('ht-done');
+        if (connector) connector.classList.add('ht-connector-done');
+        return;
+      }
+
+      if (stepIndex === activeIndex) {
+        step.classList.add('ht-active');
+        if (connector) connector.classList.remove('ht-connector-done');
+        return;
+      }
+
+      step.classList.add('ht-inactive');
+      if (connector) connector.classList.remove('ht-connector-done');
+    });
+  }
 
   async function loadProfileName() {
     const session = window.PhilTmsAuth?.getSession?.();
@@ -22,9 +72,101 @@ document.addEventListener('DOMContentLoaded', () => {
       const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || 'User';
       const nameEl = document.getElementById('homeUserName');
       if (nameEl) nameEl.textContent = fullName;
+
+      const trnRequired = document.getElementById('trnRequired');
+      const trackerWrap = document.getElementById('homeTrackerWrap');
+      if (user.tracking_number) {
+        localStorage.setItem('philtms_trn', user.tracking_number);
+      }
+
+      const storedTrn = localStorage.getItem('philtms_trn') || '';
+      const hasTrn = Boolean(user.tracking_number || storedTrn);
+
+      if (trnRequired && trackerWrap) {
+        trnRequired.classList.toggle('is-hidden', hasTrn);
+        trackerWrap.classList.toggle('is-hidden', !hasTrn);
+      }
+
+      const trnInput = document.getElementById('homeTrnInput');
+      if (trnInput && storedTrn) trnInput.value = storedTrn;
+
+      if (hasTrn) {
+        await loadApplicationStatus(session.accessToken);
+      }
     } catch (error) {
       console.error('Failed to load profile name:', error);
     }
+  }
+
+  async function loadApplicationStatus(accessToken) {
+    try {
+      const response = await fetch('/user/application', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      if (!response.ok) return;
+
+      const payload = await response.json();
+      if (payload?.status) {
+        applyTrackerStatus(payload.status);
+      }
+    } catch (error) {
+      console.error('Failed to load application status:', error);
+    }
+  }
+
+  function bindTrnSave() {
+    const trnInput = document.getElementById('homeTrnInput');
+    const trnSave = document.getElementById('homeTrnSave');
+    const trnRequired = document.getElementById('trnRequired');
+    const trackerWrap = document.getElementById('homeTrackerWrap');
+
+    if (!trnInput || !trnSave) return;
+
+    const saveTrn = async () => {
+      const value = trnInput.value.trim();
+      if (!value) {
+        trnInput.focus();
+        return;
+      }
+
+      const session = window.PhilTmsAuth?.getSession?.();
+      if (!session?.accessToken) return;
+
+      try {
+        const response = await fetch('/user/trn', {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ tracking_number: value })
+        });
+
+        if (!response.ok) return;
+
+        localStorage.setItem('philtms_trn', value);
+
+        if (trnRequired && trackerWrap) {
+          trnRequired.classList.add('is-hidden');
+          trackerWrap.classList.remove('is-hidden');
+        }
+
+        await loadApplicationStatus(session.accessToken);
+      } catch (error) {
+        console.error('Failed to save TRN:', error);
+      }
+    };
+
+    trnSave.addEventListener('click', saveTrn);
+    trnInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        saveTrn();
+      }
+    });
   }
 
   /* ============================================
@@ -88,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
      STATUS TRACKER — ANIMATE ON SCROLL
      Uses IntersectionObserver for entrance effect
      ============================================ */
-  const trackerSteps = document.querySelectorAll('.tracker-step');
+  const trackerSteps = document.querySelectorAll('.ht-step');
 
   if ('IntersectionObserver' in window) {
     const trackerObserver = new IntersectionObserver((entries) => {
@@ -312,5 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loadProfileName();
+  bindTrnSave();
 
 });

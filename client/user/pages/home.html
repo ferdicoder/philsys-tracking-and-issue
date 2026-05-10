@@ -70,20 +70,33 @@
         Your national ID application has been submitted. You will receive an email when the status changes. You may also check back here to see the current status of your ID.
       </p>
 
+      <div class="home-trn-required" id="trnRequired">
+        <div class="home-trn-title">Tracking number required</div>
+        <p class="home-trn-desc">Add your PhilSys Reference No. (TRN) to view your national ID status.</p>
+        <div class="home-trn-form">
+          <label for="homeTrnInput" class="home-trn-label">PhilSys Reference No. (TRN)</label>
+          <div class="home-trn-row">
+            <input id="homeTrnInput" class="form-input" type="text" placeholder="Enter your TRN" autocomplete="off" />
+            <button class="btn btn-primary" type="button" id="homeTrnSave">Save TRN</button>
+          </div>
+          <div class="home-trn-hint">Your TRN is saved to your account settings.</div>
+        </div>
+      </div>
+
       <!-- Status Tracker -->
-      <div class="home-tracker">
+      <div class="home-tracker" id="homeTrackerWrap">
 
         <!-- Step 1: Registered — done (green filled) -->
-        <div class="ht-step ht-done">
+        <div class="ht-step ht-inactive" data-status="registered">
           <div class="ht-circle">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <div class="ht-connector ht-connector-done"></div>
+          <div class="ht-connector"></div>
           <div class="ht-label">Registered</div>
         </div>
 
         <!-- Step 2: Verified — active (blue filled) -->
-        <div class="ht-step ht-active">
+        <div class="ht-step ht-inactive" data-status="verified">
           <div class="ht-circle">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </div>
@@ -93,7 +106,7 @@
         </div>
 
         <!-- Step 3: For Printing — inactive -->
-        <div class="ht-step ht-inactive">
+        <div class="ht-step ht-inactive" data-status="for printing">
           <div class="ht-circle"></div>
           <div class="ht-connector"></div>
           <div class="ht-label">For<br>Printing</div>
@@ -101,7 +114,7 @@
         </div>
 
         <!-- Step 4: Printing — inactive -->
-        <div class="ht-step ht-inactive">
+        <div class="ht-step ht-inactive" data-status="printing">
           <div class="ht-circle"></div>
           <div class="ht-connector"></div>
           <div class="ht-label">Printing</div>
@@ -109,7 +122,7 @@
         </div>
 
         <!-- Step 5: Printed — inactive -->
-        <div class="ht-step ht-inactive">
+        <div class="ht-step ht-inactive" data-status="printed">
           <div class="ht-circle"></div>
           <div class="ht-connector"></div>
           <div class="ht-label">Printed</div>
@@ -117,7 +130,7 @@
         </div>
 
         <!-- Step 6: For Delivery — inactive -->
-        <div class="ht-step ht-inactive">
+        <div class="ht-step ht-inactive" data-status="for delivery">
           <div class="ht-circle"></div>
           <div class="ht-connector"></div>
           <div class="ht-label">For<br>Delivery</div>
@@ -125,7 +138,7 @@
         </div>
 
         <!-- Step 7: Delivered — inactive (no connector after) -->
-        <div class="ht-step ht-inactive ht-last">
+        <div class="ht-step ht-inactive ht-last" data-status="delivered">
           <div class="ht-circle"></div>
           <div class="ht-label">Delivered</div>
           <div class="ht-sublabel">ID has been delivered</div>

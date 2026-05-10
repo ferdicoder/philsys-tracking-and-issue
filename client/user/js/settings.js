@@ -56,7 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const user = await response.json();
 
       const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || 'User';
-      const trn = user.tracking_number || '--';
+      const storedTrn = localStorage.getItem('philtms_trn') || '';
+      const trn = user.tracking_number || storedTrn || '--';
+
+      if (user.tracking_number) {
+        localStorage.setItem('philtms_trn', user.tracking_number);
+      }
 
       const nameEl = document.getElementById('profileName');
       const trnEl = document.getElementById('profileTrn');
