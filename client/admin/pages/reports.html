@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PhilTMS – Reports</title>
+  <title>PhilTMS – Report Management</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../../shared/css/global.css"/>
   <link rel="stylesheet" href="../../shared/css/components.css"/>
-  <link rel="stylesheet" href="../css/reports.css"/>
+  <link rel="stylesheet" href="../css/report-management.css"/>
 </head>
 <body>
   <div class="admin-layout">
@@ -30,8 +30,8 @@
         <a href="dashboard.html" class="nav-link">Dashboard</a>
         <a href="applications.html" class="nav-link">Applications</a>
         <a href="status-management.html" class="nav-link">Status Management</a>
-        <a href="report-management.html" class="nav-link">Report Management</a>
-        <a href="reports.html" class="nav-link active">Reports</a>
+        <a href="report-management.html" class="nav-link active">Report Management</a>
+        <a href="reports.html" class="nav-link">Reports</a>
         <a href="settings.html" class="nav-link">Settings</a>
         <a href="login.html" class="nav-link nav-logout">Logout</a>
       </nav>
@@ -41,8 +41,8 @@
         <a href="dashboard.html" class="sidebar-link">Dashboard</a>
         <a href="applications.html" class="sidebar-link">Applications</a>
         <a href="status-management.html" class="sidebar-link">Status Management</a>
-        <a href="report-management.html" class="sidebar-link">Report Management</a>
-        <a href="reports.html" class="sidebar-link active">Reports</a>
+        <a href="report-management.html" class="sidebar-link active">Report Management</a>
+        <a href="reports.html" class="sidebar-link">Reports</a>
         <a href="settings.html" class="sidebar-link">Settings</a>
         <a href="login.html" class="sidebar-link logout">Logout</a>
       </nav>
@@ -51,68 +51,95 @@
  
     <main class="main-content">
       <div class="page-header">
-        <h1>Reports</h1>
-        <p>Generate application status summaries and reports</p>
+        <h1>Report Management</h1>
+        <p>Review and manage user-submitted reports</p>
       </div>
  
-      <div class="content-card">
-        <h2 class="card-heading">Report Parameters</h2>
-        <div class="params-grid">
-          <div class="form-group">
-            <label>Start Date</label>
-            <input type="date" id="startDate" class="date-input"/>
-          </div>
-          <div class="form-group">
-            <label>End Date</label>
-            <input type="date" id="endDate" class="date-input"/>
-          </div>
-          <div class="form-group">
-            <label>Report Type</label>
-            <select id="reportType" class="status-select">
-              <option value="all">All Applications</option>
-              <option value="registered">Registered</option>
-              <option value="verified">Verified</option>
-              <option value="for printing">For Printing</option>
-              <option value="printed">Printed</option>
-              <option value="for delivery">For Delivery</option>
-              <option value="delivered">Delivered</option>
-            </select>
-          </div>
+      <div class="search-container">
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="#9ca3af" stroke-width="1.5"/>
+            <path d="M11 11l3 3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="reportSearch" placeholder="Search by Report ID, TRN, or applicant name..." oninput="filterReports(this.value)"/>
         </div>
-        <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
       </div>
  
-      <div class="content-card hidden" id="reportOutput">
-        <div class="report-header-row">
-          <h2 class="card-heading" id="reportTitle">Generated Report</h2>
-          <button class="btn btn-outline" onclick="printReport()">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <rect x="3" y="5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.4"/>
-              <path d="M5 5V3h5v2M5 10h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-            Print / Export
-          </button>
-        </div>
-        <div class="report-stats" id="reportStats"></div>
+      <div class="reports-section">
+        <h2 class="section-heading">User Reports</h2>
         <div class="table-wrapper">
-          <table class="data-table" id="reportResultTable">
+          <table class="data-table" id="reportTable">
             <thead>
               <tr>
+                <th>Report ID</th>
                 <th>TRN</th>
                 <th>Applicant Name</th>
-                <th>Registration Date</th>
-                <th>Current Status</th>
+                <th>Report Type</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody id="reportResultBody"></tbody>
+            <tbody id="reportTableBody">
+            </tbody>
           </table>
         </div>
       </div>
     </main>
+ 
+    <!-- Report Details Modal -->
+    <div class="modal-overlay hidden" id="reportModal" onclick="closeReportModal(event)">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Report Details</h3>
+          <button onclick="closeReportModal()" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="reportModalBody">
+          <div class="report-detail-grid">
+            <div class="detail-item">
+              <label>Report ID</label>
+              <p id="detailReportId"></p>
+            </div>
+            <div class="detail-item">
+              <label>TRN</label>
+              <p id="detailTRN"></p>
+            </div>
+            <div class="detail-item">
+              <label>Applicant Name</label>
+              <p id="detailApplicantName"></p>
+            </div>
+            <div class="detail-item">
+              <label>Report Type</label>
+              <p id="detailReportType"></p>
+            </div>
+            <div class="detail-item">
+              <label>Date</label>
+              <p id="detailDate"></p>
+            </div>
+            <div class="detail-item">
+              <label>Current Status</label>
+              <p id="detailStatus"></p>
+            </div>
+          </div>
+          <div class="detail-section">
+            <label for="reportStatusUpdate">Update Status</label>
+            <select id="reportStatusUpdate" class="status-select">
+              <option value="open">Open</option>
+              <option value="reviewing">Reviewing</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="saveReportStatus()">Save Changes</button>
+          <button class="btn btn-outline" onclick="closeReportModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
  
   <script src="../../shared/js/auth.js"></script>
   <script src="../js/admin-auth.js"></script>
-  <script src="../js/reports.js"></script>
+  <script src="../js/report-management.js"></script>
 </body>
 </html>
