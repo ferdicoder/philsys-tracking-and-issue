@@ -59,7 +59,7 @@
     <!-- Centered page heading -->
     <div class="home-heading">
       <h1>Welcome, <span id="homeUserName">User</span></h1>
-      <p>Track issue status, manage reports, and and keep up with the latest updates</p>
+      <p>Track national ID status, manage reports, and keep up with the latest updates</p>
     </div>
 
     <!-- Card 1: Alert + Status Tracker -->
@@ -67,44 +67,68 @@
 
       <!-- Italic alert text -->
       <p class="home-alert-text" id="successAlert">
-        You have successfully submitted your issue report. You will receive an email when the status changes. You may also check back here to see the current status of your issue.
+        Your national ID application has been submitted. You will receive an email when the status changes. You may also check back here to see the current status of your ID.
       </p>
 
       <!-- Status Tracker -->
       <div class="home-tracker">
 
-        <!-- Step 1: Issue Submitted — done (green filled) -->
+        <!-- Step 1: Registered — done (green filled) -->
         <div class="ht-step ht-done">
           <div class="ht-circle">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <div class="ht-connector ht-connector-done"></div>
-          <div class="ht-label">Issue<br>Submitted</div>
+          <div class="ht-label">Registered</div>
         </div>
 
-        <!-- Step 2: Under Review — active (blue filled) -->
+        <!-- Step 2: Verified — active (blue filled) -->
         <div class="ht-step ht-active">
           <div class="ht-circle">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </div>
           <div class="ht-connector"></div>
-          <div class="ht-label">Under<br>Review</div>
-          <div class="ht-sublabel">Team is reviewing your issue</div>
+          <div class="ht-label">Verified</div>
+          <div class="ht-sublabel">Your details are verified</div>
         </div>
 
-        <!-- Step 3: ID Card Processing — inactive -->
+        <!-- Step 3: For Printing — inactive -->
         <div class="ht-step ht-inactive">
           <div class="ht-circle"></div>
           <div class="ht-connector"></div>
-          <div class="ht-label">ID Card<br>Processing</div>
-          <div class="ht-sublabel">Your National ID is being printed</div>
+          <div class="ht-label">For<br>Printing</div>
+          <div class="ht-sublabel">Queued for printing</div>
         </div>
 
-        <!-- Step 4: Ready for Pickup — inactive (no connector after) -->
+        <!-- Step 4: Printing — inactive -->
+        <div class="ht-step ht-inactive">
+          <div class="ht-circle"></div>
+          <div class="ht-connector"></div>
+          <div class="ht-label">Printing</div>
+          <div class="ht-sublabel">ID is being printed</div>
+        </div>
+
+        <!-- Step 5: Printed — inactive -->
+        <div class="ht-step ht-inactive">
+          <div class="ht-circle"></div>
+          <div class="ht-connector"></div>
+          <div class="ht-label">Printed</div>
+          <div class="ht-sublabel">Printing completed</div>
+        </div>
+
+        <!-- Step 6: For Delivery — inactive -->
+        <div class="ht-step ht-inactive">
+          <div class="ht-circle"></div>
+          <div class="ht-connector"></div>
+          <div class="ht-label">For<br>Delivery</div>
+          <div class="ht-sublabel">Preparing for delivery</div>
+        </div>
+
+        <!-- Step 7: Delivered — inactive (no connector after) -->
         <div class="ht-step ht-inactive ht-last">
           <div class="ht-circle"></div>
-          <div class="ht-label">Ready for<br>Delivery</div>
-          <div class="ht-sublabel">Your ID is out for delivery</div>
+          <div class="ht-label">Delivered</div>
+          <div class="ht-sublabel">ID has been delivered</div>
         </div>
 
       </div>
