@@ -2,6 +2,7 @@ require('dotenv').config();
 const path = require('path'); 
 const express = require('express'); 
 const app = express(); 
+const cors = require('cors');
 
 //middleswares
 const { db , connectDatabase } = require('./server/config/connectDB'); 
@@ -10,7 +11,7 @@ const PORT = process.env.PORT;
 
 app.use(express.static(path.join(__dirname, 'client'))); 
 app.use(express.json());
-
+app.use(cors());
 
 async function startServer(){
   try{
