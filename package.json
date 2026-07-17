@@ -15,7 +15,7 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "start": "server/server.js",
+    "start": "server.js",
     "dev": "nodemon server/server.js",
     "test": "jest",
     "test:watch": "jest --watch"
